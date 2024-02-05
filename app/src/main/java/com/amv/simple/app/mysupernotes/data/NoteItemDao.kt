@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.amv.simple.app.mysupernotes.domain.NoteItem
 
 @Dao
 interface NoteItemDao {
 
+    //TODO NoteItem -> NoteItemDbModel
     @Query("SELECT * FROM note_items")
-    fun getNoteItemList(): LiveData<List<NoteItemDbModel>>
+    fun getNoteItemList(): LiveData<List<NoteItem>>
 
     @Insert
     suspend fun addNoteItem(noteItemDbModel: NoteItemDbModel)

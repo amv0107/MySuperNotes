@@ -25,6 +25,6 @@ class NoteItemRepositoryImpl(
     }
 
     override fun getNoteItemList(): LiveData<List<NoteItem>> {
-        TODO("Not yet implemented")
+        return noteItemDao.getNoteItemList()
     }
 }
