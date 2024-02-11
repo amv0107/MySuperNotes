@@ -5,23 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.amv.simple.app.mysupernote.presentation.main.MainListViewModel
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
-import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
-import com.amv.simple.app.mysupernotes.domain.util.PendingResult
-import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.presentation.core.BaseFragment
+import com.amv.simple.app.mysupernotes.presentation.core.renderSimpleResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainListFragment : Fragment() {
+class MainListFragment : BaseFragment() {
 
     private var _binding: FragmentMainListBinding? = null
     private val binding get() = _binding!!
@@ -59,13 +56,13 @@ class MainListFragment : Fragment() {
 
         viewModel.getNoteList()
         viewModel.noteList.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is PendingResult -> {}
-                is ErrorResult -> {}
-                is SuccessResult -> {
-                    noteItemAdapter.submitList(result.data)
+            renderSimpleResult(
+                root = binding.root,
+                result = result,
+                onSuccess = {
+                    noteItemAdapter.submitList(it)
                 }
-            }
+            )
         }
 
 //        binding.rvMainList.layoutManager = LinearLayoutManager(
