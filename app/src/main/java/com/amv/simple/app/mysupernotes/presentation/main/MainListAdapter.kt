@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amv.simple.app.mysupernotes.databinding.ItemNoteListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import javax.inject.Inject
 
 
 /**
  * https://www.youtube.com/watch?v=pxOybZErY3w&list=PLRmiL0mct8WnntEXpHpP9S5ewtjgWook_&index=8&t=646s
  */
-class MainListAdapter(
+class MainListAdapter @Inject constructor (
     private val listener: MainListListener
 ) : ListAdapter<NoteItem, MainListAdapter.MainViewHolder>(ItemCallback) {
 

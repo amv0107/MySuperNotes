@@ -7,12 +7,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.amv.simple.app.mysupernote.presentation.main.MainListViewModel
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
+import com.amv.simple.app.mysupernotes.domain.util.PendingResult
+import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainListFragment : Fragment() {
 
     private var _binding: FragmentMainListBinding? = null
@@ -35,7 +43,9 @@ class MainListFragment : Fragment() {
 
         noteItemAdapter = MainListAdapter(object : MainListAdapter.MainListListener {
             override fun onChooseNote(noteItem: NoteItem) {
-                Toast.makeText(requireContext(), "Open", Toast.LENGTH_SHORT).show()
+                val action: NavDirections = MainListFragmentDirections
+                    .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)
+                Navigation.findNavController(view).navigate(action)
             }
 
             override fun onItemAction(noteItem: NoteItem) {
@@ -47,8 +57,15 @@ class MainListFragment : Fragment() {
             it.findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
         }
 
-        viewModel.noteList.observe(viewLifecycleOwner) {
-            noteItemAdapter.submitList(it)
+        viewModel.getNoteList()
+        viewModel.noteList.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is PendingResult -> {}
+                is ErrorResult -> {}
+                is SuccessResult -> {
+                    noteItemAdapter.submitList(result.data)
+                }
+            }
         }
 
 //        binding.rvMainList.layoutManager = LinearLayoutManager(

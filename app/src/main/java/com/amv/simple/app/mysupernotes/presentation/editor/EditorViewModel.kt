@@ -1,21 +1,30 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
 import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.util.PendingResult
+import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.presentation.core.BaseViewModel
+import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
+import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditorViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+@HiltViewModel
+class EditorViewModel @Inject constructor (
+    private val addNoteItemUseCase: AddNoteItemUseCase,
+    private val getNoteItemUseCase: GetNoteItemUseCase,
+) : ViewModel() {
 
-    private val repository = NoteItemRepositoryImpl(application)
-    private val addNoteItemUseCase = AddNoteItemUseCase(repository)
+    private val _noteItem = MutableLiveResult<NoteItem>(PendingResult())
+    val noteItem: LiveResult<NoteItem>
+        get() = _noteItem
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit> = _shouldCloseScreen
@@ -32,6 +41,15 @@ class EditorViewModel(
             )
             addNoteItemUseCase(item)
             finishWork()
+        }
+    }
+
+    fun getNoteItem(noteItemId: Int) {
+        viewModelScope.launch {
+            val item = getNoteItemUseCase(noteItemId)
+             item.collect {
+                 _noteItem.postValue(SuccessResult(it))
+             }
         }
     }
 

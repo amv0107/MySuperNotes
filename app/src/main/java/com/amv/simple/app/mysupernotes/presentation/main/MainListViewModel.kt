@@ -1,20 +1,30 @@
-package com.amv.simple.app.mysupernotes.presentation.main
+package com.amv.simple.app.mysupernote.presentation.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.util.PendingResult
+import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
+import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainListViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+@HiltViewModel
+class MainListViewModel @Inject constructor(
+    private val getNoteListUseCase: GetNoteListUseCase
+) : ViewModel() {
 
-    private val repository = NoteItemRepositoryImpl(application)
-    private val getNoteListUseCase = GetNoteListUseCase(repository)
+    private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
+    val noteList: LiveResult<List<NoteItem>> = _noteList
 
-    val noteList: LiveData<List<NoteItem>> = getNoteListUseCase.getNoteList()
-
+    fun getNoteList() = viewModelScope.launch {
+        getNoteListUseCase.getNoteList()
+            .collect{
+                _noteList.postValue(SuccessResult(it))
+            }
+    }
 
 }

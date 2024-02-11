@@ -1,12 +1,14 @@
 package com.amv.simple.app.mysupernotes.domain
 
-import androidx.lifecycle.LiveData
+import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GetNoteListUseCase(
-    private val noteItemRepository: NoteItemRepository
+class GetNoteListUseCase @Inject constructor(
+    private val noteItemRepository: NoteItemRepositoryImpl
 ) {
 
-    fun getNoteList(): LiveData<List<NoteItem>> {
+    fun getNoteList(): Flow<List<NoteItem>> {
        return noteItemRepository.getNoteItemList()
     }
 }

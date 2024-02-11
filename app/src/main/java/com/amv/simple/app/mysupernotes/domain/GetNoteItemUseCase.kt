@@ -1,10 +1,14 @@
 package com.amv.simple.app.mysupernotes.domain
 
-class GetNoteItemUseCase(
-    private val noteItemRepository: NoteItemRepository
+import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class GetNoteItemUseCase @Inject constructor(
+    private val noteItemRepository: NoteItemRepositoryImpl
 ) {
 
-    suspend fun getNoteItem(noteItemId: Int): NoteItem {
-        return noteItemRepository.getNoteItem(noteItemId)
-    }
+    operator fun invoke(noteItemId: Int): Flow<NoteItem> =
+        noteItemRepository.getNoteItem(noteItemId)
+
 }

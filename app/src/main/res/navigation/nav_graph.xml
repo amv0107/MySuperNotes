@@ -18,5 +18,10 @@
         android:id="@+id/editorFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.editor.EditorFragment"
         android:label="fragment_editor"
-        tools:layout="@layout/fragment_editor" />
+        tools:layout="@layout/fragment_editor" >
+        <argument
+            android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
