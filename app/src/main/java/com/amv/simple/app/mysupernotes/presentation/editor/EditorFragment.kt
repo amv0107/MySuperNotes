@@ -63,17 +63,20 @@ class EditorFragment : Fragment() {
     }
 
     private fun launchAddMode() {
-        binding.fabSaveNote.setOnClickListener {
-            viewModel.addNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString()
-            )
+        binding.apply {
+            tvDateTimeNote.text = TimeManager.getCurrentTime()
+            fabSaveNote.setOnClickListener {
+                viewModel.addNoteItem(
+                    etTitleNote.text.toString(),
+                    etTextContentNote.text.toString(),
+                )
+            }
         }
     }
 
     private fun launchEditMode() {
         viewModel.getNoteItem(args.noteId)
-        viewModel.noteItem.observe(viewLifecycleOwner) {result ->
+        viewModel.noteItem.observe(viewLifecycleOwner) { result ->
             result.takeSuccess()?.let { item ->
                 binding.apply {
                     etTitleNote.setText(item.title)
@@ -84,7 +87,10 @@ class EditorFragment : Fragment() {
         }
 
         binding.fabSaveNote.setOnClickListener {
-            Toast.makeText(requireContext(), "Update note item", Toast.LENGTH_SHORT).show()
+            viewModel.updateNoteItem(
+                binding.etTitleNote.text.toString(),
+                binding.etTextContentNote.text.toString()
+            )
         }
     }
 

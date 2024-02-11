@@ -10,6 +10,7 @@ import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItemRepository
+import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +46,10 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideGetNoteItemUseCase(repository: NoteItemRepositoryImpl) = GetNoteItemUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideUpdateNoteItemUseCase(repository: NoteItemRepositoryImpl) = UpdateNoteItemUseCase(repository)
 
     @Provides
     @Singleton
