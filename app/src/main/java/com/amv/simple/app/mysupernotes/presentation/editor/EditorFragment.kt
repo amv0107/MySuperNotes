@@ -7,6 +7,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
@@ -18,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,6 +50,9 @@ class EditorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).updateColorToolbar(R.color.yellow)
+        (activity as MainActivity).updateTitleToolbar(R.string.blankTitle)
+        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.yellow)
         launchModeScreen()
         observeViewModel()
         optionsMenu()
@@ -55,6 +61,9 @@ class EditorFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        (activity as MainActivity).updateColorToolbar(R.color.white)
+        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
+        (activity as MainActivity).updateTitleToolbar(R.string.app_name)
         _binding = null
     }
 
