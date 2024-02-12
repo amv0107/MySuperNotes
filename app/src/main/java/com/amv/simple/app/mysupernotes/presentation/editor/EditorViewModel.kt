@@ -51,7 +51,7 @@ class EditorViewModel @Inject constructor(
     }
 
     fun updateNoteItem(inputTitle: String?, inputTextContent: String?) = viewModelScope.launch {
-        // TODO: Не уверен что правильно использовал !! 
+        // TODO: Не уверен что правильно использовал !! ведь у нас там может быть пусто
         val item = _noteItem.value.takeSuccess()?.copy(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent)

@@ -21,7 +21,9 @@ class NoteItemRepositoryImpl @Inject constructor(
             mapper.mapDbModelToEntity(noteItemDbModel)
         }
 
-    override fun getNoteItemList(): Flow<List<NoteItem>> = dao.getNoteItemList()
+    override fun getNoteItemList(): Flow<List<NoteItem>> = dao.getNoteItemList().map {
+        mapper.mapListDbModelToListEntity(it)
+    }
 
     override suspend fun updateNoteItem(noteItem: NoteItem) =
         dao.updateNoteItem(mapper.mapEntityToDbModel(noteItem))
