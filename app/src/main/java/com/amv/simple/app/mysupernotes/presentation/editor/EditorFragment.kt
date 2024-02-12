@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -61,13 +62,9 @@ class EditorFragment : Fragment() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 lifecycleScope.launch {
-                    viewModel.noteItem.value.let {
-                        menuInflater.inflate(R.menu.edit_menu, menu)
-                        if (it != null) {
-                            this@EditorFragment.mainMenu = menu
-                            setupMenuItem()
-                        }
-                    }
+                    menuInflater.inflate(R.menu.edit_menu, menu)
+                    this@EditorFragment.mainMenu = menu
+                    setupMenuItem()
                 }
             }
 
@@ -86,13 +83,20 @@ class EditorFragment : Fragment() {
     }
 
     private fun setupMenuItem() = mainMenu?.run {
-        findItem(R.id.edit_menu_pin)?.apply {
-//            editViewModel.isPined.observe(viewLifecycleOwner) {
+        if (args.noteId != 0) this.forEach { it.isVisible = true }
+
+        findItem(R.id.edit_menu_save_note).apply { }
+        findItem(R.id.edit_menu_pin).apply {
+            //            editViewModel.isPined.observe(viewLifecycleOwner) {
 //                pinState = it
 //                setIcon(if (it) R.drawable.ic_pin_filled else R.drawable.ic_pin)
 //                setTitle(if (it) R.string.edit_menu_unpin else R.string.edit_menu_pin)
 //            }
         }
+        findItem(R.id.edit_menu_favorite).apply { }
+        findItem(R.id.edit_menu_archive).apply { }
+        findItem(R.id.edit_menu_share).apply { }
+        findItem(R.id.edit_menu_delete).apply { }
     }
 
     private fun observeViewModel() {
