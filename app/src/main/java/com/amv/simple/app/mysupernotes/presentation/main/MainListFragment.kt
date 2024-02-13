@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,10 +9,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -22,7 +23,6 @@ import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.presentation.core.BaseFragment
 import com.amv.simple.app.mysupernotes.presentation.core.renderSimpleResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainListFragment : BaseFragment() {
@@ -94,8 +94,10 @@ class MainListFragment : BaseFragment() {
 
     private fun optionMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            @SuppressLint("RestrictedApi")
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.main_menu, menu)
+                if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

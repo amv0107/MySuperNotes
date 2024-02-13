@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,7 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsetsController
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -69,7 +70,9 @@ class EditorFragment : Fragment() {
 
     private fun optionsMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            @SuppressLint("RestrictedApi")
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
                 lifecycleScope.launch {
                     menuInflater.inflate(R.menu.edit_menu, menu)
                     this@EditorFragment.mainMenu = menu
