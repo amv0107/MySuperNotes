@@ -1,4 +1,4 @@
-package com.amv.simple.app.mysupernotes.presentation.main
+package com.amv.simple.app.mysupernotes.presentation.mainList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

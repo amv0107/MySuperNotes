@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/top_menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/mainListFragment"
+            android:icon="@drawable/ic_main"
+            android:title="@string/drawer_menu_all_notes" />
+        <item
+            android:id="@+id/archiveListFragment"
+            android:icon="@drawable/ic_archive"
+            android:title="@string/drawer_menu_archive_notes" />
+        <item
+            android:id="@+id/favoriteListFragment"
+            android:icon="@drawable/ic_favorite"
+            android:title="@string/drawer_menu_favorites" />
+        <item
+            android:id="@+id/trashListFragment"
+            android:icon="@drawable/ic_delete"
+            android:title="@string/drawer_menu_trash" />
+    </group>
+
+    <group
+        android:id="@+id/bottom_menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/drawer_menu_settings" />
+        <item
+            android:id="@+id/helpMe"
+            android:icon="@drawable/ic_translate"
+            android:title="Помогите нам перевести" />
+        <item
+            android:id="@+id/rateOurApp"
+            android:icon="@drawable/ic_rate"
+            android:title="Оцените нас" />
+        <item
+            android:id="@+id/politics"
+            android:icon="@drawable/ic_security"
+            android:title="Политика конфиденциальности" />
+        <item
+            android:id="@+id/sharedApp"
+            android:icon="@drawable/ic_share"
+            android:title="Поделиться приложением" />
+    </group>
+</menu>

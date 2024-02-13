@@ -1,4 +1,4 @@
-package com.amv.simple.app.mysupernotes.presentation.main
+package com.amv.simple.app.mysupernotes.presentation.mainList
 
 import android.annotation.SuppressLint
 import android.os.Bundle

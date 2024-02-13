@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainListFragment"
-        android:name="com.amv.simple.app.mysupernotes.presentation.main.MainListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment"
         android:label="fragment_main_list"
         tools:layout="@layout/fragment_main_list" >
         <action
@@ -24,4 +24,19 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/archiveListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment"
+        android:label="fragment_archive"
+        tools:layout="@layout/fragment_archive" />
+    <fragment
+        android:id="@+id/favoriteListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/trashListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment"
+        android:label="fragment_trash"
+        tools:layout="@layout/fragment_trash" />
 </navigation>
