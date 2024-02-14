@@ -5,6 +5,7 @@ data class NoteItem(
     val title: String,
     val textContent: String,
     val date: String,
+    val isPinned: Boolean = false,
 ) {
     companion object{
         const val UNDEFINED_ID = 0

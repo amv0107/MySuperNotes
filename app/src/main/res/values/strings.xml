@@ -12,6 +12,8 @@
     <string name="edit_menu_unarchive">Из архива</string>
     <string name="edit_menu_share">Поделиться</string>
     <string name="edit_menu_delete">Удалить</string>
+    <string name="edit_toast_unpinned">Откреплено</string>
+    <string name="edit_toast_pinned">Закреплено</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>

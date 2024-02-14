@@ -2,6 +2,7 @@ package com.amv.simple.app.mysupernotes.presentation.mainList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,7 @@ class MainListAdapter @Inject constructor (
             tvTitleNote.text = noteItem.title
             tvDateTimeNote.text = noteItem.date
             tvTextContentNote.text = noteItem.textContent
+            pin.isVisible = noteItem.isPinned
 
 //            tvTitleNote.backgroundTintList = ColorStateList.valueOf(
 //                ContextCompat.getColor(root.context, tintColor)

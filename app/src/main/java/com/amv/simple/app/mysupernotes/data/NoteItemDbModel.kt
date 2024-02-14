@@ -12,4 +12,5 @@ data class NoteItemDbModel(
     val title: String,
     val textContent: String,
     val date: String,
+    val isPined: Int,
 )

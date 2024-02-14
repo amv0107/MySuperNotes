@@ -39,6 +39,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="4dp"
+                android:visibility="invisible"
                 android:src="@drawable/ic_pin"
                 app:layout_constraintBottom_toBottomOf="@id/tvTitleNote"
                 app:layout_constraintEnd_toEndOf="@id/tvTitleNote"

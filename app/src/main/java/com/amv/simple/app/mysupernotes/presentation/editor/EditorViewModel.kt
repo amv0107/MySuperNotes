@@ -60,6 +60,13 @@ class EditorViewModel @Inject constructor(
         finishWork()
     }
 
+    fun changePin() = viewModelScope.launch {
+        val item = _noteItem.value.takeSuccess()?.copy(
+            isPinned = !_noteItem.value.takeSuccess()?.isPinned!!
+        )!!
+        updateNoteItemUseCase(item)
+    }
+
     private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }

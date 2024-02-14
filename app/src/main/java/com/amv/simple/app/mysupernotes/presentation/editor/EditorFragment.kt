@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
@@ -41,6 +42,8 @@ class EditorFragment : Fragment() {
     val args: EditorFragmentArgs by navArgs()
     private var mainMenu: Menu? = null
 
+    private var isPin: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +56,7 @@ class EditorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).updateColorToolbar(R.color.yellow)
         (activity as MainActivity).updateTitleToolbar(R.string.blankTitle)
-        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(),R.color.yellow)
+        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.yellow)
         launchModeScreen()
         observeViewModel()
         optionsMenu()
@@ -83,7 +86,7 @@ class EditorFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.edit_menu_save_note -> {}
-                    R.id.edit_menu_pin -> {}
+                    R.id.edit_menu_pin -> pinNote()
                     R.id.edit_menu_favorite -> {}
                     R.id.edit_menu_archive -> {}
                     R.id.edit_menu_share -> {}
@@ -99,16 +102,26 @@ class EditorFragment : Fragment() {
 
         findItem(R.id.edit_menu_save_note).apply { }
         findItem(R.id.edit_menu_pin).apply {
-            //            editViewModel.isPined.observe(viewLifecycleOwner) {
-//                pinState = it
-//                setIcon(if (it) R.drawable.ic_pin_filled else R.drawable.ic_pin)
-//                setTitle(if (it) R.string.edit_menu_unpin else R.string.edit_menu_pin)
-//            }
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
+                result.takeSuccess()?.isPinned?.let {
+                    isPin = it
+                }
+                setIcon(if (isPin) R.drawable.ic_un_pin else R.drawable.ic_pin)
+                setTitle(if (isPin) R.string.edit_menu_unpin else R.string.edit_menu_pin)
+            }
         }
         findItem(R.id.edit_menu_favorite).apply { }
         findItem(R.id.edit_menu_archive).apply { }
         findItem(R.id.edit_menu_share).apply { }
         findItem(R.id.edit_menu_delete).apply { }
+    }
+
+    private fun pinNote() {
+        viewModel.changePin()
+        if (!isPin)
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_pinned), Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_unpinned), Toast.LENGTH_SHORT).show()
     }
 
     private fun observeViewModel() {
