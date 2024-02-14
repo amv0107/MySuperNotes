@@ -13,4 +13,5 @@ data class NoteItemDbModel(
     val textContent: String,
     val date: String,
     val isPined: Int,
+    val isFavorite: Int,
 )

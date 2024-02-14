@@ -43,6 +43,7 @@ class EditorFragment : Fragment() {
     private var mainMenu: Menu? = null
 
     private var isPin: Boolean = false
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,7 +88,7 @@ class EditorFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.edit_menu_save_note -> {}
                     R.id.edit_menu_pin -> pinNote()
-                    R.id.edit_menu_favorite -> {}
+                    R.id.edit_menu_favorite -> favoriteNote()
                     R.id.edit_menu_archive -> {}
                     R.id.edit_menu_share -> {}
                     R.id.edit_menu_delete -> {}
@@ -110,7 +111,15 @@ class EditorFragment : Fragment() {
                 setTitle(if (isPin) R.string.edit_menu_unpin else R.string.edit_menu_pin)
             }
         }
-        findItem(R.id.edit_menu_favorite).apply { }
+        findItem(R.id.edit_menu_favorite).apply {
+            viewModel.noteItem.observe(viewLifecycleOwner) {result ->
+                result.takeSuccess()?.isFavorite?.let {
+                    isFavorite = it
+                }
+                setIcon(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_un_favorite)
+                setTitle(if (isFavorite) R.string.edit_menu_un_favorite else R.string.edit_menu_add_favorite)
+            }
+        }
         findItem(R.id.edit_menu_archive).apply { }
         findItem(R.id.edit_menu_share).apply { }
         findItem(R.id.edit_menu_delete).apply { }
@@ -122,6 +131,14 @@ class EditorFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.edit_toast_pinned), Toast.LENGTH_SHORT).show()
         else
             Toast.makeText(requireContext(), getString(R.string.edit_toast_unpinned), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun favoriteNote() {
+        viewModel.changeFavorite()
+        if (!isFavorite)
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_un_favorite), Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_favorite), Toast.LENGTH_SHORT).show()
     }
 
     private fun observeViewModel() {

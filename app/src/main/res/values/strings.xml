@@ -8,12 +8,15 @@
     <string name="edit_menu_lock">Блокировать</string>
     <string name="edit_menu_unlock">Разблокировать</string>
     <string name="edit_menu_add_favorite">Добавить в избранное</string>
+    <string name="edit_menu_un_favorite">Удалить из избранное</string>
     <string name="edit_menu_archive">В архив</string>
     <string name="edit_menu_unarchive">Из архива</string>
     <string name="edit_menu_share">Поделиться</string>
     <string name="edit_menu_delete">Удалить</string>
     <string name="edit_toast_unpinned">Откреплено</string>
     <string name="edit_toast_pinned">Закреплено</string>
+    <string name="edit_toast_favorite">Удалено из избранного</string>
+    <string name="edit_toast_un_favorite">Добавленно в избранное</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>

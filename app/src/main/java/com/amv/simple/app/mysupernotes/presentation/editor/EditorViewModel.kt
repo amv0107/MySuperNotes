@@ -67,6 +67,13 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(item)
     }
 
+    fun changeFavorite() = viewModelScope.launch {
+        val item = _noteItem.value.takeSuccess()?.copy(
+            isFavorite =  !_noteItem.value.takeSuccess()?.isFavorite!!
+        )!!
+        updateNoteItemUseCase(item)
+    }
+
     private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }

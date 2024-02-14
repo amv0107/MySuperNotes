@@ -18,6 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="4dp"
             android:background="@color/white">
 
             <TextView
@@ -35,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/pin"
+                android:id="@+id/imgPin"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="4dp"
@@ -61,14 +62,24 @@
 
             <TextView
                 android:id="@+id/tvDateTimeNote"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="4dp"
                 android:textColor="@color/grey"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTextContentNote"
                 tools:text="04.02.2024 0 15:47" />
+
+            <ImageView
+                android:id="@+id/imgFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="@id/tvDateTimeNote"
+                app:layout_constraintBottom_toBottomOf="@id/tvDateTimeNote"
+                app:layout_constraintStart_toEndOf="@id/tvDateTimeNote"
+                app:tint="@color/yellow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

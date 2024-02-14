@@ -10,6 +10,7 @@ class NoteItemMapper {
         textContent = noteItem.textContent,
         date = noteItem.date,
         isPined = if (noteItem.isPinned) 1 else 0,
+        isFavorite = if (noteItem.isFavorite) 1 else 0,
     )
 
 
@@ -19,6 +20,7 @@ class NoteItemMapper {
         textContent = noteItemDbModel.textContent,
         date = noteItemDbModel.date,
         isPinned = noteItemDbModel.isPined != 0,
+        isFavorite = noteItemDbModel.isFavorite != 0,
     )
 
     fun mapListDbModelToListEntity(list: List<NoteItemDbModel>) = list.map {

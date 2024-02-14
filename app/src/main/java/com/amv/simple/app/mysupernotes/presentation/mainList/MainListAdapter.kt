@@ -42,16 +42,10 @@ class MainListAdapter @Inject constructor (
             tvTitleNote.text = noteItem.title
             tvDateTimeNote.text = noteItem.date
             tvTextContentNote.text = noteItem.textContent
-            pin.isVisible = noteItem.isPinned
-
+            imgPin.isVisible = noteItem.isPinned
+            imgFavorite.isVisible = noteItem.isFavorite
 //            tvTitleNote.backgroundTintList = ColorStateList.valueOf(
 //                ContextCompat.getColor(root.context, tintColor)
-//            )
-//            pin.setImageResource(
-//                if (noteItem.isPin)
-//                    R.drawable.ic_pin
-//                else
-//                    R.drawable.ic_un_pin
 //            )
         }
     }
