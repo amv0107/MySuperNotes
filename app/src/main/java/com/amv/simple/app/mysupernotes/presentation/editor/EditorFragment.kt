@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
@@ -22,7 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
-import com.amv.simple.app.mysupernotes.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,6 +43,7 @@ class EditorFragment : Fragment() {
     private var isPin: Boolean = false
     private var isFavorite: Boolean = false
     private var isArchive: Boolean = false
+    private var isDelete: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,9 +55,9 @@ class EditorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).updateColorToolbar(R.color.yellow)
-        (activity as MainActivity).updateTitleToolbar(R.string.blankTitle)
-        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.yellow)
+//        (activity as MainActivity).updateColorToolbar(R.color.yellow)
+//        (activity as MainActivity).updateTitleToolbar(R.string.blankTitle)
+//        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.yellow)
         launchModeScreen()
         observeViewModel()
         optionsMenu()
@@ -67,9 +66,9 @@ class EditorFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as MainActivity).updateColorToolbar(R.color.white)
-        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
-        (activity as MainActivity).updateTitleToolbar(R.string.app_name)
+//        (activity as MainActivity).updateColorToolbar(R.color.white)
+//        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
+//        (activity as MainActivity).updateTitleToolbar(R.string.app_name)
         _binding = null
     }
 
@@ -92,7 +91,7 @@ class EditorFragment : Fragment() {
                     R.id.edit_menu_favorite -> favoriteNote()
                     R.id.edit_menu_archive -> archiveNote()
                     R.id.edit_menu_share -> {}
-                    R.id.edit_menu_delete -> {}
+                    R.id.edit_menu_delete -> deleteNote()
                 }
                 return false
             }
@@ -126,11 +125,18 @@ class EditorFragment : Fragment() {
                 result.takeSuccess()?.isArchive?.let {
                     isArchive = it
                 }
-                isVisible = !isArchive
+                isVisible = result.takeSuccess() != null && result.takeSuccess()?.isArchive == false
             }
         }
         findItem(R.id.edit_menu_share).apply { }
-        findItem(R.id.edit_menu_delete).apply { }
+        findItem(R.id.edit_menu_delete).apply {
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
+                result.takeSuccess()?.isDelete?.let {
+                    isDelete = it
+                }
+                isDelete = result.takeSuccess() != null && result.takeSuccess()?.isDelete == false
+            }
+        }
     }
 
     private fun pinNote() {
@@ -153,6 +159,12 @@ class EditorFragment : Fragment() {
         viewModel.changeArchive()
         if (!isArchive)
             Toast.makeText(requireContext(), getString(R.string.edit_toast_archive), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun deleteNote() {
+        viewModel.changeDelete()
+        if (!isDelete)
+            Toast.makeText(requireContext(), "Npte is delete success", Toast.LENGTH_SHORT).show()
     }
 
     private fun observeViewModel() {

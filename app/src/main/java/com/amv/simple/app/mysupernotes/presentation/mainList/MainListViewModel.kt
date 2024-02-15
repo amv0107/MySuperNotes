@@ -20,15 +20,22 @@ class MainListViewModel @Inject constructor(
     private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
     val noteList: LiveResult<List<NoteItem>> = _noteList
 
-    fun getNoteList(archiveNotes: Boolean = false, favoriteNotes: Boolean = false) =
-        viewModelScope.launch {
-            getNoteListUseCase.getNoteList(archiveNotes = archiveNotes)
-                .collect { list ->
-                    if (favoriteNotes)
-                        _noteList.postValue(SuccessResult(list.filter { item -> item.isFavorite }))
-                  else
-                        _noteList.postValue(SuccessResult(list))
-                }
-        }
+    fun getNoteList(
+        archiveNotes: Boolean = false,
+        favoriteNotes: Boolean = false,
+        deleteNotes: Boolean = false
+    ) = viewModelScope.launch {
+        getNoteListUseCase.getNoteList()
+            .collect { list ->
+                if (archiveNotes)
+                    _noteList.postValue(SuccessResult(list.filter { item -> item.isArchive && !item.isDelete }))
+                if (favoriteNotes)
+                    _noteList.postValue(SuccessResult(list.filter { item -> item.isFavorite && !item.isDelete }))
+                if (deleteNotes)
+                    _noteList.postValue(SuccessResult(list.filter { item -> item.isDelete }))
+                if (!archiveNotes && !favoriteNotes && !deleteNotes)
+                    _noteList.postValue(SuccessResult(list.filter { item -> !item.isDelete && !item.isArchive }))
+            }
+    }
 
 }

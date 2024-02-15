@@ -73,6 +73,17 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(item!!)
     }
 
+    fun changeDelete() = viewModelScope.launch {
+        val item = _noteItem.value.takeSuccess()?.let {
+            it.copy(
+                isDelete = true,
+                deleteDate = TimeManager.getCurrentTime()
+            )
+        }
+        updateNoteItemUseCase(item!!)
+        finishWork()
+    }
+
     fun changeArchive() = viewModelScope.launch {
         val item = _noteItem.value.takeSuccess()?.let {
             it.copy(isArchive = !it.isArchive)

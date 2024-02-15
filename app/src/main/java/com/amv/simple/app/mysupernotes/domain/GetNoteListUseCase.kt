@@ -9,13 +9,12 @@ class GetNoteListUseCase @Inject constructor(
     private val noteItemRepository: NoteItemRepositoryImpl
 ) {
 
-    fun getNoteList(archiveNotes: Boolean = false): Flow<List<NoteItem>> {
+    fun getNoteList(): Flow<List<NoteItem>> {
         return noteItemRepository.getNoteItemList().map { list ->
             list
-                .filter { it.isArchive == archiveNotes }
                 .sortedByDescending { item ->
-                item.isPinned
-            }
+                    item.isPinned
+                }
         }
     }
 }

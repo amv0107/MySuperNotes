@@ -12,6 +12,8 @@ class NoteItemMapper {
         isPined = if (noteItem.isPinned) 1 else 0,
         isFavorite = if (noteItem.isFavorite) 1 else 0,
         isArchive = if(noteItem.isArchive) 1 else 0,
+        isDelete = if(noteItem.isDelete) 1 else 0,
+        deleteDate = noteItem.deleteDate,
     )
 
 
@@ -23,6 +25,8 @@ class NoteItemMapper {
         isPinned = noteItemDbModel.isPined != 0,
         isFavorite = noteItemDbModel.isFavorite != 0,
         isArchive = noteItemDbModel.isArchive != 0,
+        isDelete = noteItemDbModel.isDelete != 0,
+        deleteDate = noteItemDbModel.deleteDate,
     )
 
     fun mapListDbModelToListEntity(list: List<NoteItemDbModel>) = list.map {
