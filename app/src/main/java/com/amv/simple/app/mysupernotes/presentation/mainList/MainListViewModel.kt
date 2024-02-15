@@ -20,8 +20,8 @@ class MainListViewModel @Inject constructor(
     private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
     val noteList: LiveResult<List<NoteItem>> = _noteList
 
-    fun getNoteList() = viewModelScope.launch {
-        getNoteListUseCase.getNoteList()
+    fun getNoteList(archiveNotes: Boolean = false) = viewModelScope.launch {
+        getNoteListUseCase.getNoteList(archiveNotes = archiveNotes)
             .collect{
                 _noteList.postValue(SuccessResult(it))
             }

@@ -11,7 +11,6 @@ import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
-import com.amv.simple.app.mysupernotes.presentation.core.BaseViewModel
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,17 +60,25 @@ class EditorViewModel @Inject constructor(
     }
 
     fun changePin() = viewModelScope.launch {
-        val item = _noteItem.value.takeSuccess()?.copy(
-            isPinned = !_noteItem.value.takeSuccess()?.isPinned!!
-        )!!
-        updateNoteItemUseCase(item)
+        val item = _noteItem.value.takeSuccess()?.let {
+            it.copy(isPinned = !it.isPinned)
+        }
+        updateNoteItemUseCase(item!!)
     }
 
     fun changeFavorite() = viewModelScope.launch {
-        val item = _noteItem.value.takeSuccess()?.copy(
-            isFavorite =  !_noteItem.value.takeSuccess()?.isFavorite!!
-        )!!
-        updateNoteItemUseCase(item)
+        val item = _noteItem.value.takeSuccess()?.let {
+            it.copy(isFavorite = !it.isFavorite)
+        }
+        updateNoteItemUseCase(item!!)
+    }
+
+    fun changeArchive() = viewModelScope.launch {
+        val item = _noteItem.value.takeSuccess()?.let {
+            it.copy(isArchive = !it.isArchive)
+        }
+        updateNoteItemUseCase(item!!)
+        finishWork()
     }
 
     private fun finishWork() {

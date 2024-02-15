@@ -17,6 +17,7 @@
     <string name="edit_toast_pinned">Закреплено</string>
     <string name="edit_toast_favorite">Удалено из избранного</string>
     <string name="edit_toast_un_favorite">Добавленно в избранное</string>
+    <string name="edit_toast_archive">Заметка отправлена в архив</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>

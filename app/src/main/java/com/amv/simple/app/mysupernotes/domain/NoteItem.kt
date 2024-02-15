@@ -7,6 +7,7 @@ data class NoteItem(
     val date: String,
     val isPinned: Boolean = false,
     val isFavorite: Boolean = false,
+    val isArchive: Boolean = false,
 ) {
     companion object{
         const val UNDEFINED_ID = 0

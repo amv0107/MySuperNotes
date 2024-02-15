@@ -28,7 +28,11 @@
         android:id="@+id/archiveListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment"
         android:label="fragment_archive"
-        tools:layout="@layout/fragment_archive" />
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_archiveListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"

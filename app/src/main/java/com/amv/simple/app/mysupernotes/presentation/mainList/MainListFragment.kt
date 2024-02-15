@@ -1,38 +1,22 @@
 package com.amv.simple.app.mysupernotes.presentation.mainList
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
-import com.amv.simple.app.mysupernotes.domain.NoteItem
-import com.amv.simple.app.mysupernotes.presentation.core.BaseFragment
+import com.amv.simple.app.mysupernotes.presentation.core.BaseListFragment
 import com.amv.simple.app.mysupernotes.presentation.core.renderSimpleResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainListFragment : BaseFragment() {
+class MainListFragment : BaseListFragment() {
 
     private var _binding: FragmentMainListBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel by viewModels<MainListViewModel>()
-    private lateinit var noteItemAdapter: MainListAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,24 +29,9 @@ class MainListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        optionMenu()
-
-        noteItemAdapter = MainListAdapter(object : MainListAdapter.MainListListener {
-            override fun onChooseNote(noteItem: NoteItem) {
-                val action: NavDirections = MainListFragmentDirections
-                    .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)
-                Navigation.findNavController(view).navigate(action)
-            }
-
-            override fun onItemAction(noteItem: NoteItem) {
-                Toast.makeText(requireContext(), "Bottom", Toast.LENGTH_SHORT).show()
-            }
-        })
-
         binding.fabCrateNote.setOnClickListener {
             it.findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
         }
-
         viewModel.getNoteList()
         viewModel.noteList.observe(viewLifecycleOwner) { result ->
             renderSimpleResult(
@@ -80,11 +49,10 @@ class MainListFragment : BaseFragment() {
 //            false
 //        )
 
-        binding.rvMainList.layoutManager = StaggeredGridLayoutManager(
-            2,
-            StaggeredGridLayoutManager.VERTICAL
-        )
-        binding.rvMainList.adapter = noteItemAdapter
+        binding.rvMainList.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = noteItemAdapter
+        }
     }
 
     override fun onDestroy() {
@@ -92,22 +60,5 @@ class MainListFragment : BaseFragment() {
         _binding = null
     }
 
-    private fun optionMenu() {
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            @SuppressLint("RestrictedApi")
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.main_menu, menu)
-                if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
-            }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.list_menu_search -> {}
-                    R.id.list_menu_type_layout_manager -> {}
-                    R.id.list_menu_sort -> {}
-                }
-                return false
-            }
-        }, viewLifecycleOwner)
-    }
 }

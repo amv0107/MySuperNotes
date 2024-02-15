@@ -44,6 +44,7 @@ class EditorFragment : Fragment() {
 
     private var isPin: Boolean = false
     private var isFavorite: Boolean = false
+    private var isArchive: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +90,7 @@ class EditorFragment : Fragment() {
                     R.id.edit_menu_save_note -> {}
                     R.id.edit_menu_pin -> pinNote()
                     R.id.edit_menu_favorite -> favoriteNote()
-                    R.id.edit_menu_archive -> {}
+                    R.id.edit_menu_archive -> archiveNote()
                     R.id.edit_menu_share -> {}
                     R.id.edit_menu_delete -> {}
                 }
@@ -112,7 +113,7 @@ class EditorFragment : Fragment() {
             }
         }
         findItem(R.id.edit_menu_favorite).apply {
-            viewModel.noteItem.observe(viewLifecycleOwner) {result ->
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
                 result.takeSuccess()?.isFavorite?.let {
                     isFavorite = it
                 }
@@ -120,7 +121,14 @@ class EditorFragment : Fragment() {
                 setTitle(if (isFavorite) R.string.edit_menu_un_favorite else R.string.edit_menu_add_favorite)
             }
         }
-        findItem(R.id.edit_menu_archive).apply { }
+        findItem(R.id.edit_menu_archive).apply {
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
+                result.takeSuccess()?.isArchive?.let {
+                    isArchive = it
+                }
+                isVisible = !isArchive
+            }
+        }
         findItem(R.id.edit_menu_share).apply { }
         findItem(R.id.edit_menu_delete).apply { }
     }
@@ -139,6 +147,12 @@ class EditorFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.edit_toast_un_favorite), Toast.LENGTH_SHORT).show()
         else
             Toast.makeText(requireContext(), getString(R.string.edit_toast_favorite), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun archiveNote() {
+        viewModel.changeArchive()
+        if (!isArchive)
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_archive), Toast.LENGTH_SHORT).show()
     }
 
     private fun observeViewModel() {
