@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
@@ -22,7 +21,8 @@ import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
-import com.amv.simple.app.mysupernotes.presentation.MainActivity
+import com.amv.simple.app.mysupernotes.presentation.core.BaseFragment
+import com.amv.simple.app.mysupernotes.presentation.core.ChangeToolBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +33,8 @@ import kotlinx.coroutines.launch
 // - Через SharedViewModel
 @AndroidEntryPoint
 class EditorFragment : Fragment() {
+
+    private var changeToolBar: ChangeToolBar? = null
 
     private var _binding: FragmentEditorBinding? = null
     private val binding get() = _binding!!
@@ -66,17 +68,16 @@ class EditorFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-
-        (activity as MainActivity).updateColorToolbar(R.color.yellow)
-        (activity as MainActivity).updateTitleToolbar(R.string.blankTitle)
-        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.yellow)
+        changeToolBar?.updateTitleToolbar(R.string.blankTitle)
+        changeToolBar?.updateColorToolbar(R.color.yellow)
+        changeToolBar?.updateStatusBarColor(R.color.yellow)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as MainActivity).updateColorToolbar(R.color.white)
-        (activity as MainActivity).window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
-        (activity as MainActivity).updateTitleToolbar(R.string.app_name)
+        changeToolBar?.updateColorToolbar(R.color.white)
+        changeToolBar?.updateTitleToolbar(R.string.app_name)
+        changeToolBar?.updateStatusBarColor(R.color.white)
         _binding = null
     }
 
