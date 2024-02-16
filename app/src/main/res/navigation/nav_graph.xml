@@ -37,10 +37,18 @@
         android:id="@+id/favoriteListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_favoriteListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
     <fragment
         android:id="@+id/trashListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment"
         android:label="fragment_trash"
-        tools:layout="@layout/fragment_trash" />
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_trashListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
 </navigation>

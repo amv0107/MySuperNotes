@@ -19,7 +19,7 @@ abstract class BaseFragment : Fragment() {
         onSuccess: (T) -> Unit
     ) {
         root.children
-            .filter { it.id != R.id.banner}
+            .filter { it.id != R.id.banner && it.id != R.id.fabCrateNote}
             .forEach { it.visibility = View.GONE }
         when(result){
             is SuccessResult -> onSuccess(result.data)

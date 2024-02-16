@@ -29,16 +29,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:text="Error! Please try again later"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnTryAgain"
-            android:layout_marginTop="6dp"
-            android:text="Try Again"/>
+            android:id="@+id/epmty_list"
+            android:text="Empty List"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/yellow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </LinearLayout>
 

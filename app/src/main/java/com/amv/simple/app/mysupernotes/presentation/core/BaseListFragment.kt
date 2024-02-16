@@ -21,9 +21,13 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
+import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
+import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListAdapter
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
+import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
+import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,9 +69,14 @@ abstract class BaseListFragment : BaseFragment() {
                     is ArchiveListFragment -> ArchiveListFragmentDirections
                         .actionArchiveListFragmentToEditorFragment().setNoteId(noteItem.id)
 
+                    is FavoriteFragment -> FavoriteFragmentDirections
+                        .actionFavoriteListFragmentToEditorFragment().setNoteId(noteItem.id)
+
+                    is TrashFragment -> TrashFragmentDirections
+                        .actionTrashListFragmentToEditorFragment().setNoteId(noteItem.id)
+
                     else -> MainListFragmentDirections
                         .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)
-
                 }
 
                 Navigation.findNavController(view).navigate(action)

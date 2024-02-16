@@ -134,7 +134,7 @@ class EditorFragment : Fragment() {
                 result.takeSuccess()?.isDelete?.let {
                     isDelete = it
                 }
-                isDelete = result.takeSuccess() != null && result.takeSuccess()?.isDelete == false
+                isVisible = result.takeSuccess() != null && result.takeSuccess()?.isDelete == false
             }
         }
     }
