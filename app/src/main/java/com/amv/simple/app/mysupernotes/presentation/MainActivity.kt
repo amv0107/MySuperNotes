@@ -12,6 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.ActivityMainBinding
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,6 +20,10 @@ class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val toolbar: MaterialToolbar by lazy {
+        binding.mainToolbar
     }
 
     private val destinations = setOf(
@@ -30,15 +35,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        setSupportActionBar(binding.mainToolbar)
+        setSupportActionBar(toolbar)
 
         setupDrawer()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.navHostFragmentContainer)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     fun updateTitleToolbar(@StringRes title: Int){
@@ -46,7 +45,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateColorToolbar(@ColorRes backgroundColor: Int){
-        binding.mainToolbar.setBackgroundColor(getColor(backgroundColor))
+        toolbar.setBackgroundColor(getColor(backgroundColor))
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.navHostFragmentContainer)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun setupDrawer() {
