@@ -1,8 +1,14 @@
 package com.amv.simple.app.mysupernotes.presentation
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -59,9 +65,10 @@ class MainActivity : AppCompatActivity() {
                 window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
             } else {
                 toolbar.setBackgroundColor(getColor(R.color.white))
-                window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.white)
+                window.statusBarColor = Color.WHITE
             }
+            if (destination.id != R.id.mainListFragment)
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
-
 }
