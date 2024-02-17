@@ -21,10 +21,9 @@ import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
-import com.amv.simple.app.mysupernotes.presentation.core.BaseFragment
-import com.amv.simple.app.mysupernotes.presentation.core.ChangeToolBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // Способы передачи аргумента для открытия заметки для редактирования:
 // !!!!---КАКОЙ ПРАВИЛЬНО НЕЗНАЮ---!!!!
@@ -32,9 +31,7 @@ import kotlinx.coroutines.launch
 // - Передать заметку как Parcelable
 // - Через SharedViewModel
 @AndroidEntryPoint
-class EditorFragment : Fragment() {
-
-    private var changeToolBar: ChangeToolBar? = null
+class EditorFragment @Inject constructor() : Fragment() {
 
     private var _binding: FragmentEditorBinding? = null
     private val binding get() = _binding!!
@@ -60,24 +57,13 @@ class EditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         launchModeScreen()
         observeViewModel()
         optionsMenu()
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        changeToolBar?.updateTitleToolbar(R.string.blankTitle)
-        changeToolBar?.updateColorToolbar(R.color.yellow)
-        changeToolBar?.updateStatusBarColor(R.color.yellow)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        changeToolBar?.updateColorToolbar(R.color.white)
-        changeToolBar?.updateTitleToolbar(R.string.app_name)
-        changeToolBar?.updateStatusBarColor(R.color.white)
         _binding = null
     }
 

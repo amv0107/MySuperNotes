@@ -10,7 +10,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.ActivityMainBinding
-import com.amv.simple.app.mysupernotes.presentation.core.ChangeToolBar
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,20 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         setupDrawer()
 
-        object : ChangeToolBar {
-            override fun updateTitleToolbar(title: Int) {
-                binding.toolbarTitle.setText(title)
-            }
-
-
-            override fun updateColorToolbar(backgroundColor: Int) {
-                toolbar.setBackgroundColor(getColor(backgroundColor))
-            }
-
-            override fun updateStatusBarColor(backgroundColor: Int) {
-                this@MainActivity.window.statusBarColor = ContextCompat.getColor(this@MainActivity, backgroundColor)
-            }
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -67,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(destinations, drawerLayout)
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.editorFragment) {
+                toolbar.setBackgroundColor(getColor(R.color.yellow))
+                window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
+            } else {
+                toolbar.setBackgroundColor(getColor(R.color.white))
+                window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.white)
+            }
+        }
     }
 
 }
