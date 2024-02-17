@@ -1,10 +1,10 @@
 package com.amv.simple.app.mysupernotes.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.amv.simple.app.mysupernotes.domain.NoteItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,4 +21,7 @@ interface NoteItemDao {
 
     @Update
     suspend fun updateNoteItem(noteItemDbModel: NoteItemDbModel)
+
+    @Delete
+    suspend fun deleteForeverNoteItem(noteItemDbModel: NoteItemDbModel)
 }

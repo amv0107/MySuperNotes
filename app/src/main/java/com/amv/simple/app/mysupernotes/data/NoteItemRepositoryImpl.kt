@@ -27,4 +27,8 @@ class NoteItemRepositoryImpl @Inject constructor(
 
     override suspend fun updateNoteItem(noteItem: NoteItem) =
         dao.updateNoteItem(mapper.mapEntityToDbModel(noteItem))
+
+    override suspend fun deleteForeverNoteItem(noteItem: NoteItem) =
+        dao.deleteForeverNoteItem(mapper.mapEntityToDbModel(noteItem))
+
 }

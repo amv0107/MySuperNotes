@@ -24,6 +24,7 @@ import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragm
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListAdapter
+import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
@@ -83,7 +84,68 @@ abstract class BaseListFragment : BaseFragment() {
             }
 
             override fun onItemAction(noteItem: NoteItem) {
-                Toast.makeText(requireContext(), "Bottom", Toast.LENGTH_SHORT).show()
+                BottomSheet.show(noteItem.title, parentFragmentManager) {
+                    action(
+                        titleResId = R.string.action_pin,
+                        iconResId = R.drawable.ic_pin,
+                        condition = (this@BaseListFragment is MainListFragment
+                                || this@BaseListFragment is FavoriteFragment)
+                                && !noteItem.isPinned
+                    ) {
+                        viewModel.changePin(noteItem)
+                        Toast.makeText(requireContext(), R.string.edit_toast_pinned, Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        titleResId = R.string.action_unpin,
+                        iconResId = R.drawable.ic_un_pin,
+                        condition = (this@BaseListFragment is MainListFragment
+                                || this@BaseListFragment is FavoriteFragment)
+                                && noteItem.isPinned
+                    ) {
+                        viewModel.changePin(noteItem)
+                        Toast.makeText(requireContext(), R.string.edit_toast_unpinned, Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        titleResId = R.string.action_send,
+                        iconResId = R.drawable.ic_share,
+                        condition = this@BaseListFragment is MainListFragment
+                                || this@BaseListFragment is FavoriteFragment
+                    ) {
+                        Toast.makeText(requireContext(), "Share", Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        titleResId = R.string.action_unarchive,
+                        iconResId = R.drawable.ic_un_favorite,
+                        condition = this@BaseListFragment is ArchiveListFragment
+                    ) {
+                        viewModel.changeArchive(noteItem)
+                        Toast.makeText(requireContext(), "UpArchive", Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        titleResId = R.string.action_regain_access,
+                        iconResId = R.drawable.ic_restore,
+                        condition = this@BaseListFragment is TrashFragment
+                    ) {
+                        viewModel.restoreDelete(noteItem)
+                        Toast.makeText(requireContext(), "Restore", Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        R.string.action_delete,
+                        R.drawable.ic_delete,
+                        condition = this@BaseListFragment !is TrashFragment
+                    ) {
+                        viewModel.moveToTrash(noteItem)
+                        Toast.makeText(requireContext(), "Delete", Toast.LENGTH_SHORT).show()
+                    }
+                    action(
+                        R.string.action_delete,
+                        R.drawable.ic_delete,
+                        condition = this@BaseListFragment is TrashFragment
+                    ) {
+                        viewModel.deleteForeverNoteItem(noteItem)
+                        Toast.makeText(requireContext(), "Delete Forever", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
 

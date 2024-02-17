@@ -7,9 +7,9 @@ import com.amv.simple.app.mysupernotes.data.NoteItemDao
 import com.amv.simple.app.mysupernotes.data.NoteItemMapper
 import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
 import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.DeleteForeverNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
-import com.amv.simple.app.mysupernotes.domain.NoteItemRepository
 import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import dagger.Module
 import dagger.Provides
@@ -50,6 +50,10 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideUpdateNoteItemUseCase(repository: NoteItemRepositoryImpl) = UpdateNoteItemUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteForeverNoteItemUseCase(repository: NoteItemRepositoryImpl) = DeleteForeverNoteItemUseCase(repository)
 
     @Provides
     @Singleton
