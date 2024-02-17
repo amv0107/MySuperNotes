@@ -73,7 +73,7 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(item!!)
     }
 
-    fun changeDelete() = viewModelScope.launch {
+    fun moveNoteToTrash() = viewModelScope.launch {
         val item = _noteItem.value.takeSuccess()?.let {
             it.copy(
                 isDelete = true,

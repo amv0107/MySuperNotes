@@ -81,7 +81,7 @@ class EditorFragment @Inject constructor() : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.edit_menu_save_note -> {}
+                    R.id.edit_menu_save_note -> saveNote()
                     R.id.edit_menu_pin -> pinNote()
                     R.id.edit_menu_favorite -> favoriteNote()
                     R.id.edit_menu_archive -> archiveNote()
@@ -157,9 +157,9 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun deleteNote() {
-        viewModel.changeDelete()
+        viewModel.moveNoteToTrash()
         if (!isDelete)
-            Toast.makeText(requireContext(), "Npte is delete success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.edit_toast_move_to_trash), Toast.LENGTH_SHORT).show()
     }
 
     private fun observeViewModel() {
@@ -175,16 +175,22 @@ class EditorFragment @Inject constructor() : Fragment() {
         }
     }
 
-    private fun launchAddMode() {
-        binding.apply {
-            tvDateTimeNote.text = TimeManager.getCurrentTime()
-            fabSaveNote.setOnClickListener {
-                viewModel.addNoteItem(
-                    etTitleNote.text.toString(),
-                    etTextContentNote.text.toString(),
-                )
-            }
+    private fun saveNote(){
+        if (args.noteId == 0){
+            viewModel.addNoteItem(
+                binding.etTitleNote.text.toString(),
+                binding.etTextContentNote.text.toString(),
+            )
+        } else {
+            viewModel.updateNoteItem(
+                binding.etTitleNote.text.toString(),
+                binding.etTextContentNote.text.toString()
+            )
         }
+    }
+
+    private fun launchAddMode() {
+        binding.tvDateTimeNote.text = TimeManager.getCurrentTime()
     }
 
     private fun launchEditMode() {
@@ -197,13 +203,6 @@ class EditorFragment @Inject constructor() : Fragment() {
                     etTextContentNote.setText(item.textContent)
                 }
             }
-        }
-
-        binding.fabSaveNote.setOnClickListener {
-            viewModel.updateNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString()
-            )
         }
     }
 

@@ -18,6 +18,7 @@
     <string name="edit_toast_favorite">Удалено из избранного</string>
     <string name="edit_toast_un_favorite">Добавленно в избранное</string>
     <string name="edit_toast_archive">Заметка отправлена в архив</string>
+    <string name="edit_toast_move_to_trash">Заметка отправлена в корзину</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>
