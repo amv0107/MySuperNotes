@@ -7,7 +7,9 @@ class AddNoteItemUseCase @Inject constructor(
     private val noteItemRepository: NoteItemRepositoryImpl
 ) {
 
-    suspend operator fun invoke(noteItem: NoteItem) =
-        noteItemRepository.addNoteItem(noteItem)
+    suspend operator fun invoke(noteItem: NoteItem) {
+        if (noteItem.title.isNotEmpty() || noteItem.textContent.isNotBlank())
+            noteItemRepository.addNoteItem(noteItem)
+    }
 
 }
