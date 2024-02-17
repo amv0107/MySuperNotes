@@ -9,6 +9,7 @@ import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.Result
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 
 abstract class BaseFragment : Fragment() {
 
@@ -19,9 +20,11 @@ abstract class BaseFragment : Fragment() {
         onSuccess: (T) -> Unit
     ) {
         root.children
-            .filter { it.id != R.id.banner && it.id != R.id.fabCrateNote}
+            .filter {
+                it.id != R.id.banner && (if (this is MainListFragment) it.id != R.id.fabCrateNote else true)
+            }
             .forEach { it.visibility = View.GONE }
-        when(result){
+        when (result) {
             is SuccessResult -> onSuccess(result.data)
             is ErrorResult -> onError(result.exception)
             is PendingResult -> onPending()

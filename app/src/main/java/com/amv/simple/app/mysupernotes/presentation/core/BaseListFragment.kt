@@ -135,7 +135,7 @@ abstract class BaseListFragment : BaseFragment() {
                         condition = this@BaseListFragment !is TrashFragment
                     ) {
                         viewModel.moveToTrash(noteItem)
-                        Toast.makeText(requireContext(), "Delete", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.edit_toast_move_to_trash), Toast.LENGTH_SHORT).show()
                     }
                     action(
                         R.string.action_delete,
