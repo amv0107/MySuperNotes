@@ -8,7 +8,7 @@ class AddNoteItemUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(noteItem: NoteItem) {
-        if (noteItem.title.isNotEmpty() || noteItem.textContent.isNotBlank())
+        if (noteItem.title.isNotEmpty() || noteItem.textContent.isNotEmpty())
             noteItemRepository.addNoteItem(noteItem)
     }
 

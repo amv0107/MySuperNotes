@@ -87,6 +87,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                     R.id.edit_menu_archive -> archiveNote()
                     R.id.edit_menu_share -> {}
                     R.id.edit_menu_delete -> deleteNote()
+                    android.R.id.home -> saveNote()
                 }
                 return false
             }
@@ -175,17 +176,24 @@ class EditorFragment @Inject constructor() : Fragment() {
         }
     }
 
-    private fun saveNote(){
-        if (args.noteId == 0){
-            viewModel.addNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString(),
-            )
-        } else {
-            viewModel.updateNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString()
-            )
+    private fun saveNote() {
+        if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
+            //findNavController().popBackStack() // Открывается на MainListFragment DrawerMenu
+            //parentFragmentManager.popBackStack() // IllegalArgumentException
+            //childFragmentManager.popBackStack() // IllegalArgumentException
+            findNavController().navigateUp()
+        else {
+            if (args.noteId == 0) {
+                viewModel.addNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString(),
+                )
+            } else {
+                viewModel.updateNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString()
+                )
+            }
         }
     }
 

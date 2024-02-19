@@ -63,12 +63,12 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.editorFragment) {
                 toolbar.setBackgroundColor(getColor(R.color.yellow))
                 window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             } else {
                 toolbar.setBackgroundColor(getColor(R.color.white))
                 window.statusBarColor = Color.WHITE
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             }
-            if (destination.id != R.id.mainListFragment)
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 }
