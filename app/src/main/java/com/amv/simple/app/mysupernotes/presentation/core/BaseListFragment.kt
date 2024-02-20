@@ -1,6 +1,7 @@
 package com.amv.simple.app.mysupernotes.presentation.core
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
@@ -111,7 +113,7 @@ abstract class BaseListFragment : BaseFragment() {
                         condition = this@BaseListFragment is MainListFragment
                                 || this@BaseListFragment is FavoriteFragment
                     ) {
-                        Toast.makeText(requireContext(), "Share", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
                     }
                     action(
                         titleResId = R.string.action_unarchive,

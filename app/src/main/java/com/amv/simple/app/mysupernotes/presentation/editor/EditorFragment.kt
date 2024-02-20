@@ -1,6 +1,7 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -20,6 +21,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
+import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,6 +39,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     private var _binding: FragmentEditorBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var noteItem: NoteItem
     private val viewModel: EditorViewModel by viewModels()
 
     val args: EditorFragmentArgs by navArgs()
@@ -85,7 +89,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                     R.id.edit_menu_pin -> pinNote()
                     R.id.edit_menu_favorite -> favoriteNote()
                     R.id.edit_menu_archive -> archiveNote()
-                    R.id.edit_menu_share -> {}
+                    R.id.edit_menu_share -> shareNote()
                     R.id.edit_menu_delete -> deleteNote()
                     android.R.id.home -> saveNote()
                 }
@@ -157,6 +161,10 @@ class EditorFragment @Inject constructor() : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.edit_toast_archive), Toast.LENGTH_SHORT).show()
     }
 
+    private fun shareNote() {
+        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
+    }
+
     private fun deleteNote() {
         viewModel.moveNoteToTrash()
         if (!isDelete)
@@ -178,9 +186,9 @@ class EditorFragment @Inject constructor() : Fragment() {
 
     private fun saveNote() {
         if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
-            //findNavController().popBackStack() // Открывается на MainListFragment DrawerMenu
-            //parentFragmentManager.popBackStack() // IllegalArgumentException
-            //childFragmentManager.popBackStack() // IllegalArgumentException
+        //findNavController().popBackStack() // Открывается на MainListFragment DrawerMenu
+        //parentFragmentManager.popBackStack() // IllegalArgumentException
+        //childFragmentManager.popBackStack() // IllegalArgumentException
             findNavController().navigateUp()
         else {
             if (args.noteId == 0) {
@@ -205,6 +213,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         viewModel.getNoteItem(args.noteId)
         viewModel.noteItem.observe(viewLifecycleOwner) { result ->
             result.takeSuccess()?.let { item ->
+                noteItem = item
                 binding.apply {
                     etTitleNote.setText(item.title)
                     tvDateTimeNote.text = item.date
