@@ -2,6 +2,7 @@ package com.amv.simple.app.mysupernotes.presentation
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        enableEdgeToEdge()
+
         setSupportActionBar(toolbar)
 
         setupDrawer()
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             } else {
                 toolbar.setBackgroundColor(getColor(R.color.white))
-                window.statusBarColor = Color.WHITE
+                window.statusBarColor = Color.TRANSPARENT
             }
         }
     }
