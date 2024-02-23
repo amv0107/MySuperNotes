@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment"
-        android:label="fragment_main_list"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_main_list" >
         <action
             android:id="@+id/action_mainListFragment_to_editorFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/editorFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.editor.EditorFragment"
-        android:label="fragment_editor"
+        android:label=""
         tools:layout="@layout/fragment_editor" >
         <argument
             android:name="noteId"
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/archiveListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment"
-        android:label="fragment_archive"
+        android:label="@string/title_screen_archive"
         tools:layout="@layout/fragment_main_list" >
         <action
             android:id="@+id/action_archiveListFragment_to_editorFragment"
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/favoriteListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"
-        android:label="fragment_favorite"
+        android:label="@string/title_screen_favorite"
         tools:layout="@layout/fragment_main_list" >
         <action
             android:id="@+id/action_favoriteListFragment_to_editorFragment"
@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/trashListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment"
-        android:label="fragment_trash"
+        android:label="@string/title_screen_trash"
         tools:layout="@layout/fragment_main_list" >
         <action
             android:id="@+id/action_trashListFragment_to_editorFragment"

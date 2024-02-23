@@ -41,4 +41,8 @@
     <string name="action_delete">Удалить</string>
     <string name="action_send">Отправить</string>
     <string name="action_regain_access">Восстановить доступ</string>
+
+    <string name="title_screen_archive">В архиве</string>
+    <string name="title_screen_favorite">Избранное</string>
+    <string name="title_screen_trash">Корзина</string>
 </resources>

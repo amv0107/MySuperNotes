@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbarTitle.text = navController.currentDestination?.label
             if (destination.id == R.id.editorFragment) {
                 toolbar.setBackgroundColor(getColor(R.color.yellow))
                 window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
