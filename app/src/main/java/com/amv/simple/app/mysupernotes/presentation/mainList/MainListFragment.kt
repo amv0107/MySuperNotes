@@ -17,6 +17,6 @@ class MainListFragment : BaseListFragment() {
         binding.fabCrateNote.setOnClickListener {
             it.findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
         }
-        viewModel.getNoteList(TypeList.MainList)
+        viewModel.getNoteList(TypeList.MAIN_LIST      )
     }
 }

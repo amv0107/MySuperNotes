@@ -12,7 +12,7 @@ class FavoriteFragment : BaseListFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getNoteList(TypeList.FavoriteList)
+        viewModel.getNoteList(TypeList.FAVORITE_LIST)
     }
 
 }

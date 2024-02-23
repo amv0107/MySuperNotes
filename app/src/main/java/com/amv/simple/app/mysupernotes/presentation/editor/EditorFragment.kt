@@ -101,7 +101,6 @@ class EditorFragment @Inject constructor() : Fragment() {
     private fun setupMenuItem() = mainMenu?.run {
         if (args.noteId != 0) this.forEach { it.isVisible = true }
 
-        findItem(R.id.edit_menu_save_note).apply { }
         findItem(R.id.edit_menu_pin).apply {
             viewModel.noteItem.observe(viewLifecycleOwner) { result ->
                 result.takeSuccess()?.isPinned?.let {
@@ -128,7 +127,6 @@ class EditorFragment @Inject constructor() : Fragment() {
                 isVisible = result.takeSuccess() != null && result.takeSuccess()?.isArchive == false
             }
         }
-        findItem(R.id.edit_menu_share).apply { }
         findItem(R.id.edit_menu_delete).apply {
             viewModel.noteItem.observe(viewLifecycleOwner) { result ->
                 result.takeSuccess()?.isDelete?.let {

@@ -12,7 +12,7 @@ class ArchiveListFragment : BaseListFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getNoteList(TypeList.ArchiveList)
+        viewModel.getNoteList(TypeList.ARCHIVE_LIST)
 
     }
 

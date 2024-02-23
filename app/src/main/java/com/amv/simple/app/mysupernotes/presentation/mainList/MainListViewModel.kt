@@ -2,6 +2,7 @@ package com.amv.simple.app.mysupernotes.presentation.mainList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.amv.simple.app.mysupernotes.data.PreferencesManager
 import com.amv.simple.app.mysupernotes.domain.DeleteForeverNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItem
@@ -9,6 +10,7 @@ import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
 import com.amv.simple.app.mysupernotes.domain.util.TypeList
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
@@ -21,11 +23,14 @@ import javax.inject.Inject
 class MainListViewModel @Inject constructor(
     private val getNoteListUseCase: GetNoteListUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
-    private val deleteForeverNoteItemUseCase: DeleteForeverNoteItemUseCase
+    private val deleteForeverNoteItemUseCase: DeleteForeverNoteItemUseCase,
+    private val preferencesManager: PreferencesManager,
 ) : ViewModel() {
 
     private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
     val noteList: LiveResult<List<NoteItem>> = _noteList
+
+    val preferencesFlow = preferencesManager.preferencesFlow
 
     fun getNoteList(typeList: TypeList) = viewModelScope.launch {
         getNoteListUseCase.getNoteList(typeList)
@@ -34,9 +39,11 @@ class MainListViewModel @Inject constructor(
                     _noteList.postValue(ErrorResult(NullPointerException()))
                 else
                     _noteList.postValue(SuccessResult(list))
-
-
             }
+    }
+
+    fun onTypeLayoutManager(typeLayoutManager: TypeLayoutManager) = viewModelScope.launch {
+        preferencesManager.updateTypeLayoutManager(typeLayoutManager)
     }
 
     fun changePin(noteItem: NoteItem) = viewModelScope.launch {

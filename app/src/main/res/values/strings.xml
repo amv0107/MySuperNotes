@@ -23,7 +23,7 @@
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>
     <string name="list_menu_staggered_grid">В виде сетки</string>
-    <string name="list_menu_Linear">В виде списка</string>
+    <string name="list_menu_linear">В виде списка</string>
 
     <string name="nav_header_title">MySupperNotes</string>
     <string name="nav_header_subtitle">amv0107@gmail.com</string>

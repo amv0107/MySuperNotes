@@ -3,6 +3,7 @@ package com.amv.simple.app.mysupernotes.presentation.core
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,13 +15,17 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
+import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
@@ -32,6 +37,13 @@ import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
+
+private const val TAG = "BaseListFragment"
 
 @AndroidEntryPoint
 abstract class BaseListFragment : BaseFragment() {
@@ -42,6 +54,9 @@ abstract class BaseListFragment : BaseFragment() {
     val viewModel by viewModels<MainListViewModel>()
 
     lateinit var noteItemAdapter: MainListAdapter
+    private var mainMenu: Menu? = null
+
+    private var noteStyle: TypeLayoutManager = TypeLayoutManager.LINEAR_LAYOUT_MANAGER
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -137,7 +152,11 @@ abstract class BaseListFragment : BaseFragment() {
                         condition = this@BaseListFragment !is TrashFragment
                     ) {
                         viewModel.moveToTrash(noteItem)
-                        Toast.makeText(requireContext(), getString(R.string.edit_toast_move_to_trash), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.edit_toast_move_to_trash),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     action(
                         R.string.action_delete,
@@ -151,9 +170,27 @@ abstract class BaseListFragment : BaseFragment() {
             }
         })
 
-        binding.rvMainList.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            adapter = noteItemAdapter
+        setupRv()
+    }
+
+    private fun setupRv() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.preferencesFlow.collect {
+                binding.rvMainList.layoutManager = when (it.layoutManager) {
+                    TypeLayoutManager.LINEAR_LAYOUT_MANAGER -> {
+                        LinearLayoutManager(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                    }
+
+                    TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER -> {
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    }
+                }
+                binding.rvMainList.adapter = noteItemAdapter
+            }
         }
     }
 
@@ -161,21 +198,48 @@ abstract class BaseListFragment : BaseFragment() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
             @SuppressLint("RestrictedApi")
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.main_menu, menu)
                 if (menu is MenuBuilder) menu.setOptionalIconsVisible(true)
+                menuInflater.inflate(R.menu.main_menu, menu)
+                this@BaseListFragment.mainMenu = menu
+                setupMenu()
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.list_menu_search -> {}
-                    R.id.list_menu_type_layout_manager -> {}
-                    R.id.list_menu_sort -> {}
+                    R.id.list_menu_type_layout_manager -> setNoteStyle()
                 }
                 return false
             }
         }, viewLifecycleOwner)
     }
 
+    private fun setupMenu() = mainMenu?.run {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.preferencesFlow.collect {
+                findItem(R.id.list_menu_type_layout_manager).apply {
+                    setIcon(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.drawable.ic_list_view else R.drawable.ic_grid_view)
+                    setTitle(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.string.list_menu_linear else R.string.list_menu_staggered_grid)
+                }
+            }
+        }
+    }
+
+    private fun setNoteStyle() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            noteStyle = when (viewModel.preferencesFlow.first().layoutManager) {
+                TypeLayoutManager.LINEAR_LAYOUT_MANAGER -> {
+                    viewModel.onTypeLayoutManager(TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER)
+                    TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER
+                }
+
+                TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER -> {
+                    viewModel.onTypeLayoutManager(TypeLayoutManager.LINEAR_LAYOUT_MANAGER)
+                    TypeLayoutManager.LINEAR_LAYOUT_MANAGER
+                }
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
