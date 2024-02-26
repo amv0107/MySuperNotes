@@ -32,21 +32,5 @@
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_settings"
             android:title="@string/drawer_menu_settings" />
-        <item
-            android:id="@+id/helpMe"
-            android:icon="@drawable/ic_translate"
-            android:title="Помогите нам перевести" />
-        <item
-            android:id="@+id/rateOurApp"
-            android:icon="@drawable/ic_rate"
-            android:title="Оцените нас" />
-        <item
-            android:id="@+id/politics"
-            android:icon="@drawable/ic_security"
-            android:title="Политика конфиденциальности" />
-        <item
-            android:id="@+id/sharedApp"
-            android:icon="@drawable/ic_share"
-            android:title="Поделиться приложением" />
     </group>
 </menu>

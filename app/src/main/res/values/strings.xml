@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">MySuperNotes</string>
     <string name="blankTitle"> </string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 
     <string name="edit_menu_save_note">Сохранить</string>
     <string name="edit_menu_pin">Закрепить</string>

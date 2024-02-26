@@ -3,13 +3,10 @@ package com.amv.simple.app.mysupernotes.presentation.core
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
@@ -19,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
@@ -37,16 +33,13 @@ import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 private const val TAG = "BaseListFragment"
 
 @AndroidEntryPoint
-abstract class BaseListFragment : BaseFragment() {
+abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     private var _binding: FragmentMainListBinding? = null
     val binding get() = _binding!!
@@ -58,17 +51,9 @@ abstract class BaseListFragment : BaseFragment() {
 
     private var noteStyle: TypeLayoutManager = TypeLayoutManager.LINEAR_LAYOUT_MANAGER
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentMainListBinding.bind(view)
         optionMenu()
 
         viewModel.noteList.observe(viewLifecycleOwner) { result ->

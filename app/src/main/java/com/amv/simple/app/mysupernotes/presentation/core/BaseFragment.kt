@@ -2,6 +2,7 @@ package com.amv.simple.app.mysupernotes.presentation.core
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.amv.simple.app.mysupernotes.R
@@ -11,7 +12,7 @@ import com.amv.simple.app.mysupernotes.domain.util.Result
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
 
     fun <T> renderResult(
         root: ViewGroup, result: Result<T>,

@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -64,6 +65,15 @@ class EditorFragment @Inject constructor() : Fragment() {
         launchModeScreen()
         observeViewModel()
         optionsMenu()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
+                    findNavController().navigateUp()
+                else
+                    saveNote()
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -91,9 +101,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                     R.id.edit_menu_archive -> archiveNote()
                     R.id.edit_menu_share -> shareNote()
                     R.id.edit_menu_delete -> deleteNote()
-                    android.R.id.home -> saveNote()
                 }
-                return false
+                return true
             }
         }, viewLifecycleOwner)
     }
@@ -183,25 +192,19 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun saveNote() {
-        if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
-        //findNavController().popBackStack() // Открывается на MainListFragment DrawerMenu
-        //parentFragmentManager.popBackStack() // IllegalArgumentException
-        //childFragmentManager.popBackStack() // IllegalArgumentException
-            findNavController().navigateUp()
-        else {
-            if (args.noteId == 0) {
-                viewModel.addNoteItem(
-                    binding.etTitleNote.text.toString(),
-                    binding.etTextContentNote.text.toString(),
-                )
-            } else {
-                viewModel.updateNoteItem(
-                    binding.etTitleNote.text.toString(),
-                    binding.etTextContentNote.text.toString()
-                )
-            }
+        if (args.noteId == 0) {
+            viewModel.addNoteItem(
+                binding.etTitleNote.text.toString(),
+                binding.etTextContentNote.text.toString(),
+            )
+        } else {
+            viewModel.updateNoteItem(
+                binding.etTitleNote.text.toString(),
+                binding.etTextContentNote.text.toString()
+            )
         }
     }
+
 
     private fun launchAddMode() {
         binding.tvDateTimeNote.text = TimeManager.getCurrentTime()

@@ -2,7 +2,7 @@ package com.amv.simple.app.mysupernotes.presentation.mainList
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.domain.util.TypeList
 import com.amv.simple.app.mysupernotes.presentation.core.BaseListFragment
@@ -15,7 +15,7 @@ class MainListFragment : BaseListFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.fabCrateNote.setOnClickListener {
-            it.findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
+            findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
         }
         viewModel.getNoteList(TypeList.MAIN_LIST      )
     }
