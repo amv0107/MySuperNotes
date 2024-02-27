@@ -14,4 +14,18 @@
         <item name="android:gravity">center|start</item>
     </style>
 
+    <!-- Заголовок заметки в редакторе -->
+    <style name="MyTextInputLayout">
+        <item name="boxStrokeColor">@color/grey</item> <!-- Активное -->
+        <item name="boxStrokeWidthFocused">1dp</item> <!-- Активное -->
+        <item name="hintTextColor">@color/grey</item> <!-- Активное  -->
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="cursorColor">@color/grey</item>
+        <item name="android:textColorHint">@color/grey</item>
+    </style>
+
+    <style name="SelectText">
+        <item name="colorControlActivated">@color/grey</item>
+    </style>
+
 </resources>

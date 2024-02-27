@@ -4,5 +4,6 @@
     <attr name="colorDrawerBackground" format="color"/>
     <attr name="colorDrawerItemRipple" format="color"/>
     <attr name="colorPrimaryTranscluent" format="color"/>
-
+    <attr name="backgroundCardFromTheme" format="color"/>
+    <attr name="backgroundAppFromTheme" format="color"/>
 </resources>

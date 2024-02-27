@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MySuperNotes</string>
+    <string name="app_name">Super Notes</string>
     <string name="blankTitle"> </string>
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -27,7 +27,6 @@
     <string name="list_menu_staggered_grid">В виде сетки</string>
     <string name="list_menu_linear">В виде списка</string>
 
-    <string name="nav_header_title">MySupperNotes</string>
     <string name="nav_header_subtitle">amv0107@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="drawer_menu_all_notes">Все заметки</string>

@@ -10,7 +10,7 @@
         <item
             android:id="@+id/mainListFragment"
             android:icon="@drawable/ic_main"
-            android:title="@string/drawer_menu_all_notes" />
+            android:title="@string/drawer_menu_all_notes"/>
         <item
             android:id="@+id/archiveListFragment"
             android:icon="@drawable/ic_archive"

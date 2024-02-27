@@ -27,7 +27,7 @@
                 android:id="@+id/mainToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
+                android:background="?attr/backgroundAppFromTheme"
                 android:minHeight="?attr/actionBarSize">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,9 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/nav_view"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_gravity="start"
-        android:background="@color/yellow"
+        android:background="?attr/backgroundAppFromTheme"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/drawer_header_layout"/>

@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/list_menu_search"
-        android:icon="@drawable/ic_search"
-        android:title="@string/list_menu_search"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/list_menu_type_layout_manager"
         android:icon="@drawable/ic_grid_view"
         android:title="@string/list_menu_staggered_grid"

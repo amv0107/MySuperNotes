@@ -191,7 +191,6 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.list_menu_search -> {}
                     R.id.list_menu_type_layout_manager -> setNoteStyle()
                 }
                 return false

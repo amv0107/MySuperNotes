@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -52,12 +53,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainListFragment -> {
                     drawerLayout.open()
                 }
+
                 R.id.editorFragment -> {
                     if (onBackPressedDispatcher.hasEnabledCallbacks())
                         onBackPressedDispatcher.onBackPressed()
                     else
                         navController.navigateUp()
                 }
+
                 else -> navController.navigateUp()
             }
         }
@@ -84,7 +87,10 @@ class MainActivity : AppCompatActivity() {
                 window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             } else {
-                toolbar.setBackgroundColor(getColor(R.color.white))
+                when (applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                    Configuration.UI_MODE_NIGHT_NO -> toolbar.setBackgroundColor(getColor(R.color.white))
+                    Configuration.UI_MODE_NIGHT_YES -> toolbar.setBackgroundColor(getColor(R.color.black))
+                }
                 window.statusBarColor = Color.TRANSPARENT
             }
         }
