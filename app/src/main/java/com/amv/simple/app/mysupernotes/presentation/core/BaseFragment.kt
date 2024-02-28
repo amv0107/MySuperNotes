@@ -22,7 +22,7 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentL
     ) {
         root.children
             .filter {
-                it.id != R.id.banner && (if (this is MainListFragment) it.id != R.id.fabCrateNote else true)
+                it.id != R.id.adsFrameLayout && (if (this is MainListFragment) it.id != R.id.fabCrateNote else true)
             }
             .forEach { it.visibility = View.GONE }
         when (result) {

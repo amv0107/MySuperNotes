@@ -78,6 +78,9 @@ dependencies {
 
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
+
+    // Google Mobile Ads SDK
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
 }
 // Allow references to generated code
 kapt {

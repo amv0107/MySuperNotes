@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Super Notes</string>
+
+    <string name="bannerMainList">ca-app-pub-3940256099942544/6300978111</string>
+
     <string name="blankTitle"> </string>
     <string name="open">Open</string>
     <string name="close">Close</string>

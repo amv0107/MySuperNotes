@@ -22,6 +22,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
+import com.amv.simple.app.mysupernotes.monetisation.loadBannerAds
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
@@ -32,6 +33,7 @@ import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragmentDir
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
+import com.google.android.gms.ads.AdSize
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -156,6 +158,8 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
         })
 
         setupRv()
+
+        loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.BANNER, R.string.bannerMainList)
     }
 
     private fun setupRv() {
