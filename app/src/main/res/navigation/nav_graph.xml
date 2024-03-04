@@ -51,4 +51,9 @@
             android:id="@+id/action_trashListFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.settings.presentation.SettingsFragment"
+        android:label="@string/title_screen_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
