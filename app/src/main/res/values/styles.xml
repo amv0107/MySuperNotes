@@ -28,4 +28,19 @@
         <item name="colorControlActivated">@color/grey</item>
     </style>
 
+    <style name="ConfirmDialogFragment" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="dialogCornerRadius">30dp</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+
 </resources>

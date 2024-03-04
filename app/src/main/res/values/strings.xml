@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Super Notes</string>
 
-    <string name="bannerMainList">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="bannerMainList" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
-    <string name="blankTitle"> </string>
-    <string name="open">Open</string>
+    <string name="blankTitle" translatable="false"> </string>
+    <string name="open" translatable="false">Open</string>
     <string name="close">Close</string>
 
     <string name="edit_menu_save_note">Сохранить</string>
@@ -50,5 +50,14 @@
     <string name="title_screen_favorite">Избранное</string>
     <string name="title_screen_trash">Корзина</string>
     <string name="title_screen_settings">Настройки</string>
+
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="system_theme">Системные установки по умолчанию</string>
+
+    <string name="theme_confirm_dialog_select">Выбрать</string>
+    <string name="theme_confirm_dialog_cancel">Отмена</string>
+    <string name="theme_confirm_dialog_language_title">Язык</string>
+    <string name="theme_confirm_dialog_theme_title">Тема</string>
 
 </resources>
