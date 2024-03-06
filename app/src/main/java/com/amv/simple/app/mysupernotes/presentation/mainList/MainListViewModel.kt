@@ -31,6 +31,7 @@ class MainListViewModel @Inject constructor(
     val noteList: LiveResult<List<NoteItem>> = _noteList
 
     val preferencesFlow = preferencesManager.preferencesFlow
+    val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
 
     fun getNoteList(typeList: TypeList) = viewModelScope.launch {
         getNoteListUseCase.getNoteList(typeList)

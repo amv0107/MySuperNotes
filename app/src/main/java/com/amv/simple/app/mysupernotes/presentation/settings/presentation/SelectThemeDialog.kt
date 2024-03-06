@@ -10,19 +10,22 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 
-class SelectThemeDialog: DialogFragment() {
+class SelectThemeDialog : DialogFragment() {
 
     private val currentTheme: Int
         get() = requireArguments().getInt(ARG_VALUE)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val listItems = R.array.theme_dialog
+        val listTheme = DataStoreTypeTheme.values().map {
+            resources.getString(it.title)
+        }.toTypedArray()
 
         return AlertDialog.Builder(requireContext(), R.style.ConfirmDialogFragment)
             .setTitle(R.string.theme_confirm_dialog_theme_title)
-            .setSingleChoiceItems(listItems, currentTheme, null)
+            .setSingleChoiceItems(listTheme, currentTheme, null)
             .setNegativeButton(R.string.theme_confirm_dialog_cancel) { _, _ ->
                 dismiss()
             }

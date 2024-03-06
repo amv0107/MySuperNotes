@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amv.simple.app.mysupernotes.databinding.ItemNoteListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.presentation.editor.TimeManager
 import javax.inject.Inject
 
 
 /**
  * https://www.youtube.com/watch?v=pxOybZErY3w&list=PLRmiL0mct8WnntEXpHpP9S5ewtjgWook_&index=8&t=646s
  */
-class MainListAdapter @Inject constructor (
-    private val listener: MainListListener
+class MainListAdapter @Inject constructor(
+    private val patternDateTime: String,
+    private val listener: MainListListener,
 ) : ListAdapter<NoteItem, MainListAdapter.MainViewHolder>(ItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -40,7 +42,7 @@ class MainListAdapter @Inject constructor (
         with(holder.binding) {
             root.tag = noteItem
             tvTitleNote.text = noteItem.title
-            tvDateTimeNote.text = noteItem.date
+            tvDateTimeNote.text = TimeManager.getTimeFormat(noteItem.date, patternDateTime)
             tvTextContentNote.text = noteItem.textContent
             imgPin.isVisible = noteItem.isPinned
             imgFavorite.isVisible = noteItem.isFavorite

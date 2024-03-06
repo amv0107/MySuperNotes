@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreLanguage
 
 class SelectLanguageDialog : DialogFragment() {
 
@@ -18,11 +19,13 @@ class SelectLanguageDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val listItems = R.array.language_dialog
+        val listLanguage = DataStoreLanguage.values().map {
+            it.countryName
+        }.toTypedArray()
 
         return AlertDialog.Builder(requireContext(), R.style.ConfirmDialogFragment)
             .setTitle(R.string.theme_confirm_dialog_language_title)
-            .setSingleChoiceItems(listItems, currentLanguage, null)
+            .setSingleChoiceItems(listLanguage, currentLanguage, null)
             .setNegativeButton(R.string.theme_confirm_dialog_cancel) { _, _ ->
                 dismiss()
             }

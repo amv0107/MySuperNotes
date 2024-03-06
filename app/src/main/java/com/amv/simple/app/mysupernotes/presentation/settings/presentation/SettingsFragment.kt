@@ -4,11 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentSettingsBinding
+import com.amv.simple.app.mysupernotes.presentation.MainActivity
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreFormatDateTime
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreLanguage
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -16,9 +23,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel by viewModels<SettingsViewModel>()
+    private var currentLanguageOrdinal: Int = 0
+    private var currentFormatDateTimeOrdinal: Int = 0
+    private var currentThemeOrdinal: Int = 2
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setupSelectLanguageDialog()
         setupSelectThemeDialog()
+        setupSelectFormatDatetime()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -35,34 +48,68 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         binding.formatDateTime.setOnClickListener {
-            Toast.makeText(requireContext(), "Show dialog with formatDate", Toast.LENGTH_SHORT).show()
+            showSelectFormatDateTime()
         }
 
-        binding.formatDateTime.setCurrentValueText("2024/02/29 - 12:33")
+        observeViewModel()
     }
 
     private fun showSelectLanguageDialog() {
-        val currentLanguage = 1
-        SelectLanguageDialog.show(parentFragmentManager, currentLanguage)
+        SelectLanguageDialog.show(parentFragmentManager, currentLanguageOrdinal)
     }
 
     private fun setupSelectLanguageDialog() {
         SelectLanguageDialog.setupListener(parentFragmentManager, this) {
-            Toast.makeText(requireContext(), "selected: $it", Toast.LENGTH_SHORT).show()
+            val language = enumValues<DataStoreLanguage>()[it]
+            viewModel.onTypeLanguageApp(language)
         }
     }
 
     private fun showSelectThemeDialog() {
-        val currentTheme = 1
-        SelectThemeDialog.show(parentFragmentManager, currentTheme)
+
+        SelectThemeDialog.show(parentFragmentManager, currentThemeOrdinal)
     }
 
     private fun setupSelectThemeDialog() {
         SelectThemeDialog.setupListener(parentFragmentManager, this) {
-            Toast.makeText(requireContext(), "selected: $it", Toast.LENGTH_SHORT).show()
+            val theme = enumValues<DataStoreTypeTheme>()[it]
+            viewModel.onTheme(theme)
         }
     }
 
+    private fun showSelectFormatDateTime() {
+        SelectFormatDateTimeDialog.show(parentFragmentManager, currentFormatDateTimeOrdinal)
+    }
+
+    private fun setupSelectFormatDatetime() {
+        SelectFormatDateTimeDialog.setupListener(parentFragmentManager, this) {
+            val format = enumValues<DataStoreFormatDateTime>()[it]
+            viewModel.onTypeFormatDateTime(format)
+        }
+    }
+
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.languageFlow.collectLatest {
+                currentLanguageOrdinal = it.languageApp.ordinal
+                binding.language.setCurrentValueText(it.languageApp.countryName)
+            }
+
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.formatDateTimeFlow.collect {
+                currentFormatDateTimeOrdinal = it.formatDataTime.ordinal
+                binding.formatDateTime.setCurrentValueText(it.formatDataTime.title)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.themeAppFlow.collectLatest {
+                currentThemeOrdinal = it.typeTheme.ordinal
+                binding.theme.setCurrentValueText(getString(it.typeTheme.title))
+                (activity as MainActivity).setUIMode(it.typeTheme)
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

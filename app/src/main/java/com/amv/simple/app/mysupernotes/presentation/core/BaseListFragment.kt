@@ -35,6 +35,7 @@ import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
 import com.google.android.gms.ads.AdSize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -68,94 +69,99 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
             )
         }
 
-        noteItemAdapter = MainListAdapter(object : MainListAdapter.MainListListener {
-            override fun onChooseNote(noteItem: NoteItem) {
-                val action: NavDirections = when (this@BaseListFragment) {
-                    is ArchiveListFragment -> ArchiveListFragmentDirections
-                        .actionArchiveListFragmentToEditorFragment().setNoteId(noteItem.id)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.formatDateTimeFlow.collectLatest {
+                noteItemAdapter = MainListAdapter(it.formatDataTime.pattern, object : MainListAdapter.MainListListener {
+                    override fun onChooseNote(noteItem: NoteItem) {
+                        val action: NavDirections = when (this@BaseListFragment) {
+                            is ArchiveListFragment -> ArchiveListFragmentDirections
+                                .actionArchiveListFragmentToEditorFragment().setNoteId(noteItem.id)
 
-                    is FavoriteFragment -> FavoriteFragmentDirections
-                        .actionFavoriteListFragmentToEditorFragment().setNoteId(noteItem.id)
+                            is FavoriteFragment -> FavoriteFragmentDirections
+                                .actionFavoriteListFragmentToEditorFragment().setNoteId(noteItem.id)
 
-                    is TrashFragment -> TrashFragmentDirections
-                        .actionTrashListFragmentToEditorFragment().setNoteId(noteItem.id)
+                            is TrashFragment -> TrashFragmentDirections
+                                .actionTrashListFragmentToEditorFragment().setNoteId(noteItem.id)
 
-                    else -> MainListFragmentDirections
-                        .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)
-                }
+                            else -> MainListFragmentDirections
+                                .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)
+                        }
 
-                Navigation.findNavController(view).navigate(action)
+                        Navigation.findNavController(view).navigate(action)
+                    }
+
+                    override fun onItemAction(noteItem: NoteItem) {
+                        BottomSheet.show(noteItem.title, parentFragmentManager) {
+                            action(
+                                titleResId = R.string.action_pin,
+                                iconResId = R.drawable.ic_pin,
+                                condition = (this@BaseListFragment is MainListFragment
+                                        || this@BaseListFragment is FavoriteFragment)
+                                        && !noteItem.isPinned
+                            ) {
+                                viewModel.changePin(noteItem)
+                                Toast.makeText(requireContext(), R.string.edit_toast_pinned, Toast.LENGTH_SHORT).show()
+                            }
+                            action(
+                                titleResId = R.string.action_unpin,
+                                iconResId = R.drawable.ic_un_pin,
+                                condition = (this@BaseListFragment is MainListFragment
+                                        || this@BaseListFragment is FavoriteFragment)
+                                        && noteItem.isPinned
+                            ) {
+                                viewModel.changePin(noteItem)
+                                Toast.makeText(requireContext(), R.string.edit_toast_unpinned, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            action(
+                                titleResId = R.string.action_send,
+                                iconResId = R.drawable.ic_share,
+                                condition = this@BaseListFragment is MainListFragment
+                                        || this@BaseListFragment is FavoriteFragment
+                            ) {
+                                startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
+                            }
+                            action(
+                                titleResId = R.string.action_unarchive,
+                                iconResId = R.drawable.ic_un_favorite,
+                                condition = this@BaseListFragment is ArchiveListFragment
+                            ) {
+                                viewModel.changeArchive(noteItem)
+                                Toast.makeText(requireContext(), "UpArchive", Toast.LENGTH_SHORT).show()
+                            }
+                            action(
+                                titleResId = R.string.action_regain_access,
+                                iconResId = R.drawable.ic_restore,
+                                condition = this@BaseListFragment is TrashFragment
+                            ) {
+                                viewModel.restoreDelete(noteItem)
+                                Toast.makeText(requireContext(), "Restore", Toast.LENGTH_SHORT).show()
+                            }
+                            action(
+                                R.string.action_delete,
+                                R.drawable.ic_delete,
+                                condition = this@BaseListFragment !is TrashFragment
+                            ) {
+                                viewModel.moveToTrash(noteItem)
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.edit_toast_move_to_trash),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            action(
+                                R.string.action_delete,
+                                R.drawable.ic_delete,
+                                condition = this@BaseListFragment is TrashFragment
+                            ) {
+                                viewModel.deleteForeverNoteItem(noteItem)
+                                Toast.makeText(requireContext(), "Delete Forever", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                })
             }
-
-            override fun onItemAction(noteItem: NoteItem) {
-                BottomSheet.show(noteItem.title, parentFragmentManager) {
-                    action(
-                        titleResId = R.string.action_pin,
-                        iconResId = R.drawable.ic_pin,
-                        condition = (this@BaseListFragment is MainListFragment
-                                || this@BaseListFragment is FavoriteFragment)
-                                && !noteItem.isPinned
-                    ) {
-                        viewModel.changePin(noteItem)
-                        Toast.makeText(requireContext(), R.string.edit_toast_pinned, Toast.LENGTH_SHORT).show()
-                    }
-                    action(
-                        titleResId = R.string.action_unpin,
-                        iconResId = R.drawable.ic_un_pin,
-                        condition = (this@BaseListFragment is MainListFragment
-                                || this@BaseListFragment is FavoriteFragment)
-                                && noteItem.isPinned
-                    ) {
-                        viewModel.changePin(noteItem)
-                        Toast.makeText(requireContext(), R.string.edit_toast_unpinned, Toast.LENGTH_SHORT).show()
-                    }
-                    action(
-                        titleResId = R.string.action_send,
-                        iconResId = R.drawable.ic_share,
-                        condition = this@BaseListFragment is MainListFragment
-                                || this@BaseListFragment is FavoriteFragment
-                    ) {
-                        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
-                    }
-                    action(
-                        titleResId = R.string.action_unarchive,
-                        iconResId = R.drawable.ic_un_favorite,
-                        condition = this@BaseListFragment is ArchiveListFragment
-                    ) {
-                        viewModel.changeArchive(noteItem)
-                        Toast.makeText(requireContext(), "UpArchive", Toast.LENGTH_SHORT).show()
-                    }
-                    action(
-                        titleResId = R.string.action_regain_access,
-                        iconResId = R.drawable.ic_restore,
-                        condition = this@BaseListFragment is TrashFragment
-                    ) {
-                        viewModel.restoreDelete(noteItem)
-                        Toast.makeText(requireContext(), "Restore", Toast.LENGTH_SHORT).show()
-                    }
-                    action(
-                        R.string.action_delete,
-                        R.drawable.ic_delete,
-                        condition = this@BaseListFragment !is TrashFragment
-                    ) {
-                        viewModel.moveToTrash(noteItem)
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.edit_toast_move_to_trash),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    action(
-                        R.string.action_delete,
-                        R.drawable.ic_delete,
-                        condition = this@BaseListFragment is TrashFragment
-                    ) {
-                        viewModel.deleteForeverNoteItem(noteItem)
-                        Toast.makeText(requireContext(), "Delete Forever", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        })
+        }
 
         setupRv()
 
