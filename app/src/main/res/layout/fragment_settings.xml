@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Основные"
+        android:visibility="gone"
         android:textColor="@color/orange"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +23,7 @@
     <com.amv.simple.app.mysupernotes.presentation.settings.presentation.component.ItemSettingsView
         android:id="@+id/language"
         android:layout_width="0dp"
+        android:visibility="gone"
         app:visibleCurrentValue="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -36,6 +38,7 @@
         android:id="@+id/divideBase"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:layout_marginTop="4dp"
         android:background="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"

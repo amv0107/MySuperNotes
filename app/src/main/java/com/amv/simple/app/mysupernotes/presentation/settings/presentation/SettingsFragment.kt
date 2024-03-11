@@ -92,7 +92,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.languageFlow.collectLatest {
                 currentLanguageOrdinal = it.languageApp.ordinal
-                binding.language.setCurrentValueText(it.languageApp.countryName)
+                binding.language.setCurrentValueText(it.languageApp.lang)
             }
 
         }

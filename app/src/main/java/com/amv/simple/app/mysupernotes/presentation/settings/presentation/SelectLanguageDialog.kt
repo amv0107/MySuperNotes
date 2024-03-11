@@ -20,7 +20,7 @@ class SelectLanguageDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val listLanguage = DataStoreLanguage.values().map {
-            it.countryName
+            it.lang
         }.toTypedArray()
 
         return AlertDialog.Builder(requireContext(), R.style.ConfirmDialogFragment)
