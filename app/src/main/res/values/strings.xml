@@ -59,11 +59,13 @@
     <string name="theme_confirm_dialog_cancel">Отмена</string>
     <string name="theme_confirm_dialog_language_title">Язык</string>
     <string name="theme_confirm_dialog_theme_title">Тема</string>
+    <string name="theme_confirm_dialog_style_list_notes">Стиль списка заметок</string>
     <string name="theme_confirm_dialog_date_title">Формат даты</string>
 
     <string name="error_empty_list_main_screen">Держите заметки организоваными</string>
     <string name="error_empty_list_archive_screen">Архив пуст</string>
     <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
+    <string name="label_settings_my_style">Свой стиль</string>
 
 </resources>

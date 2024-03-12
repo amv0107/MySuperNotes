@@ -6,9 +6,9 @@ import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.emptyPreferences
 import androidx.datastore.preferences.preferencesKey
-import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreFormatDateTime
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreLanguage
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferencesManager"
 
-data class LayoutManagerPreferences(val layoutManager: TypeLayoutManager)
+data class LayoutManagerPreferences(val dataStoreStyleListNotes: DataStoreStyleListNotes)
 data class LanguageAppPreferences(val languageApp: DataStoreLanguage)
 data class FormatDateTimePreferences(val formatDataTime: DataStoreFormatDateTime)
 data class ThemeAppPreferences(val typeTheme: DataStoreTypeTheme)
@@ -29,7 +29,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private val dataStore = context.createDataStore("amv_simple_app_note_preferences")
 
-    val preferencesFlow = dataStore.data
+    val layoutManagerFlow = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 Log.e(TAG, "Error reading preferences", exception)
@@ -39,8 +39,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             }
         }
         .map { preferences ->
-            val type_layout_manager = TypeLayoutManager.valueOf(
-                preferences[PreferenceKeys.TYPE_LAYOUT_MANAGER] ?: TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER.name
+            val type_layout_manager = DataStoreStyleListNotes.valueOf(
+                preferences[PreferenceKeys.TYPE_LAYOUT_MANAGER] ?: DataStoreStyleListNotes.GRID.name
             )
             LayoutManagerPreferences(type_layout_manager)
         }
@@ -93,9 +93,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             ThemeAppPreferences(theme_app)
         }
 
-    suspend fun updateTypeLayoutManager(typeLayoutManager: TypeLayoutManager) {
+    suspend fun updateTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) {
         dataStore.edit { preferences ->
-            preferences[PreferenceKeys.TYPE_LAYOUT_MANAGER] = typeLayoutManager.name
+            preferences[PreferenceKeys.TYPE_LAYOUT_MANAGER] = dataStoreStyleListNotes.name
         }
     }
 

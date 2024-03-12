@@ -50,4 +50,6 @@
     <string name="error_empty_list_archive_screen">Архів пустий</string>
     <string name="error_empty_list_favorite_screen">Жодної обраної нотатки не додано</string>
     <string name="error_empty_list_trash_screen">Записки будуть автоматично видалені через 31 день</string>
+    <string name="theme_confirm_dialog_style_list_notes">Тип списку нотаток</string>
+    <string name="label_settings_my_style">Власний стиль</string>
 </resources>

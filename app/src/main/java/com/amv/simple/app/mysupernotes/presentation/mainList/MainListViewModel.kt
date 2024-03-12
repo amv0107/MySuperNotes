@@ -10,11 +10,11 @@ import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
-import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
 import com.amv.simple.app.mysupernotes.domain.util.TypeList
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
 import com.amv.simple.app.mysupernotes.presentation.editor.TimeManager
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +30,9 @@ class MainListViewModel @Inject constructor(
     private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
     val noteList: LiveResult<List<NoteItem>> = _noteList
 
-    val preferencesFlow = preferencesManager.preferencesFlow
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
+    val layoutManagerFlow = preferencesManager.layoutManagerFlow
+
 
     fun getNoteList(typeList: TypeList) = viewModelScope.launch {
         getNoteListUseCase.getNoteList(typeList)
@@ -43,8 +44,8 @@ class MainListViewModel @Inject constructor(
             }
     }
 
-    fun onTypeLayoutManager(typeLayoutManager: TypeLayoutManager) = viewModelScope.launch {
-        preferencesManager.updateTypeLayoutManager(typeLayoutManager)
+    fun onTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) = viewModelScope.launch {
+        preferencesManager.updateTypeLayoutManager(dataStoreStyleListNotes)
     }
 
     fun changePin(noteItem: NoteItem) = viewModelScope.launch {

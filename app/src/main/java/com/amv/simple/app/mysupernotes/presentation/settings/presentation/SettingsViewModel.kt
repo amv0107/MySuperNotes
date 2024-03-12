@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreFormatDateTime
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreLanguage
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class SettingsViewModel @Inject constructor(
     val languageFlow = preferencesManager.languageFlow
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
     val themeAppFlow = preferencesManager.themeFlow
+    val styleListNotesFlow = preferencesManager.layoutManagerFlow
 
     fun onTypeLanguageApp(dataStoreLanguage: DataStoreLanguage) = viewModelScope.launch {
         preferencesManager.updateTypeLanguageApp(dataStoreLanguage)
@@ -29,5 +31,9 @@ class SettingsViewModel @Inject constructor(
 
     fun onTheme(dataStoreTypeTheme: DataStoreTypeTheme) = viewModelScope.launch {
         preferencesManager.updateThemeApp(dataStoreTypeTheme)
+    }
+
+    fun onStyleListNotes(dataStoreStyleListNotes: DataStoreStyleListNotes) = viewModelScope.launch {
+        preferencesManager.updateTypeLayoutManager(dataStoreStyleListNotes)
     }
 }

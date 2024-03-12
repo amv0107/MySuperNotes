@@ -12,6 +12,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentSettingsBinding
 import com.amv.simple.app.mysupernotes.presentation.MainActivity
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreFormatDateTime
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreLanguage
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,12 +27,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel by viewModels<SettingsViewModel>()
     private var currentLanguageOrdinal: Int = 0
     private var currentFormatDateTimeOrdinal: Int = 0
-    private var currentThemeOrdinal: Int = 2
+    private var currentThemeOrdinal: Int = 0
+    private var currentStyleListOrdinal: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setupSelectLanguageDialog()
         setupSelectThemeDialog()
         setupSelectFormatDatetime()
+        setupSelectStyleListNotes()
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -49,6 +52,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.formatDateTime.setOnClickListener {
             showSelectFormatDateTime()
+        }
+
+        binding.typeLayoutManager.setOnClickListener {
+            showSelectStyleListNote()
         }
 
         observeViewModel()
@@ -88,6 +95,17 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private fun showSelectStyleListNote() {
+        SelectStyleListNote.show(parentFragmentManager, currentStyleListOrdinal)
+    }
+
+    private fun setupSelectStyleListNotes() {
+        SelectStyleListNote.setupListener(parentFragmentManager, this) {
+            val style = enumValues<DataStoreStyleListNotes>()[it]
+            viewModel.onStyleListNotes(style)
+        }
+    }
+
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.languageFlow.collectLatest {
@@ -107,6 +125,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 currentThemeOrdinal = it.typeTheme.ordinal
                 binding.theme.setCurrentValueText(getString(it.typeTheme.title))
                 (activity as MainActivity).setUIMode(it.typeTheme)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.styleListNotesFlow.collect {
+                currentStyleListOrdinal = it.dataStoreStyleListNotes.ordinal
+                binding.typeLayoutManager.setCurrentValueText(getString(it.dataStoreStyleListNotes.title))
             }
         }
     }

@@ -21,7 +21,6 @@ import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
-import com.amv.simple.app.mysupernotes.domain.util.TypeLayoutManager
 import com.amv.simple.app.mysupernotes.monetisation.loadBannerAds
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
@@ -31,11 +30,11 @@ import com.amv.simple.app.mysupernotes.presentation.mainList.MainListAdapter
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListViewModel
+import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragmentDirections
 import com.google.android.gms.ads.AdSize
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -52,12 +51,15 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
     lateinit var noteItemAdapter: MainListAdapter
     private var mainMenu: Menu? = null
 
-    private var noteStyle: TypeLayoutManager = TypeLayoutManager.LINEAR_LAYOUT_MANAGER
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMainListBinding.bind(view)
-        optionMenu()
+        /**
+         * optionMenu()
+         * Отключил потому что при смене вида пока не перезагрузиш страницу не обновляется, баг появился после того
+         * как добавил форматирование даты и времени. Связано все это как то с Flow
+         * переместил функционал временно в настройки приложения
+         */
 
         viewModel.noteList.observe(viewLifecycleOwner) { result ->
             renderSimpleResult(
@@ -70,7 +72,7 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.formatDateTimeFlow.collectLatest {
+            viewModel.formatDateTimeFlow.collect {
                 noteItemAdapter = MainListAdapter(it.formatDataTime.pattern, object : MainListAdapter.MainListListener {
                     override fun onChooseNote(noteItem: NoteItem) {
                         val action: NavDirections = when (this@BaseListFragment) {
@@ -163,16 +165,16 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
             }
         }
 
-        setupRv()
+        setupListNotes()
 
         loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, R.string.bannerMainList)
     }
 
-    private fun setupRv() {
+    private fun setupListNotes() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.preferencesFlow.collect {
-                binding.rvMainList.layoutManager = when (it.layoutManager) {
-                    TypeLayoutManager.LINEAR_LAYOUT_MANAGER -> {
+            viewModel.layoutManagerFlow.collect {
+                binding.rvMainList.layoutManager = when (it.dataStoreStyleListNotes) {
+                    DataStoreStyleListNotes.LIST -> {
                         LinearLayoutManager(
                             requireContext(),
                             LinearLayoutManager.VERTICAL,
@@ -180,7 +182,7 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
                         )
                     }
 
-                    TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER -> {
+                    DataStoreStyleListNotes.GRID -> {
                         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     }
                 }
@@ -210,10 +212,10 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     private fun setupMenu() = mainMenu?.run {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.preferencesFlow.collect {
+            viewModel.layoutManagerFlow.collect {
                 findItem(R.id.list_menu_type_layout_manager).apply {
-                    setIcon(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.drawable.ic_list_view else R.drawable.ic_grid_view)
-                    setTitle(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.string.list_menu_linear else R.string.list_menu_staggered_grid)
+//                    setIcon(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.drawable.ic_list_view else R.drawable.ic_grid_view)
+//                    setTitle(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.string.list_menu_linear else R.string.list_menu_staggered_grid)
                 }
             }
         }
@@ -221,15 +223,13 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     private fun setNoteStyle() {
         viewLifecycleOwner.lifecycleScope.launch {
-            noteStyle = when (viewModel.preferencesFlow.first().layoutManager) {
-                TypeLayoutManager.LINEAR_LAYOUT_MANAGER -> {
-                    viewModel.onTypeLayoutManager(TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER)
-                    TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER
+            when (viewModel.layoutManagerFlow.first().dataStoreStyleListNotes) {
+                DataStoreStyleListNotes.LIST -> {
+                    viewModel.onTypeLayoutManager(DataStoreStyleListNotes.GRID)
                 }
 
-                TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER -> {
-                    viewModel.onTypeLayoutManager(TypeLayoutManager.LINEAR_LAYOUT_MANAGER)
-                    TypeLayoutManager.LINEAR_LAYOUT_MANAGER
+                DataStoreStyleListNotes.GRID -> {
+                    viewModel.onTypeLayoutManager(DataStoreStyleListNotes.LIST)
                 }
             }
         }

@@ -20,8 +20,8 @@
     <string name="edit_toast_move_to_trash">This note been trashed</string>
     <string name="list_menu_search">Search</string>
     <string name="list_menu_sort">Sort</string>
-    <string name="list_menu_staggered_grid">In grid form</string>
-    <string name="list_menu_linear">In list form</string>
+    <string name="list_menu_staggered_grid">View by list</string>
+    <string name="list_menu_linear">View by grid</string>
     <string name="drawer_menu_all_notes">All Notes</string>
     <string name="drawer_menu_archive_notes">Archived Notes</string>
     <string name="drawer_menu_favorites">Favorited Notes</string>
@@ -50,4 +50,6 @@
     <string name="error_empty_list_archive_screen">Archive is empty</string>
     <string name="error_empty_list_favorite_screen">No favorites added</string>
     <string name="error_empty_list_trash_screen">Notes in trash will be automaticalle deleted in 31 days</string>
+    <string name="theme_confirm_dialog_style_list_notes">Note list style</string>
+    <string name="label_settings_my_style">My Style</string>
 </resources>

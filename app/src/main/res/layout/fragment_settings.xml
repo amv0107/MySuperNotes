@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Свой стиль"
+        android:text="@string/label_settings_my_style"
         android:textColor="@color/orange"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,19 +68,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelYourStyle"
-        app:title="Тема" />
+        app:title="@string/theme_confirm_dialog_theme_title" />
 
     <com.amv.simple.app.mysupernotes.presentation.settings.presentation.component.ItemSettingsView
         android:id="@+id/formatDateTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         app:currentValue="28/02/2024 - 17:59"
         app:visibleCurrentValue="true"
         app:icon="@drawable/ic_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/theme"
-        app:title="Формат даты и времени" />
+        app:title="@string/theme_confirm_dialog_date_title" />
+
+    <com.amv.simple.app.mysupernotes.presentation.settings.presentation.component.ItemSettingsView
+        android:id="@+id/typeLayoutManager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:currentValue="В виде сетки"
+        app:visibleCurrentValue="true"
+        app:icon="@drawable/ic_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/formatDateTime"
+        app:title="@string/theme_confirm_dialog_style_list_notes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
