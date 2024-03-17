@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Super Notes</string>
 
-    <string name="bannerMainList" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="bannerMainListTest" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="bannerMainList" translatable="false">ca-app-pub-1110739122430939/3858789652</string> <!-- BaseListFragment.kt  :170 -->
 
     <string name="blankTitle" translatable="false"> </string>
     <string name="open" translatable="false">Open</string>

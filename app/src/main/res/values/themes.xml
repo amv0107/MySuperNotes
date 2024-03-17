@@ -9,6 +9,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorControlNormal">@color/grey</item> <!-- Цвет системных значков(гамбургер и стрелочка назад) -->
         <item name="backgroundCardFromTheme">@color/white</item>
+        <item name="textColorAppFromTheme">@color/grey</item>
         <item name="backgroundAppFromTheme">@color/white</item>
     </style>
 

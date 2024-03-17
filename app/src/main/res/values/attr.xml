@@ -6,6 +6,7 @@
     <attr name="colorPrimaryTranscluent" format="color"/>
     <attr name="backgroundCardFromTheme" format="color"/>
     <attr name="backgroundAppFromTheme" format="color"/>
+    <attr name="textColorAppFromTheme" format="color"/>
 
     <declare-styleable name="ItemSettingsView">
         <attr name="title" format="string"/>
