@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "828560221369",
+    "project_id": "mysupernotes-103ed",
+    "storage_bucket": "mysupernotes-103ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828560221369:android:623fce0f3fced69b986768",
+        "android_client_info": {
+          "package_name": "com.amv.simple.app.mysupernotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDz6HJnLp2zFXC3ItiJBlQJYDfFWN5K1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

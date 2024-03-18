@@ -1,3 +1,72 @@
 <resources>
-    <string name="app_name">MySuperNotes</string>
+    <string name="app_name">Super Notes</string>
+
+    <string name="bannerMainListTest" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="bannerMainList" translatable="false">ca-app-pub-1110739122430939/3858789652</string> <!-- BaseListFragment.kt  :170 -->
+
+    <string name="blankTitle" translatable="false"> </string>
+    <string name="open" translatable="false">Open</string>
+    <string name="close" translatable="false">Close</string>
+
+    <string name="edit_menu_save_note">Сохранить</string>
+    <string name="edit_menu_pin">Закрепить</string>
+    <string name="edit_menu_unpin">Открепить</string>
+    <string name="edit_menu_lock">Блокировать</string>
+    <string name="edit_menu_unlock">Разблокировать</string>
+    <string name="edit_menu_add_favorite">Добавить в избранное</string>
+    <string name="edit_menu_un_favorite">Удалить из избранное</string>
+    <string name="edit_menu_archive">В архив</string>
+    <string name="edit_menu_unarchive">Из архива</string>
+    <string name="edit_menu_share">Поделиться</string>
+    <string name="edit_menu_delete">Удалить</string>
+    <string name="edit_toast_unpinned">Откреплено</string>
+    <string name="edit_toast_pinned">Закреплено</string>
+    <string name="edit_toast_favorite">Удалено из избранного</string>
+    <string name="edit_toast_un_favorite">Добавленно в избранное</string>
+    <string name="edit_toast_archive">Заметка отправлена в архив</string>
+    <string name="edit_toast_move_to_trash">Заметка отправлена в корзину</string>
+
+    <string name="list_menu_search">Поиск</string>
+    <string name="list_menu_sort">Сортировать</string>
+    <string name="list_menu_staggered_grid">В виде сетки</string>
+    <string name="list_menu_linear">В виде списка</string>
+
+    <string name="nav_header_subtitle" translatable="false">amv0107@gmail.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="drawer_menu_all_notes">Все заметки</string>
+    <string name="drawer_menu_archive_notes">Архивные заметки</string>
+    <string name="drawer_menu_favorites">Избранные</string>
+    <string name="drawer_menu_trash">Корзина</string>
+    <string name="drawer_menu_settings">Настройки</string>
+
+    <string name="indicator_untitled">Без названия...</string>
+    <string name="action_pin">Закерепить</string>
+    <string name="action_unpin">Открепить</string>
+    <string name="action_unarchive">Достать из архива</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_send">Отправить</string>
+    <string name="action_regain_access">Восстановить доступ</string>
+
+    <string name="title_screen_archive">В архиве</string>
+    <string name="title_screen_favorite">Избранное</string>
+    <string name="title_screen_trash">Корзина</string>
+    <string name="title_screen_settings">Настройки</string>
+
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="system_theme">Системные установки по умолчанию</string>
+
+    <string name="theme_confirm_dialog_select">Выбрать</string>
+    <string name="theme_confirm_dialog_cancel">Отмена</string>
+    <string name="theme_confirm_dialog_language_title">Язык</string>
+    <string name="theme_confirm_dialog_theme_title">Тема</string>
+    <string name="theme_confirm_dialog_style_list_notes">Стиль списка заметок</string>
+    <string name="theme_confirm_dialog_date_title">Формат даты</string>
+
+    <string name="error_empty_list_main_screen">Держите заметки организоваными</string>
+    <string name="error_empty_list_archive_screen">Архив пуст</string>
+    <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
+    <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
+    <string name="label_settings_my_style">Свой стиль</string>
+
 </resources>
