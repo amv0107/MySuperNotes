@@ -173,7 +173,6 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
             R.string.bannerMainList
         }
         loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, adUnitIdl)
-        loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, adUnitIdl)
     }
 
     private fun setupListNotes() {
