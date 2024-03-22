@@ -1,15 +1,18 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
@@ -26,9 +29,12 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "TAG"
 
 // Способы передачи аргумента для открытия заметки для редактирования:
 // !!!!---КАКОЙ ПРАВИЛЬНО НЕЗНАЮ---!!!!
@@ -75,11 +81,81 @@ class EditorFragment @Inject constructor() : Fragment() {
                     saveNote()
             }
         })
+
+        actionMenuCallback()
+        binding.formationMenu.setListener { action ->
+            when (action) {
+                FormationTextAction.BOLD -> showToast("Pressed BOLD")
+                FormationTextAction.ITALIC -> showToast("Pressed ITALIC")
+                FormationTextAction.UNDERLINED -> showToast("Pressed UNDERLINED")
+                FormationTextAction.COLOR_TEXT -> showToast("Pressed COLOR_TEXT")
+                FormationTextAction.COLOR_TEXT_FILL -> showToast("Pressed COLOR_TEXT_FILL")
+                FormationTextAction.TEXT_SIZE_DECREASE -> showToast("Pressed TEXT_SIZE_DECREASE")
+                FormationTextAction.TEXT_SIZE_INCREASE -> showToast("Pressed TEXT_SIZE_INCREASE")
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun actionMenuCallback() {
+//        binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
+//            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onActionItemClicked(mode: ActionMode?, menu: MenuItem?): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onDestroyActionMode(mode: ActionMode?) {
+//                TODO("Not yet implemented")
+//            }
+//        }
+
+        binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                Log.d(TAG, "onCreateActionMode: ")
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                Log.d(TAG, "onPrepareActionMode: ")
+                hideKeyboard()
+                binding.formationMenu.visibility = View.VISIBLE
+                return false
+            }
+
+            override fun onActionItemClicked(mode: ActionMode?, menu: MenuItem?): Boolean {
+                Log.d(TAG, "onActionItemClicked: ")
+                return true
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                Log.d(TAG, "onDestroyActionMode: ")
+                binding.formationMenu.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun hideKeyboard() {
+        try {
+            val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.etTextContentNote.windowToken, 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun optionsMenu() {

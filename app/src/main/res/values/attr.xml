@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Navigation drawer -->
-    <attr name="colorDrawerBackground" format="color"/>
-    <attr name="colorDrawerItemRipple" format="color"/>
-    <attr name="colorPrimaryTranscluent" format="color"/>
-    <attr name="backgroundCardFromTheme" format="color"/>
-    <attr name="backgroundAppFromTheme" format="color"/>
-    <attr name="textColorAppFromTheme" format="color"/>
+    <attr name="colorDrawerBackground" format="color" />
+    <attr name="colorDrawerItemRipple" format="color" />
+    <attr name="colorPrimaryTranscluent" format="color" />
+    <attr name="backgroundCardFromTheme" format="color" />
+    <attr name="backgroundAppFromTheme" format="color" />
+    <attr name="textColorAppFromTheme" format="color" />
+    <attr name="backgroundColorCustomMenu" format="color"/> <!-- Фон меню -->
+    <attr name="colorIconCustomMenu" format="color"/> <!-- Цвет иконок в меню -->
+
+    <!-- Formation Menu -->
+    <declare-styleable name="FormationTextView">
+        <attr name="backgroundMenu" format="color" /> <!-- Фон всего элемента -->
+        <attr name="colorIcon" format="color" /> <!-- Цвет иконки -->
+    </declare-styleable>
 
     <declare-styleable name="ItemSettingsView">
-        <attr name="title" format="string"/>
-        <attr name="currentValue" format="string"/>
-        <attr name="icon" format="reference"/>
-        <attr name="visibleCurrentValue" format="boolean"/>
+        <attr name="title" format="string" />
+        <attr name="currentValue" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="visibleCurrentValue" format="boolean" />
     </declare-styleable>
 </resources>
