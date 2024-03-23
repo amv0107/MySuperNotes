@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
@@ -19,6 +18,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +29,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -97,13 +98,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.BOLD -> FormationText.bold(startPos, endPos, editText)
                 FormationTextAction.ITALIC -> FormationText.italic(startPos, endPos, editText)
                 FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
-
-                FormationTextAction.ALIGN -> Toast.makeText(
-                    requireContext(),
-                    "Open FormationParagraphAlignMenu",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                FormationTextAction.ALIGN -> showFormationParagraphAlignMenu()
                 FormationTextAction.COLOR_TEXT -> FormationText.foregroundColorText(startPos, endPos, editText)
                 FormationTextAction.COLOR_TEXT_FILL -> FormationText.backgroundColorText(startPos, endPos, editText)
                 FormationTextAction.TEXT_SIZE_DECREASE -> FormationText.sizeTextDecrease(startPos, endPos, editText)
@@ -111,6 +106,25 @@ class EditorFragment @Inject constructor() : Fragment() {
             }
         }
 
+        binding.formationAlignMenu.setListener { action ->
+            val startPos = binding.etTextContentNote.selectionStart
+            val endPos = binding.etTextContentNote.selectionEnd
+            val editText = binding.etTextContentNote
+
+            when (action) {
+                FormationParagraphAlignAction.LEFT -> FormationParagraph.alignLeft(startPos, endPos, editText)
+                FormationParagraphAlignAction.CENTER -> FormationParagraph.alignCenter(startPos, endPos, editText)
+                FormationParagraphAlignAction.RIGHT -> FormationParagraph.alignRight(startPos, endPos, editText)
+            }
+        }
+    }
+
+    private fun showFormationParagraphAlignMenu() {
+        binding.formationAlignMenu.visibility = if (binding.formationAlignMenu.isVisible) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
     }
 
     override fun onDestroy() {
@@ -135,6 +149,7 @@ class EditorFragment @Inject constructor() : Fragment() {
             }
 
             override fun onDestroyActionMode(mode: ActionMode?) {
+                binding.formationAlignMenu.visibility = View.GONE
                 binding.formationMenu.visibility = View.GONE
             }
         }

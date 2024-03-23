@@ -51,17 +51,17 @@ class FormationTextView(
 
         with(binding) {
             val backgroundMenu = typedArray.getColor(R.styleable.FormationTextView_backgroundMenu, Color.WHITE)
-            binding.layout.backgroundTintList = ColorStateList.valueOf(backgroundMenu)
+            layout.backgroundTintList = ColorStateList.valueOf(backgroundMenu)
 
             val colorIcon = typedArray.getColor(R.styleable.FormationTextView_colorIcon, Color.GRAY)
-            binding.btnBold.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.btnItalic.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.btnUnderlined.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.btnFormatColorText.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.btnFormatColorFill.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.btnTextDecrease.imageTintList = ColorStateList.valueOf(colorIcon)
-            binding.tvSize.setTextColor(ColorStateList.valueOf(colorIcon))
-            binding.btnTextIncrease.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnBold.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnItalic.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnUnderlined.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnFormatColorText.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnFormatColorFill.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnTextDecrease.imageTintList = ColorStateList.valueOf(colorIcon)
+            tvSize.setTextColor(ColorStateList.valueOf(colorIcon))
+            btnTextIncrease.imageTintList = ColorStateList.valueOf(colorIcon)
 
 //            val currentSize = typedArray.getString(R.styleable.)
         }
