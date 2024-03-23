@@ -84,20 +84,27 @@ class EditorFragment @Inject constructor() : Fragment() {
 
         actionMenuCallback()
         binding.formationMenu.setListener { action ->
+            val startPos = binding.etTextContentNote.selectionStart
+            val endPos = binding.etTextContentNote.selectionEnd
+            val editText = binding.etTextContentNote
+
             when (action) {
-                FormationTextAction.BOLD -> showToast("Pressed BOLD")
-                FormationTextAction.ITALIC -> showToast("Pressed ITALIC")
-                FormationTextAction.UNDERLINED -> showToast("Pressed UNDERLINED")
-                FormationTextAction.COLOR_TEXT -> showToast("Pressed COLOR_TEXT")
-                FormationTextAction.COLOR_TEXT_FILL -> showToast("Pressed COLOR_TEXT_FILL")
-                FormationTextAction.TEXT_SIZE_DECREASE -> showToast("Pressed TEXT_SIZE_DECREASE")
-                FormationTextAction.TEXT_SIZE_INCREASE -> showToast("Pressed TEXT_SIZE_INCREASE")
+                FormationTextAction.BOLD -> FormationText.bold(startPos, endPos, editText)
+                FormationTextAction.ITALIC -> FormationText.italic(startPos, endPos, editText)
+                FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
+
+                FormationTextAction.ALIGN -> Toast.makeText(
+                    requireContext(),
+                    "Open FormationParagraphAlignMenu",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                FormationTextAction.COLOR_TEXT -> FormationText.foregroundColorText(startPos, endPos, editText)
+                FormationTextAction.COLOR_TEXT_FILL -> FormationText.backgroundColorText(startPos, endPos, editText)
+                FormationTextAction.TEXT_SIZE_DECREASE -> FormationText.sizeTextDecrease(startPos, endPos, editText)
+                FormationTextAction.TEXT_SIZE_INCREASE -> FormationText.sizeTextIncrease(startPos, endPos, editText)
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
@@ -106,44 +113,22 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun actionMenuCallback() {
-//        binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
-//            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onActionItemClicked(mode: ActionMode?, menu: MenuItem?): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onDestroyActionMode(mode: ActionMode?) {
-//                TODO("Not yet implemented")
-//            }
-//        }
-
         binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                Log.d(TAG, "onCreateActionMode: ")
                 return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                Log.d(TAG, "onPrepareActionMode: ")
                 hideKeyboard()
                 binding.formationMenu.visibility = View.VISIBLE
                 return false
             }
 
             override fun onActionItemClicked(mode: ActionMode?, menu: MenuItem?): Boolean {
-                Log.d(TAG, "onActionItemClicked: ")
                 return true
             }
 
             override fun onDestroyActionMode(mode: ActionMode?) {
-                Log.d(TAG, "onDestroyActionMode: ")
                 binding.formationMenu.visibility = View.GONE
             }
         }

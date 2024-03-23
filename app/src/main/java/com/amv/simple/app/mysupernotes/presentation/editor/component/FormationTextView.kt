@@ -12,7 +12,8 @@ import com.google.android.material.card.MaterialCardView
 enum class FormationTextAction {
     BOLD,
     ITALIC,
-    UNDERLINED,
+    UNDERLINE,
+    ALIGN,
     COLOR_TEXT,
     COLOR_TEXT_FILL,
     TEXT_SIZE_DECREASE,
@@ -61,6 +62,8 @@ class FormationTextView(
             binding.btnTextDecrease.imageTintList = ColorStateList.valueOf(colorIcon)
             binding.tvSize.setTextColor(ColorStateList.valueOf(colorIcon))
             binding.btnTextIncrease.imageTintList = ColorStateList.valueOf(colorIcon)
+
+//            val currentSize = typedArray.getString(R.styleable.)
         }
 
         typedArray.recycle()
@@ -70,7 +73,8 @@ class FormationTextView(
         with(binding) {
             btnBold.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.BOLD) }
             btnItalic.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.ITALIC) }
-            btnUnderlined.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.UNDERLINED) }
+            btnUnderlined.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.UNDERLINE) }
+            btnAlign.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.ALIGN) }
             btnFormatColorText.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT) }
             btnFormatColorFill.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT_FILL) }
             btnTextDecrease.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.TEXT_SIZE_DECREASE) }
