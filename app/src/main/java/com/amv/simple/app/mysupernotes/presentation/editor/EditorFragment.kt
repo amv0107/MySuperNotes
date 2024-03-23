@@ -83,6 +83,11 @@ class EditorFragment @Inject constructor() : Fragment() {
         })
 
         actionMenuCallback()
+
+        listeners()
+    }
+
+    private fun listeners() {
         binding.formationMenu.setListener { action ->
             val startPos = binding.etTextContentNote.selectionStart
             val endPos = binding.etTextContentNote.selectionEnd
@@ -105,6 +110,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.TEXT_SIZE_INCREASE -> FormationText.sizeTextIncrease(startPos, endPos, editText)
             }
         }
+
     }
 
     override fun onDestroy() {
