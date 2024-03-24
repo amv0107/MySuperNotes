@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
@@ -93,12 +94,14 @@ class EditorFragment @Inject constructor() : Fragment() {
             val startPos = binding.etTextContentNote.selectionStart
             val endPos = binding.etTextContentNote.selectionEnd
             val editText = binding.etTextContentNote
+            val color = ContextCompat.getColor(requireContext(), R.color.grey)
 
             when (action) {
                 FormationTextAction.BOLD -> FormationText.bold(startPos, endPos, editText)
                 FormationTextAction.ITALIC -> FormationText.italic(startPos, endPos, editText)
                 FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
                 FormationTextAction.ALIGN -> showFormationParagraphAlignMenu()
+                FormationTextAction.BULLET -> FormationParagraph.bulletSpan(startPos, endPos, editText, color)
                 FormationTextAction.COLOR_TEXT -> FormationText.foregroundColorText(startPos, endPos, editText)
                 FormationTextAction.COLOR_TEXT_FILL -> FormationText.backgroundColorText(startPos, endPos, editText)
                 FormationTextAction.TEXT_SIZE_DECREASE -> FormationText.sizeTextDecrease(startPos, endPos, editText)

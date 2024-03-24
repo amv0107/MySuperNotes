@@ -14,6 +14,7 @@ enum class FormationTextAction {
     ITALIC,
     UNDERLINE,
     ALIGN,
+    BULLET,
     COLOR_TEXT,
     COLOR_TEXT_FILL,
     TEXT_SIZE_DECREASE,
@@ -57,6 +58,8 @@ class FormationTextView(
             btnBold.imageTintList = ColorStateList.valueOf(colorIcon)
             btnItalic.imageTintList = ColorStateList.valueOf(colorIcon)
             btnUnderlined.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnAlign.imageTintList = ColorStateList.valueOf(colorIcon)
+            btnBulletList.imageTintList = ColorStateList.valueOf(colorIcon)
             btnFormatColorText.imageTintList = ColorStateList.valueOf(colorIcon)
             btnFormatColorFill.imageTintList = ColorStateList.valueOf(colorIcon)
             btnTextDecrease.imageTintList = ColorStateList.valueOf(colorIcon)
@@ -75,6 +78,7 @@ class FormationTextView(
             btnItalic.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.ITALIC) }
             btnUnderlined.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.UNDERLINE) }
             btnAlign.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.ALIGN) }
+            btnBulletList.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.BULLET) }
             btnFormatColorText.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT) }
             btnFormatColorFill.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT_FILL) }
             btnTextDecrease.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.TEXT_SIZE_DECREASE) }
