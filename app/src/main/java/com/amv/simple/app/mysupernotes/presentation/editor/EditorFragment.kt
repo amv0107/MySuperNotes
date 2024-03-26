@@ -43,6 +43,12 @@ private const val TAG = "TAG"
 // - Передать из id и в EditorFragment загрузить из БД заметку (Пока выбрал этот способ)
 // - Передать заметку как Parcelable
 // - Через SharedViewModel
+
+private enum class TextColouring {
+    FOREGROUND,
+    BACKGROUND
+}
+
 @AndroidEntryPoint
 class EditorFragment @Inject constructor() : Fragment() {
 
@@ -59,6 +65,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     private var isFavorite: Boolean = false
     private var isArchive: Boolean = false
     private var isDelete: Boolean = false
+    private lateinit var textColouring: TextColouring
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +97,16 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun listeners() {
+        binding.selectColorPicker.setListener {color ->
+            val startPos = binding.etTextContentNote.selectionStart
+            val endPos = binding.etTextContentNote.selectionEnd
+            val editText = binding.etTextContentNote
+            when(textColouring) {
+                TextColouring.FOREGROUND -> FormationText.foregroundColorText(startPos, endPos, color, editText)
+                TextColouring.BACKGROUND -> FormationText.backgroundColorText(startPos, endPos, color, editText)
+            }
+        }
+
         binding.formationMenu.setListener { action ->
             val startPos = binding.etTextContentNote.selectionStart
             val endPos = binding.etTextContentNote.selectionEnd
@@ -102,8 +119,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
                 FormationTextAction.ALIGN -> showFormationParagraphAlignMenu()
                 FormationTextAction.BULLET -> FormationParagraph.bulletSpan(startPos, endPos, editText, color)
-                FormationTextAction.COLOR_TEXT -> FormationText.foregroundColorText(startPos, endPos, editText)
-                FormationTextAction.COLOR_TEXT_FILL -> FormationText.backgroundColorText(startPos, endPos, editText)
+                FormationTextAction.COLOR_TEXT -> showColorPicker(TextColouring.FOREGROUND)
+                FormationTextAction.COLOR_TEXT_FILL -> showColorPicker(TextColouring.BACKGROUND)
                 FormationTextAction.TEXT_SIZE_DECREASE -> FormationText.sizeTextDecrease(startPos, endPos, editText)
                 FormationTextAction.TEXT_SIZE_INCREASE -> FormationText.sizeTextIncrease(startPos, endPos, editText)
             }
@@ -120,14 +137,27 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationParagraphAlignAction.RIGHT -> FormationParagraph.alignRight(startPos, endPos, editText)
             }
         }
+
+    }
+
+    private fun showColorPicker(textColouring: TextColouring) {
+        binding.selectColorPicker.visibility = if (binding.selectColorPicker.isVisible)
+            View.GONE
+        else {
+            binding.formationAlignMenu.visibility = View.GONE
+            this.textColouring = textColouring
+            View.VISIBLE
+        }
     }
 
     private fun showFormationParagraphAlignMenu() {
-        binding.formationAlignMenu.visibility = if (binding.formationAlignMenu.isVisible) {
+        val visibility = if (binding.formationAlignMenu.isVisible) {
             View.GONE
         } else {
+            binding.selectColorPicker.visibility = View.GONE
             View.VISIBLE
         }
+        binding.formationAlignMenu.visibility = visibility
     }
 
     override fun onDestroy() {
@@ -153,6 +183,7 @@ class EditorFragment @Inject constructor() : Fragment() {
 
             override fun onDestroyActionMode(mode: ActionMode?) {
                 binding.formationAlignMenu.visibility = View.GONE
+                binding.selectColorPicker.visibility = View.GONE
                 binding.formationMenu.visibility = View.GONE
             }
         }

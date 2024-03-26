@@ -91,13 +91,27 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
-            tools:visibility="visible"
             app:backgroundMenu="@color/white"
             app:cardElevation="4dp"
             app:colorIcon="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <com.amv.simple.app.mysupernotes.presentation.editor.component.ColorPickerView
+            android:id="@+id/selectColorPicker"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"
+            app:backgroundColorPickerMenu="@color/white"
+            app:cardElevation="4dp"
+            app:colorList="@array/color_palette"
+            app:layout_constraintBottom_toTopOf="@id/formationMenu"
+            app:layout_constraintEnd_toEndOf="@id/formationMenu"
+            tools:visibility="visible" />
 
         <com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignView
             android:id="@+id/formationAlignMenu"
@@ -107,13 +121,13 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
-            tools:visibility="visible"
             app:backgroundMenu="@color/white"
             app:cardElevation="4dp"
             app:colorIcon="@color/grey"
             app:layout_constraintBottom_toTopOf="@id/formationMenu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
