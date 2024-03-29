@@ -66,6 +66,27 @@ class FormationParagraphAlignView(
         }
     }
 
+    fun setBackgroundLeftBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnLeft.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnLeft.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundCenterBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnCenter.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnCenter.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundRightBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnRight.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnRight.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
     fun setListener(listener: OnFormationParagraphAlignActionListener?) {
         this.listener = listener
     }

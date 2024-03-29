@@ -3,7 +3,13 @@ package com.amv.simple.app.mysupernotes.presentation.editor
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Layout
+import android.text.style.AlignmentSpan
+import android.text.style.BulletSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
@@ -97,11 +103,11 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun listeners() {
-        binding.selectColorPicker.setListener {color ->
+        binding.selectColorPicker.setListener { color ->
             val startPos = binding.etTextContentNote.selectionStart
             val endPos = binding.etTextContentNote.selectionEnd
             val editText = binding.etTextContentNote
-            when(textColouring) {
+            when (textColouring) {
                 TextColouring.FOREGROUND -> FormationText.foregroundColorText(startPos, endPos, color, editText)
                 TextColouring.BACKGROUND -> FormationText.backgroundColorText(startPos, endPos, color, editText)
             }
@@ -121,8 +127,12 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.BULLET -> FormationParagraph.bulletSpan(startPos, endPos, editText, color)
                 FormationTextAction.COLOR_TEXT -> showColorPicker(TextColouring.FOREGROUND)
                 FormationTextAction.COLOR_TEXT_FILL -> showColorPicker(TextColouring.BACKGROUND)
-                FormationTextAction.TEXT_SIZE_DECREASE -> FormationText.sizeTextDecrease(startPos, endPos, editText)
-                FormationTextAction.TEXT_SIZE_INCREASE -> FormationText.sizeTextIncrease(startPos, endPos, editText)
+                FormationTextAction.TEXT_SIZE -> FormationText.sizeText(
+                    startPos = startPos,
+                    endPos = endPos,
+                    size = binding.formationMenu.sizeText,
+                    view = editText
+                )
             }
         }
 
@@ -151,13 +161,12 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun showFormationParagraphAlignMenu() {
-        val visibility = if (binding.formationAlignMenu.isVisible) {
+        binding.formationAlignMenu.visibility = if (binding.formationAlignMenu.isVisible) {
             View.GONE
         } else {
             binding.selectColorPicker.visibility = View.GONE
             View.VISIBLE
         }
-        binding.formationAlignMenu.visibility = visibility
     }
 
     override fun onDestroy() {
@@ -174,6 +183,8 @@ class EditorFragment @Inject constructor() : Fragment() {
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 hideKeyboard()
                 binding.formationMenu.visibility = View.VISIBLE
+                setStateButtonMenuFormation()
+                setStateButtonAlign()
                 return false
             }
 
@@ -187,6 +198,58 @@ class EditorFragment @Inject constructor() : Fragment() {
                 binding.formationMenu.visibility = View.GONE
             }
         }
+    }
+
+    private fun setStateButtonAlign() {
+        val startPos = binding.etTextContentNote.selectionStart
+        val endPos = binding.etTextContentNote.selectionEnd
+
+        val stateAlign = binding.etTextContentNote.text.getSpans(
+            startPos,
+            endPos,
+            AlignmentSpan::class.java
+        )
+
+        val leftState = stateAlign.any { it.alignment == Layout.Alignment.ALIGN_NORMAL }
+        val centerState = stateAlign.any { it.alignment == Layout.Alignment.ALIGN_CENTER }
+        val rightState = stateAlign.any { it.alignment == Layout.Alignment.ALIGN_OPPOSITE }
+
+        binding.formationAlignMenu.setBackgroundLeftBtn(leftState)
+        binding.formationAlignMenu.setBackgroundCenterBtn(centerState)
+        binding.formationAlignMenu.setBackgroundRightBtn(rightState)
+    }
+
+    private fun setStateButtonMenuFormation() {
+        val startPos = binding.etTextContentNote.selectionStart
+        val endPos = binding.etTextContentNote.selectionEnd
+
+        val stateStyleSpan = binding.etTextContentNote.text.getSpans(
+            startPos,
+            endPos,
+            StyleSpan::class.java
+        )
+
+        val boldSate = stateStyleSpan.any { it.style == Typeface.BOLD }
+        binding.formationMenu.setBackgroundBoldBtn(boldSate)
+
+        val italicSate = stateStyleSpan.any { it.style == Typeface.ITALIC }
+        binding.formationMenu.setBackgroundItalicBtn(italicSate)
+
+        binding.formationMenu.setBackgroundUnderlineBtn(
+            binding.etTextContentNote.text.getSpans(
+                startPos,
+                endPos,
+                UnderlineSpan::class.java
+            ).isNotEmpty()
+        )
+
+        binding.formationMenu.setBackgroundBulletBtn(
+            binding.etTextContentNote.text.getSpans(
+                startPos,
+                endPos,
+                BulletSpan::class.java
+            ).isNotEmpty()
+        )
     }
 
     private fun hideKeyboard() {

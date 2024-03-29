@@ -3,6 +3,8 @@ package com.amv.simple.app.mysupernotes.presentation.editor.component
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.amv.simple.app.mysupernotes.R
@@ -17,8 +19,7 @@ enum class FormationTextAction {
     BULLET,
     COLOR_TEXT,
     COLOR_TEXT_FILL,
-    TEXT_SIZE_DECREASE,
-    TEXT_SIZE_INCREASE
+    TEXT_SIZE,
 }
 
 typealias OnFormationTextActionListener = (FormationTextAction) -> Unit
@@ -34,6 +35,7 @@ class FormationTextView(
 ) {
     private val binding: MenuFormationTextBinding
     private var listener: OnFormationTextActionListener? = null
+    var sizeText: Int = 18
 
     constructor(context: Context, attrsSet: AttributeSet?) : this(context, attrsSet, 0)
     constructor(context: Context) : this(context, null)
@@ -81,9 +83,80 @@ class FormationTextView(
             btnBulletList.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.BULLET) }
             btnFormatForegroundText.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT) }
             btnFormatBackgroundText.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.COLOR_TEXT_FILL) }
-            btnTextDecrease.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.TEXT_SIZE_DECREASE) }
-            btnTextIncrease.setOnClickListener { this@FormationTextView.listener?.invoke(FormationTextAction.TEXT_SIZE_INCREASE) }
+            tvSize.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    sizeText = tvSize.text.toString().toInt()
+                    this@FormationTextView.listener?.invoke(FormationTextAction.TEXT_SIZE)
+                }
+
+                override fun afterTextChanged(p0: Editable?) {}
+            })
+            btnTextDecrease.setOnClickListener { binding.tvSize.text = decreaseSize().toString() }
+            btnTextIncrease.setOnClickListener { binding.tvSize.text = increaseSize().toString() }
         }
+    }
+
+    private fun decreaseSize(): Int {
+        var size = binding.tvSize.text.toString().toInt()
+        size -= 2
+        return size
+    }
+
+    private fun increaseSize(): Int {
+        var size = binding.tvSize.text.toString().toInt()
+        size += 2
+        return size
+    }
+
+    fun setBackgroundBoldBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnBold.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnBold.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundItalicBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnItalic.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnItalic.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundAlignBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnAlign.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnAlign.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundBulletBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnBulletList.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnBulletList.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundForegroundBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnFormatForegroundText.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnFormatForegroundText.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundBackgroundBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnFormatBackgroundText.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnFormatBackgroundText.setBackgroundColor(resources.getColor(R.color.white))
+    }
+
+    fun setBackgroundUnderlineBtn(isSelected: Boolean) {
+        if (isSelected)
+            binding.btnUnderlined.setBackgroundColor(resources.getColor(R.color.orange_10))
+        else
+            binding.btnUnderlined.setBackgroundColor(resources.getColor(R.color.white))
     }
 
     fun setListener(listener: OnFormationTextActionListener?) {
