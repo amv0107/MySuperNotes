@@ -105,12 +105,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
             android:visibility="gone"
             app:backgroundColorPickerMenu="@color/white"
             app:cardElevation="4dp"
             app:colorList="@array/color_palette"
             app:layout_constraintBottom_toTopOf="@id/formationMenu"
-            app:layout_constraintEnd_toEndOf="@id/formationMenu"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:visibility="visible" />
 
         <com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignView

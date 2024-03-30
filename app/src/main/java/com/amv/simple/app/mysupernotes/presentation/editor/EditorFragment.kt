@@ -5,11 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Html
 import android.text.Layout
 import android.text.style.AlignmentSpan
 import android.text.style.BulletSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
@@ -22,6 +24,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
@@ -36,6 +39,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.core.HtmlManager
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -375,12 +379,12 @@ class EditorFragment @Inject constructor() : Fragment() {
         if (args.noteId == 0) {
             viewModel.addNoteItem(
                 binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString(),
+                Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_LEGACY),
             )
         } else {
             viewModel.updateNoteItem(
                 binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString()
+                Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_LEGACY)
             )
         }
     }
@@ -398,7 +402,9 @@ class EditorFragment @Inject constructor() : Fragment() {
                 binding.apply {
                     etTitleNote.setText(item.title)
                     tvDateTimeNote.text = item.date
-                    etTextContentNote.setText(item.textContent)
+                    etTextContentNote.setText(
+                        HtmlCompat.fromHtml(item.textContent, HtmlCompat.FROM_HTML_MODE_LEGACY).trim()
+                    )
                 }
             }
         }

@@ -11,6 +11,10 @@ import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.MenuColorPickerBinding
 import com.google.android.material.card.MaterialCardView
 
+/**
+ * Used: https://nikhilhere.medium.com/custom-color-picker-using-radio-buttons-32d31fe4605c
+ */
+
 typealias OnFormationForegroundColorListener = (color: Int) -> Unit
 
 class ColorPickerView(

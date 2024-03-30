@@ -72,6 +72,8 @@ object FormationText {
     }
 
     fun sizeText(startPos: Int, endPos: Int, size: Int, view: EditText) {
+        val styles = view.text.getSpans(startPos, endPos, AbsoluteSizeSpan::class.java)
+        if (styles.isNotEmpty()) view.text.removeSpan(styles[0])
         view.text.setSpan(AbsoluteSizeSpan(size, true), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.text.trim()
     }
