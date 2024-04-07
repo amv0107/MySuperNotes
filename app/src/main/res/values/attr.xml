@@ -29,7 +29,6 @@
     </declare-styleable>
 
     <declare-styleable name="ColorPickerView">
-        <attr name="colorList" format="reference" /> <!-- Список цветов -->
         <attr name="checkedColor" format="integer" /> <!-- Какой цвет выбран -->
         <attr name="rgbCircle" format="boolean" /> <!-- Включить/отключить последнюю кнопку для выбора произвольного цвета в формате RGB -->
         <attr name="backgroundColorPickerMenu" format="color" /> <!-- Фон всего меню -->

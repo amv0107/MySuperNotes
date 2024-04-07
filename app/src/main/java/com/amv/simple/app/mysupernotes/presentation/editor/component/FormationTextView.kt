@@ -37,6 +37,24 @@ class FormationTextView(
     private var listener: OnFormationTextActionListener? = null
     var sizeText: Int = 18
 
+    var isSelectedForeground: Boolean = false
+        set(value) {
+            field = value
+            if (value)
+                binding.btnFormatForegroundText.setBackgroundColor(resources.getColor(R.color.orange_10))
+            else
+                binding.btnFormatForegroundText.setBackgroundColor(resources.getColor(R.color.white))
+        }
+
+    var isSelectedBackground: Boolean = false
+        set(value) {
+            field = value
+            if (value)
+                binding.btnFormatBackgroundText.setBackgroundColor(resources.getColor(R.color.orange_10))
+            else
+                binding.btnFormatBackgroundText.setBackgroundColor(resources.getColor(R.color.white))
+        }
+
     constructor(context: Context, attrsSet: AttributeSet?) : this(context, attrsSet, 0)
     constructor(context: Context) : this(context, null)
 

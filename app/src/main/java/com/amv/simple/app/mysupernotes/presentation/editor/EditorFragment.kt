@@ -3,7 +3,10 @@ package com.amv.simple.app.mysupernotes.presentation.editor
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
+import android.icu.number.IntegerWidth
 import android.os.Bundle
 import android.text.Html
 import android.text.Layout
@@ -20,10 +23,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.IntegerRes
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -40,8 +47,10 @@ import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.core.HtmlManager
+import com.amv.simple.app.mysupernotes.presentation.editor.component.ColorPickerView
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,7 +63,7 @@ private const val TAG = "TAG"
 // - Передать заметку как Parcelable
 // - Через SharedViewModel
 
-private enum class TextColouring {
+private enum class WhatWePaint {
     FOREGROUND,
     BACKGROUND
 }
@@ -75,7 +84,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     private var isFavorite: Boolean = false
     private var isArchive: Boolean = false
     private var isDelete: Boolean = false
-    private lateinit var textColouring: TextColouring
+    private lateinit var whatWePaint: WhatWePaint
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,9 +120,9 @@ class EditorFragment @Inject constructor() : Fragment() {
             val startPos = binding.etTextContentNote.selectionStart
             val endPos = binding.etTextContentNote.selectionEnd
             val editText = binding.etTextContentNote
-            when (textColouring) {
-                TextColouring.FOREGROUND -> FormationText.foregroundColorText(startPos, endPos, color, editText)
-                TextColouring.BACKGROUND -> FormationText.backgroundColorText(startPos, endPos, color, editText)
+            when (whatWePaint) {
+                WhatWePaint.FOREGROUND -> FormationText.foregroundColorText(startPos, endPos, color, editText)
+                WhatWePaint.BACKGROUND -> FormationText.backgroundColorText(startPos, endPos, color, editText)
             }
         }
 
@@ -129,8 +138,14 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
                 FormationTextAction.ALIGN -> showFormationParagraphAlignMenu()
                 FormationTextAction.BULLET -> FormationParagraph.bulletSpan(startPos, endPos, editText, color)
-                FormationTextAction.COLOR_TEXT -> showColorPicker(TextColouring.FOREGROUND)
-                FormationTextAction.COLOR_TEXT_FILL -> showColorPicker(TextColouring.BACKGROUND)
+                FormationTextAction.COLOR_TEXT -> showColorPicker(WhatWePaint.FOREGROUND, startPos, endPos, editText)
+                FormationTextAction.COLOR_TEXT_FILL -> showColorPicker(
+                    WhatWePaint.BACKGROUND,
+                    startPos,
+                    endPos,
+                    editText
+                )
+
                 FormationTextAction.TEXT_SIZE -> FormationText.sizeText(
                     startPos = startPos,
                     endPos = endPos,
@@ -151,16 +166,40 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationParagraphAlignAction.RIGHT -> FormationParagraph.alignRight(startPos, endPos, editText)
             }
         }
-
     }
 
-    private fun showColorPicker(textColouring: TextColouring) {
-        binding.selectColorPicker.visibility = if (binding.selectColorPicker.isVisible)
-            View.GONE
+    private fun showColorPicker(whatWePaint: WhatWePaint, startPos: Int, endPos: Int, view: EditText) {
+        if (this::whatWePaint.isInitialized && this.whatWePaint == whatWePaint && binding.selectColorPicker.isVisible) {
+            binding.selectColorPicker.visibility = View.GONE
+            binding.formationMenu.isSelectedForeground = false
+            binding.formationMenu.isSelectedBackground = false
+        }
         else {
+            if (binding.selectColorPicker.isVisible) {
+                binding.selectColorPicker.visibility = View.GONE
+                binding.formationMenu.isSelectedForeground = false
+                binding.formationMenu.isSelectedBackground = false
+            }
+            this.whatWePaint = whatWePaint
             binding.formationAlignMenu.visibility = View.GONE
-            this.textColouring = textColouring
-            View.VISIBLE
+            when (whatWePaint) {
+                WhatWePaint.FOREGROUND -> {
+                    binding.selectColorPicker.currentColor =
+                        FormationText.getForegroundColorText(startPos, endPos, view)
+                    binding.selectColorPicker.listColor =
+                        requireContext().resources.getStringArray(R.array.color_palette_foreground)
+                    binding.formationMenu.isSelectedForeground = true
+                }
+
+                WhatWePaint.BACKGROUND -> {
+                    binding.selectColorPicker.currentColor =
+                        FormationText.getBackgroundColorText(startPos, endPos, view)
+                    binding.selectColorPicker.listColor =
+                        requireContext().resources.getStringArray(R.array.color_palette_background)
+                    binding.formationMenu.isSelectedBackground = true
+                }
+            }
+            binding.selectColorPicker.visibility = View.VISIBLE
         }
     }
 
@@ -352,9 +391,7 @@ class EditorFragment @Inject constructor() : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.edit_toast_archive), Toast.LENGTH_SHORT).show()
     }
 
-    private fun shareNote() {
-        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
-    }
+    private fun shareNote() = startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
 
     private fun deleteNote() {
         viewModel.moveNoteToTrash()
@@ -388,7 +425,6 @@ class EditorFragment @Inject constructor() : Fragment() {
             )
         }
     }
-
 
     private fun launchAddMode() {
         binding.tvDateTimeNote.text = TimeManager.getCurrentTime()

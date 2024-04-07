@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="color_palette">
-        <item>#FDCE43</item>
-        <item>#FE6813</item>
-        <item>#262626</item>
-        <item>#7BC8FC</item>
-        <item>#FEA1CE</item>
-        <item>#84E482</item>
-        <item>#C49AFA</item>
+    <string-array name="color_palette_foreground">
+        <item>#FFFEA1CE</item>
+        <item>#FF84E482</item>
+        <item>#FFFE6813</item>
+        <item>#FFFDCE43</item>
+        <item>#FFC49AFA</item>
+        <item>#FF262626</item>
+        <item>#FF808080</item>
+    </string-array>
+
+    <string-array name="color_palette_background">
+        <item>#FFFEA1CE</item>
+        <item>#FF84E482</item>
+        <item>#FFFE6813</item>
+        <item>#FFFDCE43</item>
+        <item>#FFC49AFA</item>
+        <item>#FF808080</item>
+        <item>#FFFFFFFF</item>
     </string-array>
 </resources>

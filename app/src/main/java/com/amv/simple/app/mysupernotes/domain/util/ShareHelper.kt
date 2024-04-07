@@ -1,6 +1,7 @@
 package com.amv.simple.app.mysupernotes.domain.util
 
 import android.content.Intent
+import android.text.Html
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 
 object ShareHelper {
@@ -18,7 +19,7 @@ object ShareHelper {
         val sBuilder = StringBuilder()
         sBuilder.append("--- ${noteItem.title} ---")
         sBuilder.append("\n\n")
-        sBuilder.append(noteItem.textContent)
+        sBuilder.append(Html.fromHtml(noteItem.textContent, Html.FROM_HTML_MODE_COMPACT))
 
         return sBuilder.toString()
     }

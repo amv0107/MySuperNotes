@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.style.AbsoluteSizeSpan
@@ -7,7 +8,9 @@ import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.widget.EditText
+import com.amv.simple.app.mysupernotes.R
 
 object FormationText {
 
@@ -47,27 +50,33 @@ object FormationText {
         view.text.trim()
     }
 
+    fun getForegroundColorText(startPos: Int, endPos: Int, view: EditText): String {
+        val style = view.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
+        return if (style.isNotEmpty()) "#" + Integer.toHexString(style[0].foregroundColor).uppercase() else "#FF262626"
+    }
+
+    fun getBackgroundColorText(startPos: Int, endPos: Int, view: EditText): String {
+        val style = view.text.getSpans(startPos, endPos, BackgroundColorSpan::class.java)
+        return if (style.isNotEmpty()) "#" + Integer.toHexString(style[0].backgroundColor).uppercase() else "#FFFFFFFF"
+    }
+
     fun foregroundColorText(startPos: Int, endPos: Int, color: Int, view: EditText) {
         val styles = view.text.getSpans(startPos, endPos, ForegroundColorSpan::class.java)
-        var foregroundColorStyle: ForegroundColorSpan? = null
-        if (styles.isNotEmpty()) {
+        if (styles.isNotEmpty())
             view.text.removeSpan(styles[0])
-        } else {
-            foregroundColorStyle = ForegroundColorSpan(color)
-        }
-        view.text.setSpan(foregroundColorStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        view.text.setSpan(ForegroundColorSpan(color), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.text.trim()
     }
 
     fun backgroundColorText(startPos: Int, endPos: Int, color: Int, view: EditText) {
+        // TODO: Если цвет белый то просто удалять стиль НЕ присваивая новый
         val styles = view.text.getSpans(startPos, endPos, BackgroundColorSpan::class.java)
-        var backgroundColorStyle: BackgroundColorSpan? = null
-        if (styles.isNotEmpty()) {
+        if (styles.isNotEmpty())
             view.text.removeSpan(styles[0])
-        } else {
-            backgroundColorStyle = BackgroundColorSpan(color)
-        }
-        view.text.setSpan(backgroundColorStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        if (color != Color.parseColor("#FFFFFFFF"))
+            view.text.setSpan(BackgroundColorSpan(color), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         view.text.trim()
     }
 
@@ -77,4 +86,5 @@ object FormationText {
         view.text.setSpan(AbsoluteSizeSpan(size, true), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.text.trim()
     }
+
 }
