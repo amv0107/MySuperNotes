@@ -91,6 +91,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // TODO:  
+        if (navController.currentDestination?.id == R.id.editorFragment) {
+            toolbar.setBackgroundColor(getColor(R.color.yellow))
+            window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
+        }
+    }
+
     private fun setupDrawer() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
