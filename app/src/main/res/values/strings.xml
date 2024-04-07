@@ -68,5 +68,7 @@
     <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
     <string name="label_settings_my_style">Свой стиль</string>
+    <string name="editor_hint_title">Название....</string>
+    <string name="editor_hint_text_content">Содержимое заметки....</string>
 
 </resources>

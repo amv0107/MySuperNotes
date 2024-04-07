@@ -52,4 +52,6 @@
     <string name="error_empty_list_trash_screen">Notes in trash will be automaticalle deleted in 31 days</string>
     <string name="theme_confirm_dialog_style_list_notes">Note list style</string>
     <string name="label_settings_my_style">My Style</string>
+    <string name="editor_hint_title">Title...</string>
+    <string name="editor_hint_text_content">Text content...</string>
 </resources>
