@@ -74,6 +74,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/stroke_radius_view"
             android:gravity="top"
+            android:scrollbars="vertical"
             android:hint="@string/edit_hint_text_content"
             android:theme="@style/SelectText"
             android:textSelectHandle="@color/grey"
