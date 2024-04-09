@@ -54,4 +54,5 @@
     <string name="label_settings_my_style">My Style</string>
     <string name="edit_hint_title">Title...</string>
     <string name="edit_hint_text_content">Text content...</string>
+    <string name="readOnly">You can\'t edit a deleted note!</string>
 </resources>

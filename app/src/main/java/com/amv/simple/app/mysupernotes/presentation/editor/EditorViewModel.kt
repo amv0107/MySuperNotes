@@ -41,6 +41,15 @@ class EditorViewModel @Inject constructor(
         finishWork()
     }
 
+    fun restoreDelete(noteItem: NoteItem) = viewModelScope.launch {
+        updateNoteItemUseCase(
+            noteItem.copy(
+                isDelete = false,
+                deleteDate = ""
+            )
+        )
+        finishWork()
+    }
 
     fun getNoteItem(noteItemId: Int) = viewModelScope.launch {
         val item = getNoteItemUseCase(noteItemId)

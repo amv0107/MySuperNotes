@@ -54,4 +54,5 @@
     <string name="label_settings_my_style">Власний стиль</string>
     <string name="edit_hint_title">Назва нотатка....</string>
     <string name="edit_hint_text_content">Зміст нотатка....</string>
+    <string name="readOnly">Видалену замітку не можна редагувати!</string>
 </resources>

@@ -71,5 +71,6 @@
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
     <string name="label_settings_my_style">Свой стиль</string>
 
+    <string name="readOnly">Удаленную заметку нельзя редактировать!</string>
 
 </resources>

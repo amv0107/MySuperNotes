@@ -3,6 +3,11 @@ package com.amv.simple.app.mysupernotes.presentation.editor
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.text.InputType.TYPE_NULL
+import android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+import android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -117,6 +122,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                 }
                 setIcon(if (isPin) R.drawable.ic_un_pin else R.drawable.ic_pin)
                 setTitle(if (isPin) R.string.edit_menu_unpin else R.string.edit_menu_pin)
+
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_favorite).apply {
@@ -126,6 +133,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                 }
                 setIcon(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_un_favorite)
                 setTitle(if (isFavorite) R.string.edit_menu_un_favorite else R.string.edit_menu_add_favorite)
+
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_archive).apply {
@@ -133,7 +142,14 @@ class EditorFragment @Inject constructor() : Fragment() {
                 result.takeSuccess()?.isArchive?.let {
                     isArchive = it
                 }
-                isVisible = result.takeSuccess() != null && result.takeSuccess()?.isArchive == false
+
+                isVisible =
+                    result.takeSuccess() != null && result.takeSuccess()?.isArchive == false && result.takeSuccess()?.isDelete == false
+            }
+        }
+        findItem(R.id.edit_menu_share).apply {
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_delete).apply {
@@ -141,6 +157,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                 result.takeSuccess()?.isDelete?.let {
                     isDelete = it
                 }
+
                 isVisible = result.takeSuccess() != null && result.takeSuccess()?.isDelete == false
             }
         }
@@ -212,6 +229,7 @@ class EditorFragment @Inject constructor() : Fragment() {
 
     private fun launchEditMode() {
         viewModel.getNoteItem(args.noteId)
+
         viewModel.noteItem.observe(viewLifecycleOwner) { result ->
             result.takeSuccess()?.let { item ->
                 noteItem = item
@@ -219,6 +237,10 @@ class EditorFragment @Inject constructor() : Fragment() {
                     etTitleNote.setText(item.title)
                     tvDateTimeNote.text = item.date
                     etTextContentNote.setText(item.textContent)
+
+                    etTextContentNote.setReadOnly(item.isDelete) {
+                        viewModel.restoreDelete(item)
+                    }
                 }
             }
         }
