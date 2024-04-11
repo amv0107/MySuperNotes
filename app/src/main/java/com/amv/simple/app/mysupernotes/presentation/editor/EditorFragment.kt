@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.icu.number.IntegerWidth
 import android.os.Bundle
+
 import android.text.Html
 import android.text.Layout
 import android.text.style.AlignmentSpan
@@ -16,6 +17,10 @@ import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.ActionMode
+
+import android.text.Editable
+import android.text.TextWatcher
+
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -35,7 +40,11 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
+
 import androidx.core.view.isVisible
+
+import androidx.core.widget.addTextChangedListener
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -100,6 +109,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         launchModeScreen()
         observeViewModel()
         optionsMenu()
+        titleFocusListener()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -217,6 +227,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         _binding = null
     }
 
+
     private fun actionMenuCallback() {
         binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -302,6 +313,31 @@ class EditorFragment @Inject constructor() : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
+    private fun titleFocusListener() {
+        binding.etTitleNote.setOnFocusChangeListener { _, focused ->
+            if (!focused)
+                binding.titleContainer.helperText = validTitle()
+        }
+
+        binding.etTitleNote.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.titleContainer.helperText = validTitle()
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+    }
+
+    private fun validTitle(): String? {
+        val titleText = binding.etTitleNote.text.toString()
+        if (titleText.length > 50)
+            return resources.getString(R.string.edit_text_helper_error_title)
+
+        return null
+
     }
 
     private fun optionsMenu() {
@@ -340,6 +376,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                 }
                 setIcon(if (isPin) R.drawable.ic_un_pin else R.drawable.ic_pin)
                 setTitle(if (isPin) R.string.edit_menu_unpin else R.string.edit_menu_pin)
+
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_favorite).apply {
@@ -349,6 +387,8 @@ class EditorFragment @Inject constructor() : Fragment() {
                 }
                 setIcon(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_un_favorite)
                 setTitle(if (isFavorite) R.string.edit_menu_un_favorite else R.string.edit_menu_add_favorite)
+
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_archive).apply {
@@ -356,7 +396,14 @@ class EditorFragment @Inject constructor() : Fragment() {
                 result.takeSuccess()?.isArchive?.let {
                     isArchive = it
                 }
-                isVisible = result.takeSuccess() != null && result.takeSuccess()?.isArchive == false
+
+                isVisible =
+                    result.takeSuccess() != null && result.takeSuccess()?.isArchive == false && result.takeSuccess()?.isDelete == false
+            }
+        }
+        findItem(R.id.edit_menu_share).apply {
+            viewModel.noteItem.observe(viewLifecycleOwner) { result ->
+                isVisible = result.takeSuccess()?.isDelete == false
             }
         }
         findItem(R.id.edit_menu_delete).apply {
@@ -364,6 +411,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                 result.takeSuccess()?.isDelete?.let {
                     isDelete = it
                 }
+
                 isVisible = result.takeSuccess() != null && result.takeSuccess()?.isDelete == false
             }
         }
@@ -413,34 +461,55 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun saveNote() {
-        if (args.noteId == 0) {
-            viewModel.addNoteItem(
-                binding.etTitleNote.text.toString(),
-                Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_LEGACY),
-            )
+        binding.titleContainer.helperText = validTitle()
+        val validTitle = binding.titleContainer.helperText == null
+
+        if (validTitle) {
+            if (args.noteId == 0) {
+                viewModel.addNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString(),
+                )
+            } else {
+                viewModel.updateNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString()
+                )
+            }
         } else {
-            viewModel.updateNoteItem(
-                binding.etTitleNote.text.toString(),
-                Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_LEGACY)
-            )
+            Toast.makeText(requireContext(), resources.getString(R.string.edit_toast_action_short_title), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun launchAddMode() {
-        binding.tvDateTimeNote.text = TimeManager.getCurrentTime()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.formatDataTimeFlow.collect {
+                binding.tvDateTimeNote.text = TimeManager.getTimeFormat(
+                    TimeManager.getCurrentTimeToDB(),
+                    it.formatDataTime.pattern
+                )
+            }
+        }
     }
 
     private fun launchEditMode() {
         viewModel.getNoteItem(args.noteId)
+
         viewModel.noteItem.observe(viewLifecycleOwner) { result ->
-            result.takeSuccess()?.let { item ->
-                noteItem = item
-                binding.apply {
-                    etTitleNote.setText(item.title)
-                    tvDateTimeNote.text = item.date
-                    etTextContentNote.setText(
-                        HtmlCompat.fromHtml(item.textContent, HtmlCompat.FROM_HTML_MODE_LEGACY).trim()
-                    )
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.formatDataTimeFlow.collect {
+                    result.takeSuccess()?.let { item ->
+                        noteItem = item
+                        binding.apply {
+                            etTitleNote.setText(item.title)
+                            tvDateTimeNote.text = TimeManager.getTimeFormat(item.date, it.formatDataTime.pattern)
+                            etTextContentNote.setText(item.textContent)
+
+                            etTextContentNote.setReadOnly(item.isDelete) {
+                                viewModel.restoreDelete(item)
+                            }
+                        }
+                    }
                 }
             }
         }

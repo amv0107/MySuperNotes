@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.amv.simple.app.mysupernotes.data.PreferencesManager
 import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItem
@@ -22,11 +23,14 @@ class EditorViewModel @Inject constructor(
     private val addNoteItemUseCase: AddNoteItemUseCase,
     private val getNoteItemUseCase: GetNoteItemUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
+    private val preferencesManager: PreferencesManager,
 ) : ViewModel() {
 
     private val _noteItem = MutableLiveResult<NoteItem>(PendingResult())
     val noteItem: LiveResult<NoteItem>
         get() = _noteItem
+
+    val formatDataTimeFlow = preferencesManager.formatDataTimeFlow
 
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit> = _shouldCloseScreen
@@ -35,12 +39,21 @@ class EditorViewModel @Inject constructor(
         val item = NoteItem(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
-            date = TimeManager.getCurrentTime()
+            date = TimeManager.getCurrentTimeToDB()
         )
         addNoteItemUseCase(item)
         finishWork()
     }
 
+    fun restoreDelete(noteItem: NoteItem) = viewModelScope.launch {
+        updateNoteItemUseCase(
+            noteItem.copy(
+                isDelete = false,
+                deleteDate = ""
+            )
+        )
+        finishWork()
+    }
 
     fun getNoteItem(noteItemId: Int) = viewModelScope.launch {
         val item = getNoteItemUseCase(noteItemId)
@@ -77,7 +90,7 @@ class EditorViewModel @Inject constructor(
         val item = _noteItem.value.takeSuccess()?.let {
             it.copy(
                 isDelete = true,
-                deleteDate = TimeManager.getCurrentTime()
+                deleteDate = TimeManager.getCurrentTimeToDB()
             )
         }
         updateNoteItemUseCase(item!!)

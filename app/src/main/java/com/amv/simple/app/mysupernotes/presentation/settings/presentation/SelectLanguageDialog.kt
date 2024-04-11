@@ -1,7 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.settings.presentation
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -35,14 +34,6 @@ class SelectLanguageDialog : DialogFragment() {
                 dismiss()
             }
             .create()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
     }
 
     companion object {

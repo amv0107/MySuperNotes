@@ -73,7 +73,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun showSelectThemeDialog() {
-
         SelectThemeDialog.show(parentFragmentManager, currentThemeOrdinal)
     }
 
@@ -96,11 +95,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun showSelectStyleListNote() {
-        SelectStyleListNote.show(parentFragmentManager, currentStyleListOrdinal)
+        SelectStyleListNoteDialog.show(parentFragmentManager, currentStyleListOrdinal)
     }
 
     private fun setupSelectStyleListNotes() {
-        SelectStyleListNote.setupListener(parentFragmentManager, this) {
+        SelectStyleListNoteDialog.setupListener(parentFragmentManager, this) {
             val style = enumValues<DataStoreStyleListNotes>()[it]
             viewModel.onStyleListNotes(style)
         }
