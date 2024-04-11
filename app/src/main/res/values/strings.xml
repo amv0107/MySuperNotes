@@ -27,6 +27,8 @@
     <string name="edit_toast_move_to_trash">Заметка отправлена в корзину</string>
     <string name="edit_hint_title">Название....</string>
     <string name="edit_hint_text_content">Содержимое заметки....</string>
+    <string name="edit_text_helper_error_title">Слишком длинное заглавие</string>
+    <string name="edit_toast_action_short_title">Уменьшите длину заголовка до 50 символов</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>

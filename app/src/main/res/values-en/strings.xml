@@ -55,4 +55,6 @@
     <string name="edit_hint_title">Title...</string>
     <string name="edit_hint_text_content">Text content...</string>
     <string name="readOnly">You can\'t edit a deleted note!</string>
+    <string name="edit_text_helper_error_title">The title is too long</string>
+    <string name="edit_toast_action_short_title">Reduce the header length to 50 characters</string>
 </resources>

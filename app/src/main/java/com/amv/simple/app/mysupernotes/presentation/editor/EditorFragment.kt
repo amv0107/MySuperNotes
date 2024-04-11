@@ -3,6 +3,8 @@ package com.amv.simple.app.mysupernotes.presentation.editor
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,6 +17,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -65,6 +68,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         launchModeScreen()
         observeViewModel()
         optionsMenu()
+        titleFocusListener()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -79,6 +83,31 @@ class EditorFragment @Inject constructor() : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun titleFocusListener() {
+        binding.etTitleNote.setOnFocusChangeListener { _, focused ->
+            if (!focused)
+                binding.titleContainer.helperText = validTitle()
+        }
+
+        binding.etTitleNote.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.titleContainer.helperText = validTitle()
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+    }
+
+    private fun validTitle(): String? {
+        val titleText = binding.etTitleNote.text.toString()
+        if (titleText.length > 50)
+            return resources.getString(R.string.edit_text_helper_error_title)
+
+        return null
     }
 
     private fun optionsMenu() {
@@ -204,16 +233,23 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun saveNote() {
-        if (args.noteId == 0) {
-            viewModel.addNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString(),
-            )
+        binding.titleContainer.helperText = validTitle()
+        val validTitle = binding.titleContainer.helperText == null
+
+        if (validTitle) {
+            if (args.noteId == 0) {
+                viewModel.addNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString(),
+                )
+            } else {
+                viewModel.updateNoteItem(
+                    binding.etTitleNote.text.toString(),
+                    binding.etTextContentNote.text.toString()
+                )
+            }
         } else {
-            viewModel.updateNoteItem(
-                binding.etTitleNote.text.toString(),
-                binding.etTextContentNote.text.toString()
-            )
+            Toast.makeText(requireContext(), resources.getString(R.string.edit_toast_action_short_title), Toast.LENGTH_SHORT).show()
         }
     }
 
