@@ -22,8 +22,8 @@ android {
         applicationId "com.amv.simple.app.mysupernotes"
         minSdk 29
         targetSdk 34
-        versionCode 1
-        versionName "1.1.0"
+        versionCode 2
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "SuperNotes-v${versionName} (${versionCode})"
@@ -49,6 +49,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 

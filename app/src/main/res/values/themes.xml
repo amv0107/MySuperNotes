@@ -11,6 +11,8 @@
         <item name="backgroundCardFromTheme">@color/white</item>
         <item name="textColorAppFromTheme">@color/grey</item>
         <item name="backgroundAppFromTheme">@color/white</item>
+        <item name="backgroundColorCustomMenu">@color/white</item> <!-- Фон меню -->
+        <item name="colorIconCustomMenu">@color/grey</item> <!-- Цвет иконок в меню -->
     </style>
 
     <style name="Theme.MySuperNotes" parent="Base.Theme.MySuperNotes" />

@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@drawable/card_editor_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/MyTextInputLayout"
             android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,11 +33,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTitleNote"
-                android:theme="@style/SelectText"
                 android:layout_width="match_parent"
-                android:textSelectHandle="@color/grey"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences" />
+                android:inputType="textCapSentences"
+                android:textSelectHandle="@color/grey"
+                android:theme="@style/SelectText" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,16 +76,66 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/stroke_radius_view"
             android:gravity="top"
+
             android:scrollbars="vertical"
             android:hint="@string/edit_hint_text_content"
             android:theme="@style/SelectText"
             android:textSelectHandle="@color/grey"
+
             android:inputType="textCapSentences|textMultiLine"
             android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSelectHandle="@color/grey"
+            android:theme="@style/SelectText"
+            app:layout_constraintBottom_toTopOf="@id/formationMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/container_data" />
+
+        <com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextView
+            android:id="@+id/formationMenu"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:backgroundMenu="@color/white"
+            app:cardElevation="4dp"
+            app:colorIcon="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <com.amv.simple.app.mysupernotes.presentation.editor.component.ColorPickerView
+            android:id="@+id/selectColorPicker"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:backgroundColorPickerMenu="@color/white"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toTopOf="@id/formationMenu"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignView
+            android:id="@+id/formationAlignMenu"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:backgroundMenu="@color/white"
+            app:cardElevation="4dp"
+            app:colorIcon="@color/grey"
+            app:layout_constraintBottom_toTopOf="@id/formationMenu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

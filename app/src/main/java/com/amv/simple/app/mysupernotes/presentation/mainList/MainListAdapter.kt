@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.mainList
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -43,7 +44,7 @@ class MainListAdapter @Inject constructor(
             root.tag = noteItem
             tvTitleNote.text = noteItem.title
             tvDateTimeNote.text = TimeManager.getTimeFormat(noteItem.date, patternDateTime)
-            tvTextContentNote.text = noteItem.textContent
+            tvTextContentNote.text = Html.fromHtml(noteItem.textContent,Html.FROM_HTML_MODE_COMPACT).trim()
             imgPin.isVisible = noteItem.isPinned
             imgFavorite.isVisible = noteItem.isFavorite
 //            tvTitleNote.backgroundTintList = ColorStateList.valueOf(

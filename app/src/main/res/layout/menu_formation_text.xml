@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:parentTag="com.google.android.material.card.MaterialCardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/backgroundColorCustomMenu"
+        android:paddingVertical="4dp">
+
+        <ImageView
+            android:id="@+id/btnBold"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnItalic"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnUnderlined"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_underlined"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnItalic"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnAlign"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_align_justify"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnUnderlined"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnBulletList"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_list_bulleted"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnAlign"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnFormatForegroundText"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_color_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBulletList"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnFormatBackgroundText"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_format_color_fill"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnFormatForegroundText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <ImageView
+            android:id="@+id/btnTextDecrease"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="6dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_text_decrease"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnFormatBackgroundText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+        <TextView
+            android:id="@+id/tvSize"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:text="18"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:textColor="?attr/colorIconCustomMenu"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnTextDecrease"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnTextIncrease"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="2dp"
+            android:padding="6dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_text_increase"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorIconCustomMenu" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

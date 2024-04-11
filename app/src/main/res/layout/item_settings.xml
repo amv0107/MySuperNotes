@@ -24,23 +24,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        tools:text="Формат даты и времени"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/tvCurrentValue"
         app:layout_constraintStart_toEndOf="@id/imIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Формат даты и времени" />
 
     <TextView
         android:id="@+id/tvCurrentValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:textSize="13sp"
-        tools:text="28/02/2024 - 17:59"
         android:textColor="@color/grey"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/imIcon"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        />
+        tools:text="28/02/2024 - 17:59" />
 
 </merge>

@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.BuildConfig
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
@@ -166,8 +167,12 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
         }
 
         setupListNotes()
-
-        loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, R.string.bannerMainList)
+        val adUnitIdl = if (BuildConfig.DEBUG) {
+            R.string.bannerMainListTest
+        } else {
+            R.string.bannerMainList
+        }
+        loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, adUnitIdl)
     }
 
     private fun setupListNotes() {
