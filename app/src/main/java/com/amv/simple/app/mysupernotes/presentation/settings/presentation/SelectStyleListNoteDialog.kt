@@ -1,7 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.settings.presentation
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -12,7 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreStyleListNotes
 
-class SelectStyleListNote: DialogFragment() {
+class SelectStyleListNoteDialog: DialogFragment() {
 
     private val currentStyle: Int
         get() = requireArguments().getInt(ARG_VALUE)
@@ -37,17 +36,9 @@ class SelectStyleListNote: DialogFragment() {
             .create()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-    }
-
     companion object {
         @JvmStatic
-        private val TAG = SelectStyleListNote::class.java.simpleName
+        private val TAG = SelectStyleListNoteDialog::class.java.simpleName
 
         @JvmStatic
         private val KEY_VALUE_RESPONSE = "KEY_VALUE_RESPONSE"
@@ -59,7 +50,7 @@ class SelectStyleListNote: DialogFragment() {
         val REQUEST_KEY = "$TAG:defaultRequestKey"
 
         fun show(manager: FragmentManager, currentStyleListNote: Int) {
-            val dialogFragment = SelectStyleListNote()
+            val dialogFragment = SelectStyleListNoteDialog()
             dialogFragment.arguments = bundleOf(ARG_VALUE to currentStyleListNote)
             dialogFragment.show(manager, TAG)
         }
