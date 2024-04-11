@@ -20,8 +20,8 @@
     <string name="edit_toast_move_to_trash">This note been trashed</string>
     <string name="list_menu_search">Search</string>
     <string name="list_menu_sort">Sort</string>
-    <string name="list_menu_staggered_grid">List view</string>
-    <string name="list_menu_linear">Grid view</string>
+    <string name="list_menu_staggered_grid">Grid view</string>
+    <string name="list_menu_linear">List view</string>
     <string name="drawer_menu_all_notes">All Notes</string>
     <string name="drawer_menu_archive_notes">Archived Notes</string>
     <string name="drawer_menu_favorites">Favorited Notes</string>
