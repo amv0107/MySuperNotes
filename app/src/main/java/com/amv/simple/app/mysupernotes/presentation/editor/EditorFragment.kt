@@ -3,11 +3,6 @@ package com.amv.simple.app.mysupernotes.presentation.editor
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
-import android.text.InputType.TYPE_NULL
-import android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-import android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -224,22 +219,33 @@ class EditorFragment @Inject constructor() : Fragment() {
 
 
     private fun launchAddMode() {
-        binding.tvDateTimeNote.text = TimeManager.getCurrentTime()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.formatDataTimeFlow.collect {
+                binding.tvDateTimeNote.text = TimeManager.getTimeFormat(
+                    TimeManager.getCurrentTimeToDB(),
+                    it.formatDataTime.pattern
+                )
+            }
+        }
     }
 
     private fun launchEditMode() {
         viewModel.getNoteItem(args.noteId)
 
         viewModel.noteItem.observe(viewLifecycleOwner) { result ->
-            result.takeSuccess()?.let { item ->
-                noteItem = item
-                binding.apply {
-                    etTitleNote.setText(item.title)
-                    tvDateTimeNote.text = item.date
-                    etTextContentNote.setText(item.textContent)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.formatDataTimeFlow.collect {
+                    result.takeSuccess()?.let { item ->
+                        noteItem = item
+                        binding.apply {
+                            etTitleNote.setText(item.title)
+                            tvDateTimeNote.text = TimeManager.getTimeFormat(item.date, it.formatDataTime.pattern)
+                            etTextContentNote.setText(item.textContent)
 
-                    etTextContentNote.setReadOnly(item.isDelete) {
-                        viewModel.restoreDelete(item)
+                            etTextContentNote.setReadOnly(item.isDelete) {
+                                viewModel.restoreDelete(item)
+                            }
+                        }
                     }
                 }
             }

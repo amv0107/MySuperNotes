@@ -8,7 +8,7 @@ object TimeManager {
 
     private const val DEF_TIME_FORMAT = "dd/MM/yyyy - HH:mm"
 
-    fun getCurrentTime(): String {
+    fun getCurrentTimeToDB(): String {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern(DEF_TIME_FORMAT, Locale.getDefault())
         return current.format(formatter)
