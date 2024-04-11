@@ -71,8 +71,12 @@
     <string name="error_empty_list_archive_screen">Архив пуст</string>
     <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
+
     <string name="label_settings_my_style">Свой стиль</string>
 
     <string name="readOnly">Удаленную заметку нельзя редактировать!</string>
+    <string name="label_settings_about_app">О приложении</string>
+    <string name="settings_share_app">Поделиться приложением</string>
+    <string name="settings_version_app">"Версия: "</string>
 
 </resources>
