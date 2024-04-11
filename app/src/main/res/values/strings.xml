@@ -25,6 +25,10 @@
     <string name="edit_toast_un_favorite">Добавленно в избранное</string>
     <string name="edit_toast_archive">Заметка отправлена в архив</string>
     <string name="edit_toast_move_to_trash">Заметка отправлена в корзину</string>
+    <string name="edit_hint_title">Название....</string>
+    <string name="edit_hint_text_content">Содержимое заметки....</string>
+    <string name="edit_text_helper_error_title">Слишком длинное заглавие</string>
+    <string name="edit_toast_action_short_title">Уменьшите длину заголовка до 50 символов</string>
 
     <string name="list_menu_search">Поиск</string>
     <string name="list_menu_sort">Сортировать</string>
@@ -68,5 +72,7 @@
     <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
     <string name="label_settings_my_style">Свой стиль</string>
+
+    <string name="readOnly">Удаленную заметку нельзя редактировать!</string>
 
 </resources>

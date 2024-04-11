@@ -22,7 +22,7 @@ class GetNoteListUseCase @Inject constructor(
                         }
 
                         TypeList.FAVORITE_LIST -> {
-                            item.isFavorite && !item.isDelete
+                            item.isFavorite && !item.isDelete&& !item.isArchive
                         }
 
                         TypeList.DELETE_LIST -> {

@@ -68,7 +68,7 @@ class MainListViewModel @Inject constructor(
         updateNoteItemUseCase(
             noteItem.copy(
                 isDelete = true,
-                deleteDate = TimeManager.getCurrentTime()
+                deleteDate = TimeManager.getCurrentTimeToDB()
             )
         )
     }

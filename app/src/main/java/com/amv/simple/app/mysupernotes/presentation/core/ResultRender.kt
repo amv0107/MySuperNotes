@@ -8,6 +8,7 @@ import com.amv.simple.app.mysupernotes.databinding.PartResultBinding
 import com.amv.simple.app.mysupernotes.domain.util.Result
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
+import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 import com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment
 
 fun <T> BaseFragment.renderSimpleResult(root: ViewGroup, result: Result<T>, onSuccess: (T) -> Unit) {
@@ -26,9 +27,17 @@ fun <T> BaseFragment.renderSimpleResult(root: ViewGroup, result: Result<T>, onSu
             }
         },
         onSuccess = { successData ->
-            root.children
-                .filter { it.id != R.id.errorContainer && it.id != R.id.progressBar }
-                .forEach { it.visibility = View.VISIBLE }
+            if (this@renderSimpleResult is MainListFragment) {
+                root.children
+                    .filter {
+                        it.id != R.id.errorContainer && it.id != R.id.progressBar
+                    }
+                    .forEach { it.visibility = View.VISIBLE }
+            } else {
+                root.children
+                    .filter { it.id != R.id.errorContainer && it.id != R.id.progressBar && it.id != R.id.fabCrateNote }
+                    .forEach { it.visibility = View.VISIBLE }
+            }
             onSuccess(successData)
         }
     )
