@@ -42,10 +42,10 @@ class ItemSettingsView(
         val inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.item_settings, this, true)
         binding = ItemSettingsBinding.bind(this)
-        binding.root.isClickable = true
+        binding.root.isClickable = false
         binding.root.setBackgroundColor(resources.getColor(R.color.white))
         val outValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true )
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
         binding.root.setBackgroundResource(outValue.resourceId)
         initializeAttributes(attrs, defStyleAttr, defStyleRes)
     }
@@ -61,8 +61,7 @@ class ItemSettingsView(
             val visibleCurrentValue = typeArray.getBoolean(R.styleable.ItemSettingsView_visibleCurrentValue, false)
             if (visibleCurrentValue) {
                 tvCurrentValue.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 tvCurrentValue.visibility = View.GONE
             }
 
@@ -78,7 +77,7 @@ class ItemSettingsView(
     }
 
     fun setCurrentValueText(text: String?) {
-        binding.tvCurrentValue.text = text?: "Current value"
+        binding.tvCurrentValue.text = text ?: "Current value"
     }
 
     fun setItemTitle(text: String) {
