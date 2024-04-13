@@ -1,8 +1,11 @@
 package com.amv.simple.app.mysupernotes.presentation
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -19,7 +23,19 @@ import com.amv.simple.app.mysupernotes.databinding.ActivityMainBinding
 import com.amv.simple.app.mysupernotes.presentation.settings.domain.DataStoreTypeTheme
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
+import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,12 +55,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var uiMode: DataStoreTypeTheme
 
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val updateType = AppUpdateType.FLEXIBLE
+
     private val destinations = setOf(
         R.id.mainListFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        if (updateType == AppUpdateType.FLEXIBLE)  {
+            appUpdateManager.registerListener(installStateUpdatedListener)
+        }
+        checkForAppUpdates()
         setContentView(binding.root)
 
         enableEdgeToEdge()
@@ -70,9 +94,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // TODO:  FIX SN_B_5 мне кажется будут проблемы когда цвет будет браться из заметки
+        if (navController.currentDestination?.id == R.id.editorFragment) {
+            toolbar.setBackgroundColor(getColor(R.color.yellow))
+            window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
+        }
+
+        if (updateType == AppUpdateType.IMMEDIATE) {
+            appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+                if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        info,
+                        updateType,
+                        this,
+                        123
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 123) {
+            if (resultCode != RESULT_OK) {
+                Log.d("TAG", "Something went wrong updating...")
+            }
+        }
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (updateType == AppUpdateType.FLEXIBLE) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener)
+        }
     }
 
     fun setUIMode(name: DataStoreTypeTheme) {
@@ -88,15 +149,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             DataStoreTypeTheme.SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // TODO:  FIX SN_B_5 мне кажется будут проблемы когда цвет будет браться из заметки
-        if (navController.currentDestination?.id == R.id.editorFragment) {
-            toolbar.setBackgroundColor(getColor(R.color.yellow))
-            window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.yellow)
         }
     }
 
@@ -138,6 +190,39 @@ class MainActivity : AppCompatActivity() {
                     }
                     window.statusBarColor = Color.TRANSPARENT
                 }
+            }
+        }
+    }
+
+    private val installStateUpdatedListener = InstallStateUpdatedListener {state ->
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            Toast.makeText(applicationContext, "Download successful. Restarting app in 5 seconds.", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                delay(5.seconds)
+                appUpdateManager.completeUpdate()
+            }
+        }
+    }
+
+    /**
+     * Проверяем наличие обновлений
+     */
+    private fun checkForAppUpdates() {
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            val isUpdateAvailable = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateAllowed = when (updateType) {
+                AppUpdateType.FLEXIBLE -> info.isFlexibleUpdateAllowed
+                AppUpdateType.IMMEDIATE -> info.isImmediateUpdateAllowed
+                else -> false
+            }
+
+            if (isUpdateAvailable && isUpdateAllowed) {
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    updateType,
+                    this,
+                    123
+                )
             }
         }
     }
