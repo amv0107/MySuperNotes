@@ -77,6 +77,8 @@
     <string name="readOnly">Удаленную заметку нельзя редактировать!</string>
     <string name="label_settings_about_app">О приложении</string>
     <string name="settings_share_app">Поделиться приложением</string>
-    <string name="settings_version_app">"Версия: "</string>
+    <string name="settings_version_app">Версия: %1s</string>
+    <string name="share_app_link" translatable="false">Android: https://bit.ly/SimpleNotesApp</string>
+    <string name="share_app_message">Я налеш отличный блокнот - простой и красиво оформленный: Simple Notes. Хотите попробовать?</string>
 
 </resources>

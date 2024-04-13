@@ -80,4 +80,8 @@ class ItemSettingsView(
     fun setCurrentValueText(text: String?) {
         binding.tvCurrentValue.text = text?: "Current value"
     }
+
+    fun setItemTitle(text: String) {
+        binding.tvTitle.text = text
+    }
 }

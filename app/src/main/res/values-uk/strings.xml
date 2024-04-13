@@ -59,5 +59,6 @@
     <string name="edit_toast_action_short_title">Зменшіть довжину заголовка до 50 символів</string>
     <string name="label_settings_about_app">Про додаток</string>
     <string name="settings_share_app">Поділитися додатком</string>
-    <string name="settings_version_app">Версія:</string>
+    <string name="settings_version_app">Версія: %1s</string>
+    <string name="share_app_message">Я знайшов простий додаток для нотаток з чудовим функціоналом: Simple Notes. Рекомендую одразу його зацінити:</string>
 </resources>
