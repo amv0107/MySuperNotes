@@ -57,4 +57,8 @@
     <string name="readOnly">You can\'t edit a deleted note!</string>
     <string name="edit_text_helper_error_title">The title is too long</string>
     <string name="edit_toast_action_short_title">Reduce the header length to 50 characters</string>
+    <string name="label_settings_about_app">About</string>
+    <string name="settings_share_app">Share app</string>
+    <string name="settings_version_app">Version: %1s</string>
+    <string name="share_app_message">I\'ve found a simple notepad app with wonderful functionality: Simple Notes. Please have a try at once:</string>
 </resources>

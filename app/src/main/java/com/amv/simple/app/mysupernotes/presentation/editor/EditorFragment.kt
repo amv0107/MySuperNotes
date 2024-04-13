@@ -227,7 +227,6 @@ class EditorFragment @Inject constructor() : Fragment() {
         _binding = null
     }
 
-
     private fun actionMenuCallback() {
         binding.etTextContentNote.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -313,6 +312,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
 
     private fun titleFocusListener() {
         binding.etTitleNote.setOnFocusChangeListener { _, focused ->
