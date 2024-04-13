@@ -468,12 +468,12 @@ class EditorFragment @Inject constructor() : Fragment() {
             if (args.noteId == 0) {
                 viewModel.addNoteItem(
                     binding.etTitleNote.text.toString(),
-                    binding.etTextContentNote.text.toString(),
+                    Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_COMPACT),
                 )
             } else {
                 viewModel.updateNoteItem(
                     binding.etTitleNote.text.toString(),
-                    binding.etTextContentNote.text.toString()
+                    Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_COMPACT),
                 )
             }
         } else {
@@ -503,7 +503,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                         binding.apply {
                             etTitleNote.setText(item.title)
                             tvDateTimeNote.text = TimeManager.getTimeFormat(item.date, it.formatDataTime.pattern)
-                            etTextContentNote.setText(item.textContent)
+                            etTextContentNote.setText(Html.fromHtml(item.textContent, Html.FROM_HTML_MODE_COMPACT))
 
                             etTextContentNote.setReadOnly(item.isDelete) {
                                 viewModel.restoreDelete(item)
