@@ -5,7 +5,7 @@
          <item name="colorPrimary">@color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowIsTranslucent">true</item> <!-- Default Splash Screen -->
+        <item name="android:windowIsTranslucent">false</item> <!-- Default Splash Screen -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorControlNormal">@color/grey</item> <!-- Цвет системных значков(гамбургер и стрелочка назад) -->
         <item name="backgroundCardFromTheme">@color/white</item>
