@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:paddingBottom="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="4dp"
+        app:strokeWidth="1dp"
+        app:cardElevation="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="4dp"
+            android:background="?attr/backgroundCardFromTheme">
+
+            <TextView
+                android:id="@+id/tvTitleNote"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/yellow"
+                android:paddingHorizontal="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Title..."
+                android:textColor="@color/grey"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgPin"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="4dp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_pin"
+                app:layout_constraintBottom_toBottomOf="@id/tvTitleNote"
+                app:layout_constraintEnd_toEndOf="@id/tvTitleNote"
+                app:layout_constraintTop_toTopOf="@id/tvTitleNote" />
+
+            <TextView
+                android:id="@+id/tvTextContentNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:paddingHorizontal="4dp"
+                android:textColor="?attr/textColorAppFromTheme"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleNote"
+                tools:text="akldj dlkfaj alfj ;dlsfj lsdkfj sa;fdj ;lsdfaj ;ldsjf l;afd ;lsfadjk asdk; ;dfj asasfdk alfdjk;alfdjldsfjkld;sfkasd kl; adsf;kj adsf;jka;sdfjkasdf;jal;mfja;lfkjadfs;ka sfk adsfkja sfkja sfd;kj adfk;a dfk; afk;ja fdskj;a f;dkj as;jk a f;kja ;fdkjafdlka dfkj adfka dflkj;a fdkaja df;ljf adlfkja dfmkfja dsfkj fda a;lfk asfkdj adsfkj  adfk  adlfjk asdfk adfkj" />
+
+            <TextView
+                android:id="@+id/tvDateTimeNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="4dp"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTextContentNote"
+                tools:text="04.02.2024 0 15:47" />
+
+            <ImageView
+                android:id="@+id/imgFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="@id/tvDateTimeNote"
+                app:layout_constraintBottom_toBottomOf="@id/tvDateTimeNote"
+                app:layout_constraintStart_toEndOf="@id/tvDateTimeNote"
+                app:tint="@color/yellow" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

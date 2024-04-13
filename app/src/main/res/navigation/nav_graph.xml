@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainListFragment">
+
+    <fragment
+        android:id="@+id/mainListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_mainListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.editor.EditorFragment"
+        android:label=""
+        tools:layout="@layout/fragment_editor" >
+        <argument
+            android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/archiveListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment"
+        android:label="@string/title_screen_archive"
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_archiveListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"
+        android:label="@string/title_screen_favorite"
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_favoriteListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trashListFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment"
+        android:label="@string/title_screen_trash"
+        tools:layout="@layout/fragment_main_list" >
+        <action
+            android:id="@+id/action_trashListFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.amv.simple.app.mysupernotes.presentation.settings.presentation.SettingsFragment"
+        android:label="@string/title_screen_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MySuperNotes" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.MySuperNotes" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowIsTranslucent">false</item> <!-- Default Splash Screen -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorControlNormal">@color/grey</item> <!-- Цвет системных значков(гамбургер и стрелочка назад) -->
+        <item name="backgroundCardFromTheme">@color/white</item>
+        <item name="textColorAppFromTheme">@color/grey</item>
+        <item name="backgroundAppFromTheme">@color/white</item>
+        <item name="backgroundColorCustomMenu">@color/white</item> <!-- Фон меню -->
+        <item name="colorIconCustomMenu">@color/grey</item> <!-- Цвет иконок в меню -->
     </style>
 
     <style name="Theme.MySuperNotes" parent="Base.Theme.MySuperNotes" />
