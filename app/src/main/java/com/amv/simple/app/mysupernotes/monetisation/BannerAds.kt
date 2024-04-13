@@ -30,8 +30,9 @@ fun loadBannerAds(
         }
 
         override fun onAdLoaded() {
+            // Когда реклама загрузилась
             super.onAdLoaded()
-            adsFrameLayout.visibility
+            adsFrameLayout.visible()
         }
     }
 }
