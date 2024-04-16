@@ -20,6 +20,13 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteItemDao
     abstract fun whatsNewDao(): WhatsNewDao
 
+    class AppDatabaseCallback : RoomDatabase.Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            db.execSQL("""INSERT INTO whats_new_items (versionName,description) VALUES ("1.2.0", "bugfix")""")
+        }
+    }
+
     companion object {
 
         const val DB_NAME = "amv_simple_app_note.db"
