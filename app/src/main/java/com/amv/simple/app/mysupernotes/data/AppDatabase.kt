@@ -26,7 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
 
         val migration1To2 = object : Migration(1,2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE IF NOT EXISTS school (versionName TEXT NOT NULL PRIMARY KEY, description TEXT NOT NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS whats_new_items (versionName TEXT NOT NULL PRIMARY KEY, description TEXT NOT NULL)")
+                database.execSQL("INSERT INTO whats_new_items (versionName,description) VALUE ('1.2.0', 'bugfix')")
             }
         }
 
