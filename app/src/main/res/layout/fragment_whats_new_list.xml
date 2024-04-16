@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".m_whatsNew.presentation.WhatsNewList">
+
+    <TextView
+        android:id="@+id/tvLabelVersion"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="Version"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvLabelDescription"
+        app:layout_constraintStart_toEndOf="@id/tvLabelVersion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Description"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWhatsNewList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLabelVersion"
+        tools:itemCount="25"
+        tools:listitem="@layout/item_whats_new_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

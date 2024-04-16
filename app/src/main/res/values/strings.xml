@@ -80,5 +80,7 @@
     <string name="settings_version_app">Версия: %1s</string>
     <string name="share_app_link" translatable="false">Android: https://bit.ly/SimpleNotesApp</string>
     <string name="share_app_message">Я налеш отличный блокнот - простой и красиво оформленный: Simple Notes. Хотите попробовать?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

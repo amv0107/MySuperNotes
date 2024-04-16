@@ -6,6 +6,10 @@ import com.amv.simple.app.mysupernotes.data.AppDatabase
 import com.amv.simple.app.mysupernotes.data.NoteItemDao
 import com.amv.simple.app.mysupernotes.data.NoteItemMapper
 import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import com.amv.simple.app.mysupernotes.data.whatsNew.WhatsNewDao
+import com.amv.simple.app.mysupernotes.data.whatsNew.WhatsNewDbModel
+import com.amv.simple.app.mysupernotes.data.whatsNew.WhatsNewMapper
+import com.amv.simple.app.mysupernotes.data.whatsNew.WhatsNewRepositoryImpl
 import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.DeleteForeverNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
@@ -29,6 +33,7 @@ object DatabaseModule {
         AppDatabase::class.java,
         AppDatabase.DB_NAME
     )
+        .addMigrations(AppDatabase.migration1To2)
         .build()
 
     @Provides
@@ -63,5 +68,19 @@ object DatabaseModule {
     @Singleton
     fun provideRepositoryImpl(dao: NoteItemDao, mapper: NoteItemMapper): NoteItemRepositoryImpl {
         return NoteItemRepositoryImpl(dao, mapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWhatsNewDao(db: AppDatabase) = db.whatsNewDao()
+
+    @Provides
+    @Singleton
+    fun provideWhatsNewMapper() = WhatsNewMapper()
+
+    @Provides
+    @Singleton
+    fun provideWhatsNewRepoImp(dao: WhatsNewDao, mapper: WhatsNewMapper): WhatsNewRepositoryImpl {
+        return WhatsNewRepositoryImpl(dao, mapper)
     }
 }
