@@ -1,6 +1,8 @@
 package com.amv.simple.app.mysupernotes.domain
 
 import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import com.amv.simple.app.mysupernotes.domain.util.NoteOrder
+import com.amv.simple.app.mysupernotes.domain.util.OrderType
 import com.amv.simple.app.mysupernotes.domain.util.TypeList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,30 +13,35 @@ class GetNoteListUseCase @Inject constructor(
 ) {
 
     fun getNoteList(
-       typeList: TypeList
+        typeList: TypeList,
+        noteOrder: NoteOrder = NoteOrder.DateCreate(OrderType.Descending),
     ): Flow<List<NoteItem>> {
-        return noteItemRepository.getNoteItemList().map { list ->
-            list
-                .filter { item ->
-                    when (typeList) {
-                        TypeList.ARCHIVE_LIST -> {
-                            item.isArchive && !item.isDelete
-                        }
+        return noteItemRepository.getNoteItemList().map { notes ->
+            notes.filter { item ->
+                when (typeList) {
+                    TypeList.ARCHIVE_LIST -> item.isArchive && !item.isDelete
+                    TypeList.FAVORITE_LIST -> item.isFavorite && !item.isDelete && !item.isArchive
+                    TypeList.DELETE_LIST -> item.isDelete
+                    TypeList.MAIN_LIST -> !item.isDelete && !item.isArchive
+                }
+            }
 
-                        TypeList.FAVORITE_LIST -> {
-                            item.isFavorite && !item.isDelete&& !item.isArchive
-                        }
-
-                        TypeList.DELETE_LIST -> {
-                            item.isDelete
-                        }
-
-                        TypeList.MAIN_LIST -> {
-                            !item.isDelete && !item.isArchive
-                        }
+            when (noteOrder.orderType) {
+                is OrderType.Ascending -> {
+                    when (noteOrder) {
+                        is NoteOrder.Title -> notes.sortedBy { it.title }
+                        is NoteOrder.DateCreate -> notes.sortedBy { it.date }
                     }
                 }
-                .sortedByDescending { it.isPinned }
+
+                is OrderType.Descending -> {
+                    when (noteOrder) {
+                        is NoteOrder.Title -> notes.sortedByDescending { it.title }
+                        is NoteOrder.DateCreate -> notes.sortedByDescending { it.date }
+                    }
+                }
+            }.sortedByDescending { it.isPinned }
+
         }
     }
 }
