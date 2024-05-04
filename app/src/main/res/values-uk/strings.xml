@@ -41,8 +41,8 @@
     <string name="light_theme">Світла тема</string>
     <string name="dark_theme">Темна тема</string>
     <string name="system_theme">Системні налаштування за замовчуванням</string>
-    <string name="theme_confirm_dialog_select">Вибрати</string>
-    <string name="theme_confirm_dialog_cancel">Відміна</string>
+    <string name="dialog_select">Вибрати</string>
+    <string name="dialog_cancel">Відміна</string>
     <string name="theme_confirm_dialog_language_title">Мова</string>
     <string name="theme_confirm_dialog_theme_title">Тема</string>
     <string name="theme_confirm_dialog_date_title">Формат дати</string>
@@ -61,4 +61,13 @@
     <string name="settings_share_app">Поділитися додатком</string>
     <string name="settings_version_app">Версія: %1s</string>
     <string name="share_app_message">Я знайшов простий додаток для нотаток з чудовим функціоналом: Simple Notes. Рекомендую одразу його зацінити:</string>
+    <string name="label_sort_order">Порядок\nсортування</string>
+    <string name="label_sort_by">Сортувати\nза</string>
+    <string name="sortBy_title">Назвою</string>
+    <string name="sortBy_date_create">Датою створення</string>
+    <string name="sortBy_date_edit">Датою редагування</string>
+    <string name="sortOrder_desc">За убуванням</string>
+    <string name="sortOrder_asc">За зростанням</string>
+    <string name="dialog_apply">Застосувати</string>
+    <string name="title_dialog_sorting">Сортування</string>
 </resources>

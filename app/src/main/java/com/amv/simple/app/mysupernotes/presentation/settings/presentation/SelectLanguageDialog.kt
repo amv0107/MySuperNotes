@@ -25,10 +25,10 @@ class SelectLanguageDialog : DialogFragment() {
         return AlertDialog.Builder(requireContext(), R.style.ConfirmDialogFragment)
             .setTitle(R.string.theme_confirm_dialog_language_title)
             .setSingleChoiceItems(listLanguage, currentLanguage, null)
-            .setNegativeButton(R.string.theme_confirm_dialog_cancel) { _, _ ->
+            .setNegativeButton(R.string.dialog_cancel) { _, _ ->
                 dismiss()
             }
-            .setPositiveButton(R.string.theme_confirm_dialog_select) { dialog, _ ->
+            .setPositiveButton(R.string.dialog_select) { dialog, _ ->
                 val index = (dialog as AlertDialog).listView.checkedItemPosition
                 parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(KEY_VALUE_RESPONSE to index))
                 dismiss()

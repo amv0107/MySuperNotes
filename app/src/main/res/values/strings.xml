@@ -35,7 +35,7 @@
     <string name="list_menu_staggered_grid">В виде сетки</string>
     <string name="list_menu_linear">В виде списка</string>
 
-    <string name="nav_header_subtitle" translatable="false">amv0107@gmail.com</string>
+    <string name="nav_header_subtitle" translatable="false">amv.simple.app@gmail.com</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="drawer_menu_all_notes">Все заметки</string>
     <string name="drawer_menu_archive_notes">Архивные заметки</string>
@@ -60,8 +60,11 @@
     <string name="dark_theme">Темная тема</string>
     <string name="system_theme">Системные установки по умолчанию</string>
 
-    <string name="theme_confirm_dialog_select">Выбрать</string>
-    <string name="theme_confirm_dialog_cancel">Отмена</string>
+    <!-- General button dialog   -->
+    <string name="dialog_select">Выбрать</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_apply">Применить</string>
+
     <string name="theme_confirm_dialog_language_title">Язык</string>
     <string name="theme_confirm_dialog_theme_title">Тема</string>
     <string name="theme_confirm_dialog_style_list_notes">Стиль списка заметок</string>
@@ -80,5 +83,15 @@
     <string name="settings_version_app">Версия: %1s</string>
     <string name="share_app_link" translatable="false">Android: https://bit.ly/SimpleNotesApp</string>
     <string name="share_app_message">Я налеш отличный блокнот - простой и красиво оформленный: Simple Notes. Хотите попробовать?</string>
+
+    <!-- Dialog sorting -->
+    <string name="label_sort_order">Порядок\nсортировки</string>
+    <string name="label_sort_by">Сортировать\nпо</string>
+    <string name="sortBy_title">Названию</string>
+    <string name="sortBy_date_create">Дате создания</string>
+    <string name="sortBy_date_edit">Дате редактирования</string>
+    <string name="sortOrder_desc">Убыванию</string>
+    <string name="sortOrder_asc">Возрастанию</string>
+    <string name="title_dialog_sorting">Сортировать</string>
 
 </resources>

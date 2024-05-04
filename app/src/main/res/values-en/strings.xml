@@ -41,8 +41,8 @@
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="system_theme">System default settings</string>
-    <string name="theme_confirm_dialog_select">Select</string>
-    <string name="theme_confirm_dialog_cancel">Cancel</string>
+    <string name="dialog_select">Select</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="theme_confirm_dialog_language_title">Language</string>
     <string name="theme_confirm_dialog_theme_title">Theme</string>
     <string name="theme_confirm_dialog_date_title">Format date</string>
@@ -61,4 +61,13 @@
     <string name="settings_share_app">Share app</string>
     <string name="settings_version_app">Version: %1s</string>
     <string name="share_app_message">I\'ve found a simple notepad app with wonderful functionality: Simple Notes. Please have a try at once:</string>
+    <string name="label_sort_order">Sort order</string>
+    <string name="label_sort_by">Sort by</string>
+    <string name="sortBy_title">Title</string>
+    <string name="sortBy_date_create">Date create</string>
+    <string name="sortBy_date_edit">Date edit</string>
+    <string name="sortOrder_desc">Descending</string>
+    <string name="sortOrder_asc">Ascending</string>
+    <string name="dialog_apply">Apply</string>
+    <string name="title_dialog_sorting">Sort</string>
 </resources>
