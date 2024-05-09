@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.domain
 
+import android.util.Log
 import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
 import com.amv.simple.app.mysupernotes.domain.util.NoteOrder
 import com.amv.simple.app.mysupernotes.domain.util.OrderType
@@ -17,6 +18,7 @@ class GetNoteListUseCase @Inject constructor(
         noteOrder: NoteOrder,
     ): Flow<List<NoteItem>> {
         return noteItemRepository.getNoteItemList().map { notes ->
+            Log.d("TAG", "UseCase: ${noteOrder.javaClass.simpleName}+${noteOrder.orderType.javaClass.simpleName}")
             notes.filter { item ->
                 when (typeList) {
                     TypeList.ARCHIVE_LIST -> item.isArchive && !item.isDelete

@@ -17,6 +17,9 @@ class MainListFragment : BaseListFragment() {
         binding.fabCrateNote.setOnClickListener {
             findNavController().navigate(R.id.action_mainListFragment_to_editorFragment)
         }
-        viewModel.getNoteList(TypeList.MAIN_LIST      )
+
+        viewModel.getNoteList(TypeList.MAIN_LIST)
+
+        setupSortingDialogListener(TypeList.MAIN_LIST)
     }
 }

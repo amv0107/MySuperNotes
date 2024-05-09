@@ -275,28 +275,20 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
         loadBannerAds(requireContext(), binding.adsFrameLayout, AdSize.FULL_BANNER, adUnitIdl)
     }
 
-    private fun setupMenu() = mainMenu?.run {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.layoutManagerFlow.collect {
-                findItem(R.id.list_menu_type_layout_manager).apply {
-//                    setIcon(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.drawable.ic_list_view else R.drawable.ic_grid_view)
-//                    setTitle(if (it.layoutManager == TypeLayoutManager.STAGGERED_GRID_LAYOUT_MANAGER) R.string.list_menu_linear else R.string.list_menu_staggered_grid)
-                }
-            }
-        }
-    }
-
-    private fun setNoteStyle() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            when (viewModel.layoutManagerFlow.first().dataStoreStyleListNotes) {
-                DataStoreStyleListNotes.LIST -> {
-                    viewModel.onTypeLayoutManager(DataStoreStyleListNotes.GRID)
-                }
-
-                DataStoreStyleListNotes.GRID -> {
-                    viewModel.onTypeLayoutManager(DataStoreStyleListNotes.LIST)
-                }
-            }
+    /**
+     * Слушатель Диалогового окра "Сортировка"
+     *
+     * В нем мы:
+     * 1. Применяем указаные значения для сортировки текущего списка
+     * 2. Сохраняем в DataStorePreferences из параметры
+     */
+    fun setupSortingDialogListener(typeList: TypeList) {
+        SortingDialog.setupListener(parentFragmentManager, this) { noteOrder ->
+            Log.d(
+                "TAG",
+                "FragmentListener: ${noteOrder.javaClass.simpleName}+${noteOrder.orderType.javaClass.simpleName}"
+            )
+            viewModel.getNoteList(typeList, noteOrder)
         }
     }
 }

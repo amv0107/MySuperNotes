@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.mainList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
@@ -8,6 +9,8 @@ import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
 import com.amv.simple.app.mysupernotes.domain.NoteItem
 import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
+import com.amv.simple.app.mysupernotes.domain.util.NoteOrder
+import com.amv.simple.app.mysupernotes.domain.util.OrderType
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.TypeList
@@ -33,57 +36,42 @@ class MainListViewModel @Inject constructor(
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
     val layoutManagerFlow = preferencesManager.layoutManagerFlow
 
-
-    fun getNoteList(typeList: TypeList) = viewModelScope.launch {
-        getNoteListUseCase.getNoteList(typeList)
-            .collect { list ->
-                if (list.isEmpty())
-                    _noteList.postValue(ErrorResult(NullPointerException()))
-                else
-                    _noteList.postValue(SuccessResult(list))
-            }
-    }
+    fun getNoteList(typeList: TypeList, noteOrder: NoteOrder = NoteOrder.DateCreate(OrderType.Ascending)) =
+        viewModelScope.launch {
+            getNoteListUseCase.getNoteList(typeList, noteOrder)
+                .collect { list ->
+                    Log.d(
+                        "TAG",
+                        "ViewModel: ${noteOrder.javaClass.simpleName}+${noteOrder.orderType.javaClass.simpleName}"
+                    )
+                    if (list.isEmpty())
+                        _noteList.postValue(ErrorResult(NullPointerException()))
+                    else
+                        _noteList.postValue(SuccessResult(list))
+                }
+        }
 
     fun onTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) = viewModelScope.launch {
         preferencesManager.updateTypeLayoutManager(dataStoreStyleListNotes)
     }
 
     fun changePin(noteItem: NoteItem) = viewModelScope.launch {
-        updateNoteItemUseCase(
-            noteItem.copy(
-                isPinned = !noteItem.isPinned
-            )
-        )
+        updateNoteItemUseCase(noteItem.copy(isPinned = !noteItem.isPinned))
     }
 
     fun changeArchive(noteItem: NoteItem) = viewModelScope.launch {
-        updateNoteItemUseCase(
-            noteItem.copy(
-                isArchive = false
-            )
-        )
+        updateNoteItemUseCase(noteItem.copy(isArchive = false))
     }
 
     fun moveToTrash(noteItem: NoteItem) = viewModelScope.launch {
-        updateNoteItemUseCase(
-            noteItem.copy(
-                isDelete = true,
-                deleteDate = TimeManager.getCurrentTimeToDB()
-            )
-        )
+        updateNoteItemUseCase(noteItem.copy(isDelete = true, deleteDate = TimeManager.getCurrentTimeToDB()))
     }
 
     fun restoreDelete(noteItem: NoteItem) = viewModelScope.launch {
-        updateNoteItemUseCase(
-            noteItem.copy(
-                isDelete = false,
-                deleteDate = ""
-            )
-        )
+        updateNoteItemUseCase(noteItem.copy(isDelete = false, deleteDate = ""))
     }
 
     fun deleteForeverNoteItem(noteItem: NoteItem) = viewModelScope.launch {
         deleteForeverNoteItemUseCase(noteItem)
     }
-
 }

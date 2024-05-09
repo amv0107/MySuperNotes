@@ -4,6 +4,13 @@
     <item
         android:id="@+id/list_menu_type_layout_manager"
         android:icon="@drawable/ic_grid_view"
+        android:visible="false"
         android:title="@string/list_menu_staggered_grid"
         app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/list_menu_sorting"
+        android:icon="@drawable/ic_sort"
+        android:title="Sort"
+        app:showAsAction="always"/>
 </menu>
