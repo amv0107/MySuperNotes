@@ -14,7 +14,7 @@ class GetNoteListUseCase @Inject constructor(
 
     fun getNoteList(
         typeList: TypeList,
-        noteOrder: NoteOrder = NoteOrder.DateCreate(OrderType.Descending),
+        noteOrder: NoteOrder,
     ): Flow<List<NoteItem>> {
         return noteItemRepository.getNoteItemList().map { notes ->
             notes.filter { item ->
