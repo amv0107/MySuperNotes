@@ -1,23 +1,23 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object TimeManager {
 
-    private const val DEF_TIME_FORMAT = "dd/MM/yyyy - HH:mm"
-
-    fun getCurrentTimeToDB(): String {
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern(DEF_TIME_FORMAT, Locale.getDefault())
-        return current.format(formatter)
+    fun getCurrentTimeToDB(): Long {
+        return System.currentTimeMillis()
     }
 
-    fun getTimeFormat(time: String, newPatternDateTime: String): String {
-        val defFormatter = DateTimeFormatter.ofPattern(DEF_TIME_FORMAT, Locale.getDefault())
-        val defDate = defFormatter.parse(time)
-        val newFormatter = DateTimeFormatter.ofPattern(newPatternDateTime, Locale.getDefault())
-        return newFormatter.format(defDate) ?: time
+    fun getTimeToDisplay(time: Long, newPatternDateTime: String): String {
+        val date = LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(time),
+            ZoneId.systemDefault()
+        )
+        return DateTimeFormatter.ofPattern(newPatternDateTime, Locale.getDefault())
+            .format(date)
     }
 }

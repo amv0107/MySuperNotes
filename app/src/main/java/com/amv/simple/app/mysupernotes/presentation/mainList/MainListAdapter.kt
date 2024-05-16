@@ -43,7 +43,7 @@ class MainListAdapter @Inject constructor(
         with(holder.binding) {
             root.tag = noteItem
             tvTitleNote.text = noteItem.title
-            tvDateTimeNote.text = TimeManager.getTimeFormat(noteItem.date, patternDateTime)
+            tvDateTimeNote.text = TimeManager.getTimeToDisplay(noteItem.dateOfCreate, patternDateTime)
             tvTextContentNote.text = Html.fromHtml(noteItem.textContent,Html.FROM_HTML_MODE_COMPACT).trim()
             imgPin.isVisible = noteItem.isPinned
             imgFavorite.isVisible = noteItem.isFavorite

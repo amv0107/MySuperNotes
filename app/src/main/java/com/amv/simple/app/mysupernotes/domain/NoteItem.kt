@@ -4,12 +4,12 @@ data class NoteItem(
     val id: Int = UNDEFINED_ID,
     val title: String,
     val textContent: String,
-    val date: String,
+    val dateOfCreate: Long,
     val isPinned: Boolean = false,
     val isFavorite: Boolean = false,
     val isArchive: Boolean = false,
     val isDelete: Boolean = false,
-    val deleteDate: String = ""
+    val deletionDate: Long = 0
 ) {
     companion object{
         const val UNDEFINED_ID = 0

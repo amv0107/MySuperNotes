@@ -86,7 +86,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     private lateinit var noteItem: NoteItem
     private val viewModel: EditorViewModel by viewModels()
 
-    val args: EditorFragmentArgs by navArgs()
+    private val args: EditorFragmentArgs by navArgs()
     private var mainMenu: Menu? = null
 
     private var isPin: Boolean = false
@@ -183,8 +183,7 @@ class EditorFragment @Inject constructor() : Fragment() {
             binding.selectColorPicker.visibility = View.GONE
             binding.formationMenu.isSelectedForeground = false
             binding.formationMenu.isSelectedBackground = false
-        }
-        else {
+        } else {
             if (binding.selectColorPicker.isVisible) {
                 binding.selectColorPicker.visibility = View.GONE
                 binding.formationMenu.isSelectedForeground = false
@@ -477,14 +476,18 @@ class EditorFragment @Inject constructor() : Fragment() {
                 )
             }
         } else {
-            Toast.makeText(requireContext(), resources.getString(R.string.edit_toast_action_short_title), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.edit_toast_action_short_title),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     private fun launchAddMode() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.formatDataTimeFlow.collect {
-                binding.tvDateTimeNote.text = TimeManager.getTimeFormat(
+                binding.tvDateTimeNote.text = TimeManager.getTimeToDisplay(
                     TimeManager.getCurrentTimeToDB(),
                     it.formatDataTime.pattern
                 )
@@ -502,7 +505,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                         noteItem = item
                         binding.apply {
                             etTitleNote.setText(item.title)
-                            tvDateTimeNote.text = TimeManager.getTimeFormat(item.date, it.formatDataTime.pattern)
+                            tvDateTimeNote.text = TimeManager.getTimeToDisplay(item.dateOfCreate, it.formatDataTime.pattern)
                             etTextContentNote.setText(Html.fromHtml(item.textContent, Html.FROM_HTML_MODE_COMPACT))
 
                             etTextContentNote.setReadOnly(item.isDelete) {
