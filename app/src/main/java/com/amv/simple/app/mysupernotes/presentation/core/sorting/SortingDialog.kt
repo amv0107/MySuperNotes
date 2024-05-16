@@ -35,6 +35,7 @@ class SortingDialog : DialogFragment(R.layout.dialog_sorting) {
         _binding = DialogSortingBinding.bind(view)
 
         setCheckRadioGroup(noteOrder, noteOrder.orderType)
+        Log.d("TAG", "SortingDialog noteOrder: ${noteOrder.javaClass.simpleName} orderType: ${noteOrder.orderType.javaClass.simpleName}")
         setupListeners()
     }
 
@@ -63,7 +64,6 @@ class SortingDialog : DialogFragment(R.layout.dialog_sorting) {
 
         binding.rgSortBy.setOnCheckedChangeListener { _, checkedId ->
             //TODO: Кажется не переключается, точне переключаетмя после выбора порядка сортировки,
-            // возможно когда будет загружаться из настроек то будет все хорошо
             when (checkedId) {
                 R.id.rbSortByTitle -> newNoteOrder = NoteOrder.Title(noteOrder.orderType)
                 R.id.rbSortByDateCreate -> newNoteOrder = NoteOrder.DateCreate(noteOrder.orderType)
@@ -82,10 +82,6 @@ class SortingDialog : DialogFragment(R.layout.dialog_sorting) {
         }
 
         binding.btnApply.setOnClickListener {
-            Log.d(
-                "TAG",
-                "DialogSetListener: ${noteOrder.javaClass.simpleName}+${noteOrder.orderType.javaClass.simpleName}"
-            )
             parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(KEY_NOTE_ORDER_RESPONSE to newNoteOrder))
             dismiss()
         }
@@ -104,7 +100,7 @@ class SortingDialog : DialogFragment(R.layout.dialog_sorting) {
         @JvmStatic // Не уверен что здесь это нужно
         private val REQUEST_KEY = "$TAG:defaultRequestKey"
 
-        fun show(manager: FragmentManager, noteOrder: NoteOrder) {
+        fun show(manager: FragmentManager, noteOrder: NoteOrder? = null) {
             val dialogFragment = SortingDialog()
             dialogFragment.arguments = bundleOf(ARG_NOTE_ORDER to noteOrder)
             dialogFragment.show(manager, TAG)

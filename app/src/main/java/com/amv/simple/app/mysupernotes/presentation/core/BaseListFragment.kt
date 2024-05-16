@@ -60,6 +60,7 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMainListBinding.bind(view)
+        viewModel.getNoteOrder(getCurrentListName())
 
         optionMenu()
         renderUI()
@@ -87,16 +88,27 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
                 changeMenuUI()
             }
 
-            var noteOrder: NoteOrder = NoteOrder.DateCreate(OrderType.Descending)
-
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.list_menu_type_layout_manager -> setNoteStyle()
-                    R.id.list_menu_sorting -> {} // SortingDialog.show(parentFragmentManager, noteOrder)
+                    R.id.list_menu_sorting -> {
+                        viewModel.noteOrder.observe(viewLifecycleOwner) { noteOrder ->
+                            SortingDialog.show(parentFragmentManager, noteOrder)
+                        }
+                    }
                 }
                 return false
             }
         }, viewLifecycleOwner)
+    }
+
+    fun getCurrentListName(): TypeList {
+        return when (this@BaseListFragment) {
+            is ArchiveListFragment -> TypeList.ARCHIVE_LIST
+            is FavoriteFragment -> TypeList.FAVORITE_LIST
+            is TrashFragment -> TypeList.DELETE_LIST
+            else -> TypeList.MAIN_LIST
+        }
     }
 
     /**
@@ -289,6 +301,7 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
                 "FragmentListener: ${noteOrder.javaClass.simpleName}+${noteOrder.orderType.javaClass.simpleName}"
             )
             viewModel.getNoteList(typeList, noteOrder)
+            viewModel.setNoteOrderForList(typeList, noteOrder)
         }
     }
 }
