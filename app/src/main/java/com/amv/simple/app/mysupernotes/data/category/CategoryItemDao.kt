@@ -13,6 +13,9 @@ interface CategoryItemDao {
     @Query("SELECT * FROM category_items")
     fun getCategoryItemList(): Flow<List<CategoryDbModel>>
 
+    @Query("SELECT * FROM category_items WHERE id = :categoryItemId")
+    fun getCategoryItem(categoryItemId: Int): Flow<CategoryDbModel>
+
     @Insert
     suspend fun addCategoryItem(categoryDbModel: CategoryDbModel)
 
