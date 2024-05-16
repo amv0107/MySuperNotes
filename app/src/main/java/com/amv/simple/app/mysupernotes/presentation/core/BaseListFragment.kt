@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.BuildConfig
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
-import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.monetisation.loadBannerAds
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment

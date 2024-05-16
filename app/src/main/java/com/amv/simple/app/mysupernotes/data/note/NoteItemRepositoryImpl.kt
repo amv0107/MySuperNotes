@@ -1,7 +1,7 @@
-package com.amv.simple.app.mysupernotes.data
+package com.amv.simple.app.mysupernotes.data.note
 
-import com.amv.simple.app.mysupernotes.domain.NoteItem
-import com.amv.simple.app.mysupernotes.domain.NoteItemRepository
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.NoteItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

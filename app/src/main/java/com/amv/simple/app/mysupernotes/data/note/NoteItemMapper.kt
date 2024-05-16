@@ -1,6 +1,6 @@
-package com.amv.simple.app.mysupernotes.data
+package com.amv.simple.app.mysupernotes.data.note
 
-import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 
 class NoteItemMapper {
 

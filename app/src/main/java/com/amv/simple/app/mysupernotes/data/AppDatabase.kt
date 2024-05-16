@@ -2,6 +2,8 @@ package com.amv.simple.app.mysupernotes.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.amv.simple.app.mysupernotes.data.note.NoteItemDao
+import com.amv.simple.app.mysupernotes.data.note.NoteItemDbModel
 
 @Database(
     entities = [NoteItemDbModel::class],

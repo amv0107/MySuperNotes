@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.Html
 import com.amv.simple.app.mysupernotes.R
-import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 
 object ShareHelper {
 

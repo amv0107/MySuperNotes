@@ -1,6 +1,6 @@
-package com.amv.simple.app.mysupernotes.domain
+package com.amv.simple.app.mysupernotes.domain.note
 
-import com.amv.simple.app.mysupernotes.data.NoteItemRepositoryImpl
+import com.amv.simple.app.mysupernotes.data.note.NoteItemRepositoryImpl
 import javax.inject.Inject
 
 class DeleteForeverNoteItemUseCase @Inject constructor(

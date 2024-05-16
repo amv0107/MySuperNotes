@@ -1,4 +1,4 @@
-package com.amv.simple.app.mysupernotes.data
+package com.amv.simple.app.mysupernotes.data.note
 
 import androidx.room.Dao
 import androidx.room.Delete

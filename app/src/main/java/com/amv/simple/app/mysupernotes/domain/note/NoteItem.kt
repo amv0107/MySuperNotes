@@ -1,4 +1,4 @@
-package com.amv.simple.app.mysupernotes.domain
+package com.amv.simple.app.mysupernotes.domain.note
 
 data class NoteItem(
     val id: Int = UNDEFINED_ID,

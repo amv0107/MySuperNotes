@@ -3,10 +3,10 @@ package com.amv.simple.app.mysupernotes.presentation.mainList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
-import com.amv.simple.app.mysupernotes.domain.DeleteForeverNoteItemUseCase
-import com.amv.simple.app.mysupernotes.domain.GetNoteListUseCase
-import com.amv.simple.app.mysupernotes.domain.NoteItem
-import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.note.DeleteForeverNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.note.GetNoteListUseCase
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult

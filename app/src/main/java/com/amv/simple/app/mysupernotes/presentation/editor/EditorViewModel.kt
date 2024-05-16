@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
-import com.amv.simple.app.mysupernotes.domain.AddNoteItemUseCase
-import com.amv.simple.app.mysupernotes.domain.GetNoteItemUseCase
-import com.amv.simple.app.mysupernotes.domain.NoteItem
-import com.amv.simple.app.mysupernotes.domain.UpdateNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.note.AddNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.note.GetNoteItemUseCase
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess

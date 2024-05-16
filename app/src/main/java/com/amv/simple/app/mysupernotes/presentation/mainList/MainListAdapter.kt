@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amv.simple.app.mysupernotes.databinding.ItemNoteListBinding
-import com.amv.simple.app.mysupernotes.domain.NoteItem
+import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.presentation.editor.TimeManager
 import javax.inject.Inject
 
