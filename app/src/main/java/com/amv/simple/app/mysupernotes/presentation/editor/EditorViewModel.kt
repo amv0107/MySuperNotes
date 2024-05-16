@@ -39,7 +39,7 @@ class EditorViewModel @Inject constructor(
         val item = NoteItem(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
-            date = TimeManager.getCurrentTimeToDB()
+            dateOfCreate = TimeManager.getCurrentTimeToDB()
         )
         addNoteItemUseCase(item)
         finishWork()
@@ -49,7 +49,7 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(
             noteItem.copy(
                 isDelete = false,
-                deleteDate = ""
+                deletionDate = 0
             )
         )
         finishWork()
@@ -90,7 +90,7 @@ class EditorViewModel @Inject constructor(
         val item = _noteItem.value.takeSuccess()?.let {
             it.copy(
                 isDelete = true,
-                deleteDate = TimeManager.getCurrentTimeToDB()
+                deletionDate = TimeManager.getCurrentTimeToDB()
             )
         }
         updateNoteItemUseCase(item!!)

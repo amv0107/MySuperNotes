@@ -11,10 +11,10 @@ data class NoteItemDbModel(
     val id: Int,
     val title: String,
     val textContent: String,
-    val date: String,
+    val dateOfCreate: Long,
     val isPined: Int,
     val isFavorite: Int,
     val isArchive: Int,
     val isDelete: Int,
-    val deleteDate: String,
+    val deletionDate: Long,
 )

@@ -8,12 +8,12 @@ class NoteItemMapper {
         id = noteItem.id,
         title = noteItem.title,
         textContent = noteItem.textContent,
-        date = noteItem.date,
+        dateOfCreate = noteItem.dateOfCreate,
         isPined = if (noteItem.isPinned) 1 else 0,
         isFavorite = if (noteItem.isFavorite) 1 else 0,
         isArchive = if(noteItem.isArchive) 1 else 0,
         isDelete = if(noteItem.isDelete) 1 else 0,
-        deleteDate = noteItem.deleteDate,
+        deletionDate = noteItem.deletionDate,
     )
 
 
@@ -21,12 +21,12 @@ class NoteItemMapper {
         id = noteItemDbModel.id,
         title = noteItemDbModel.title,
         textContent = noteItemDbModel.textContent,
-        date = noteItemDbModel.date,
+        dateOfCreate = noteItemDbModel.dateOfCreate,
         isPinned = noteItemDbModel.isPined != 0,
         isFavorite = noteItemDbModel.isFavorite != 0,
         isArchive = noteItemDbModel.isArchive != 0,
         isDelete = noteItemDbModel.isDelete != 0,
-        deleteDate = noteItemDbModel.deleteDate,
+        deletionDate = noteItemDbModel.deletionDate,
     )
 
     fun mapListDbModelToListEntity(list: List<NoteItemDbModel>) = list.map {
