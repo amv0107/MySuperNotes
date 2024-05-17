@@ -33,10 +33,8 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
         }
 
         binding.btnApply.setOnClickListener {
-            parentFragmentManager.setFragmentResult(
-                REQUEST_KEY,
-                bundleOf(KEY_CATEGORY_NAME_RESPONSE to binding.etNameCategory.text.toString())
-            )
+            val nameOfCategory = binding.etNameCategory.text.toString()
+            parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(KEY_CATEGORY_NAME_RESPONSE to nameOfCategory))
             dismiss()
         }
     }
