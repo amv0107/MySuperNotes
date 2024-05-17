@@ -59,13 +59,16 @@ class MainActivity : AppCompatActivity() {
     private val updateType = AppUpdateType.FLEXIBLE
 
     private val destinations = setOf(
-        R.id.mainListFragment
+        R.id.mainListFragment,
+        R.id.archiveListFragment,
+        R.id.favoriteListFragment,
+        R.id.trashListFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        if (updateType == AppUpdateType.FLEXIBLE)  {
+        if (updateType == AppUpdateType.FLEXIBLE) {
             appUpdateManager.registerListener(installStateUpdatedListener)
         }
         checkForAppUpdates()
@@ -78,18 +81,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainToolbar.setNavigationOnClickListener {
             when (navController.currentDestination?.id) {
-                R.id.mainListFragment -> {
-                    drawerLayout.open()
-                }
-
+                R.id.categoryListFragment -> navController.navigateUp()
+                R.id.settingsFragment -> navController.navigateUp()
                 R.id.editorFragment -> {
                     if (onBackPressedDispatcher.hasEnabledCallbacks())
                         onBackPressedDispatcher.onBackPressed()
                     else
                         navController.navigateUp()
                 }
-
-                else -> navController.navigateUp()
+                else -> drawerLayout.open()
             }
         }
     }
@@ -194,9 +194,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val installStateUpdatedListener = InstallStateUpdatedListener {state ->
-        if(state.installStatus() == InstallStatus.DOWNLOADED) {
-            Toast.makeText(applicationContext, "Download successful. Restarting app in 5 seconds.", Toast.LENGTH_SHORT).show()
+    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            Toast.makeText(applicationContext, "Download successful. Restarting app in 5 seconds.", Toast.LENGTH_SHORT)
+                .show()
             lifecycleScope.launch {
                 delay(5.seconds)
                 appUpdateManager.completeUpdate()
