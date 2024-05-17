@@ -1,7 +1,5 @@
 package com.amv.simple.app.mysupernotes.domain.note
 
-import com.amv.simple.app.mysupernotes.domain.note.NoteItem
-import com.amv.simple.app.mysupernotes.domain.note.NoteItemRepository
 import javax.inject.Inject
 
 class   UpdateNoteItemUseCase @Inject constructor(

@@ -1,6 +1,5 @@
 package com.amv.simple.app.mysupernotes.domain.note
 
-import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import kotlinx.coroutines.flow.Flow
 
 interface NoteItemRepository {
