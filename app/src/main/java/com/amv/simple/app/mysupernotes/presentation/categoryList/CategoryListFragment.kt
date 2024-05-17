@@ -25,7 +25,11 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         _binding = FragmentCategoryListBinding.bind(view)
 
         binding.fabCreateCategory.setOnClickListener {
-            Toast.makeText(requireContext(), "Create New Category", Toast.LENGTH_SHORT).show()
+            EditorCategoryDialog.show(parentFragmentManager)
+        }
+
+        EditorCategoryDialog.setupListener(parentFragmentManager, this) { nameCategory ->
+            Toast.makeText(requireContext(), "Added new category $nameCategory", Toast.LENGTH_SHORT).show()
         }
     }
 

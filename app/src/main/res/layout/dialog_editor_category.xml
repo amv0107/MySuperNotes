@@ -11,13 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add New Category"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/et_name_category"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:hint="Input name category"
@@ -44,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
+        android:layout_marginEnd="16dp"
         android:text="Add"
         android:textSize="16sp"
         android:layout_marginTop="8dp"
