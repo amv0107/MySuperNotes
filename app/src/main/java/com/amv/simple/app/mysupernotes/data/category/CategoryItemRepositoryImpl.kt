@@ -13,9 +13,6 @@ class CategoryItemRepositoryImpl @Inject constructor(
     override suspend fun addCategoryItem(categoryItem: CategoryItem) =
         dao.addCategoryItem(mapper.mapEntityToDbModel(categoryItem))
 
-    override suspend fun editCategoryItem(categoryItem: CategoryItem) =
-        dao.updateCategoryItem(mapper.mapEntityToDbModel(categoryItem))
-
     override suspend fun deleteCategoryItem(categoryItem: CategoryItem) =
         dao.deleteCategoryItem(mapper.mapEntityToDbModel(categoryItem))
 

@@ -54,7 +54,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
             }
 
             override fun onEditCategory(categoryItem: CategoryItem) {
-                EditorCategoryDialog.show(parentFragmentManager)
+                EditorCategoryDialog.show(parentFragmentManager, categoryItem.id, categoryItem.name)
             }
 
             override fun onDeleteCategory(categoryItem: CategoryItem) {
@@ -69,8 +69,12 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
             EditorCategoryDialog.show(parentFragmentManager)
         }
 
-        EditorCategoryDialog.setupListener(parentFragmentManager, this) { nameOfCategory ->
-            viewModel.addCategoryItem(name = nameOfCategory, position = 1)
+        EditorCategoryDialog.setupListener(parentFragmentManager, this) { idOfCategory, nameOfCategory ->
+            if (idOfCategory == null)
+                viewModel.addCategoryItem(nameCategory = nameOfCategory, positionCategory = 1)
+            else {
+                viewModel.addCategoryItem(idOfCategory, nameOfCategory,1)
+            }
         }
     }
 

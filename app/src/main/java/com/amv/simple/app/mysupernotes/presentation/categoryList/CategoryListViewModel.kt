@@ -27,10 +27,11 @@ class CategoryListViewModel @Inject constructor(
         }
     }
 
-    fun addCategoryItem(name: String, position: Int) = viewModelScope.launch {
+    fun addCategoryItem(idCategory: Int = 0, nameCategory: String, positionCategory: Int) = viewModelScope.launch {
         val item = CategoryItem(
-            position = position,
-            name = parseText(name)
+            id = idCategory,
+            position = positionCategory,
+            name = parseText(nameCategory)
         )
         addCategoryItemUseCase(item)
     }
