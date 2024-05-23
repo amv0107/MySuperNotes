@@ -8,6 +8,7 @@
     tools:context=".presentation.categoryList.CategoryListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategoryList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_category_in_screen_list" />
