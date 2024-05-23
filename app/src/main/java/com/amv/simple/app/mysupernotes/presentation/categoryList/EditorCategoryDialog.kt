@@ -40,7 +40,7 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
 
         _binding = DialogEditorCategoryBinding.bind(view)
 
-        if (nameCategory.isNotEmpty()) {
+        if (arguments != null) {
             binding.labelTitleDialog.text = "Edit category"
             binding.etNameCategory.setText(nameCategory)
         }
@@ -49,19 +49,21 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
             dismiss()
         }
 
+        // TODO: refactor
         binding.btnApply.setOnClickListener {
             val nameOfCategory = binding.etNameCategory.text.toString()
-            if (idCategory == 0)
+            if (arguments == null)
                 parentFragmentManager.setFragmentResult(
                     REQUEST_KEY,
-                    bundleOf(KEY_CATEGORY_NAME_RESPONSE to nameOfCategory)
+                    bundleOf(KEY_CATEGORY_ID_RESPONSE to 0,KEY_CATEGORY_NAME_RESPONSE to nameOfCategory)
                 )
             else
                 parentFragmentManager.setFragmentResult(
                     REQUEST_KEY,
                     bundleOf(
                         KEY_CATEGORY_ID_RESPONSE to idCategory,
-                        KEY_CATEGORY_NAME_RESPONSE to nameOfCategory)
+                        KEY_CATEGORY_NAME_RESPONSE to nameOfCategory
+                    )
                 )
 
             dismiss()
@@ -74,15 +76,20 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
     }
 
     companion object {
-        @JvmStatic // Не уверен что здесь это нужно
+        // TODO: @JvmStatic vs const val - узнать какая разница, и что когда нужно вызывать
+
+        @JvmStatic
         private val TAG = EditorCategoryDialog::class.java.simpleName
 
         @JvmStatic
         private val KEY_CATEGORY_NAME_RESPONSE = "KEY_CATEGORY_NAME_RESPONSE"
+
+        @JvmStatic
         private val KEY_CATEGORY_ID_RESPONSE = "KEY_CATEGORY_ID_RESPONSE"
 
         @JvmStatic
         val ARG_NAME = "ARG_NAME"
+
         @JvmStatic
         val ARG_ID = "ARG_ID"
 
@@ -103,7 +110,7 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
         fun setupListener(
             manager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            listener: (Int?, String) -> Unit
+            listener: (Int, String) -> Unit
         ) {
             manager.setFragmentResultListener(REQUEST_KEY, lifecycleOwner) { _, result ->
                 listener.invoke(

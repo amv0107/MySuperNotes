@@ -22,18 +22,13 @@ class CategoryListViewModel @Inject constructor(
     val categoryList: LiveResult<List<CategoryItem>> = _categoryList
 
     fun getCategoryList() = viewModelScope.launch {
-        getCategoryListUseCase().collect{
+        getCategoryListUseCase().collect {
             _categoryList.postValue(SuccessResult(it))
         }
     }
 
-    fun addCategoryItem(idCategory: Int = 0, nameCategory: String, positionCategory: Int) = viewModelScope.launch {
-        val item = CategoryItem(
-            id = idCategory,
-            position = positionCategory,
-            name = parseText(nameCategory)
-        )
-        addCategoryItemUseCase(item)
+    fun addCategoryItem(categoryId: Int = 0, categoryName: String) = viewModelScope.launch {
+        addCategoryItemUseCase(categoryId, parseText(categoryName))
     }
 
     private fun parseText(inputText: String?): String = inputText?.trim() ?: ""

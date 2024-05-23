@@ -41,7 +41,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         viewModel.getCategoryList()
 
         viewModel.categoryList.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is ErrorResult -> {}
                 is PendingResult -> {}
                 is SuccessResult -> categoryAdapter.submitList(result.takeSuccess())
@@ -69,11 +69,14 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
             EditorCategoryDialog.show(parentFragmentManager)
         }
 
-        EditorCategoryDialog.setupListener(parentFragmentManager, this) { idOfCategory, nameOfCategory ->
-            if (idOfCategory == null)
-                viewModel.addCategoryItem(nameCategory = nameOfCategory, positionCategory = 1)
+        EditorCategoryDialog.setupListener(
+            parentFragmentManager,
+            this
+        ) { idOfCategory, nameOfCategory ->
+            if (idOfCategory == 0)
+                viewModel.addCategoryItem(categoryName = nameOfCategory)
             else {
-                viewModel.addCategoryItem(idOfCategory, nameOfCategory,1)
+                viewModel.addCategoryItem(idOfCategory, nameOfCategory)
             }
         }
     }
