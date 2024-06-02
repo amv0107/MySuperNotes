@@ -63,7 +63,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
             }
 
             override fun onDeleteCategory(categoryItem: CategoryItem) {
-                Toast.makeText(requireContext(), "delete item", Toast.LENGTH_SHORT).show()
+                viewModel.deleteCategoryItem(categoryItem)
             }
         })
 

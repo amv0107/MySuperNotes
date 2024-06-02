@@ -10,4 +10,5 @@ interface NoteItemRepository {
     suspend fun deleteForeverNoteItem(noteItem: NoteItem)
     fun getNoteItem(noteItemId: Int): Flow<NoteItem>
     fun getNoteItemList(): Flow<List<NoteItem>>
+    fun getNotesByCategory(categoryId: Int): Flow<List<NoteItem>>
 }

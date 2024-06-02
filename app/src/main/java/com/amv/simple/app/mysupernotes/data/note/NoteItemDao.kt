@@ -13,6 +13,9 @@ interface NoteItemDao {
     @Query("SELECT * FROM note_items")
     fun getNoteItemList(): Flow<List<NoteItemDbModel>>
 
+    @Query("SELECT * FROM note_items WHERE categoryId = :categoryId")
+    fun getNotesByCategory(categoryId: Int): Flow<List<NoteItemDbModel>>
+
     @Insert
     suspend fun addNoteItem(noteItemDbModel: NoteItemDbModel)
 

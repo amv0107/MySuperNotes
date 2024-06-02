@@ -37,6 +37,9 @@ class CategoryListAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val categoryItem = getItem(position)
+        if (categoryItem.id == 0){
+            holder.binding.ivPopupMenu.visibility = View.GONE
+        }
         with(holder.binding) {
             root.tag = categoryItem
             ivPopupMenu.tag = categoryItem
