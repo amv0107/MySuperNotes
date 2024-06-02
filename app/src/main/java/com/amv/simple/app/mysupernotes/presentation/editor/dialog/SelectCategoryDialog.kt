@@ -32,6 +32,9 @@ class SelectCategoryDialog @Inject constructor() :
     private var _binding: FragmentSelectCategoryBinding? = null
     val binding get() = _binding!!
 
+    private val idCategory: Int
+        get() = requireArguments().getInt(ARG_ID)
+
     val viewModel: SelectCategoryViewModel by viewModels()
     private lateinit var recyclerViewAdapter: SelectCategoryAdapter
     override fun onCreateView(
@@ -60,6 +63,7 @@ class SelectCategoryDialog @Inject constructor() :
                 is ErrorResult -> {}
                 is PendingResult -> {}
                 is SuccessResult -> {
+                    // TODO: String resource
                     val list: MutableList<CategoryItem> =
                         mutableListOf(CategoryItem(0, 0, "Without category"))
                     list.addAll(result.takeSuccess() as List)
@@ -68,14 +72,15 @@ class SelectCategoryDialog @Inject constructor() :
             }
         }
 
-        recyclerViewAdapter = SelectCategoryAdapter(0, object : SelectCategoryAdapter.Listener {
-            override fun onClick(categoryItem: CategoryItem) {
-                parentFragmentManager.setFragmentResult(
-                    REQUEST_KEY, bundleOf(KEY_CATEGORY_ID to categoryItem.id)
-                )
-                dismiss()
-            }
-        })
+        recyclerViewAdapter =
+            SelectCategoryAdapter(idCategory, object : SelectCategoryAdapter.Listener {
+                override fun onClick(categoryItem: CategoryItem) {
+                    parentFragmentManager.setFragmentResult(
+                        REQUEST_KEY, bundleOf(KEY_CATEGORY_ID to categoryItem.id)
+                    )
+                    dismiss()
+                }
+            })
         binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCategoryList.adapter = recyclerViewAdapter
 
@@ -104,9 +109,11 @@ class SelectCategoryDialog @Inject constructor() :
         @JvmStatic
         private val REQUEST_KEY = "$TAG:defaultRequestKey"
         private const val KEY_CATEGORY_ID = "KEY_CATEGORY_ID"
+        private const val ARG_ID = "ARG_ID"
 
-        fun show(manager: FragmentManager) {
+        fun show(manager: FragmentManager, idCategory: Int) {
             val dialogFragment = SelectCategoryDialog()
+            dialogFragment.arguments = bundleOf(ARG_ID to idCategory)
             dialogFragment.show(manager, TAG)
         }
 

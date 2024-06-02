@@ -10,7 +10,7 @@ data class NoteItem(
     val isArchive: Boolean = false,
     val isDelete: Boolean = false,
     val deletionDate: Long = 0,
-    val categoryId: Int? = WITHOUT_CATEGORY,
+    val categoryId: Int = WITHOUT_CATEGORY,
 ) {
     companion object {
         const val UNDEFINED_ID = 0

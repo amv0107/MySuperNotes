@@ -14,7 +14,7 @@ class NoteItemMapper {
         isArchive = mapBooleanToInt(noteItem.isArchive),
         isDelete = mapBooleanToInt(noteItem.isDelete),
         deletionDate = noteItem.deletionDate,
-        categoryId = noteItem.categoryId!!,
+        categoryId = noteItem.categoryId,
     )
 
 

@@ -34,10 +34,11 @@ class EditorViewModel @Inject constructor(
     private val _noteItem = MutableLiveResult<NoteItem>(PendingResult())
     val noteItem: LiveResult<NoteItem> = _noteItem
 
-//    private val _categoryItem = MutableLiveData<CategoryName>()
-//    val categoryItem: LiveData<CategoryName> = _categoryItem
+    private val _categoryItemName = MutableLiveData<String>()
+    val categoryItemName: LiveData<String> = _categoryItemName
 
     private val _categoryItemId = MutableLiveData<Int>(0)
+    val categoryItemId: LiveData<Int> = _categoryItemId
 
     val formatDataTimeFlow = preferencesManager.formatDataTimeFlow
 
@@ -49,7 +50,8 @@ class EditorViewModel @Inject constructor(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
             dateOfCreate = TimeManager.getCurrentTimeToDB(),
-            categoryId = _categoryItemId.value
+            // TODO: !!! 
+            categoryId = _categoryItemId.value!!
         )
         addNoteItemUseCase(item)
         finishWork()
@@ -77,7 +79,8 @@ class EditorViewModel @Inject constructor(
         val item = _noteItem.value.takeSuccess()?.copy(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
-            categoryId = _categoryItemId.value
+            // TODO: !! 
+            categoryId = _categoryItemId.value!!
         )!!
         updateNoteItemUseCase(item)
         finishWork()
@@ -115,18 +118,16 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(item!!)
         finishWork()
     }
+
     private fun parseText(inputText: String?): String = inputText?.trim() ?: ""
 
     private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }
 
-    fun getCategoryItem(categoryItemId: Int) = viewModelScope.launch(Dispatchers.IO) {
-
-    }
-
-    fun setCategoryIdTemp(categoryId: Int) {
-        _categoryItemId.value = categoryId
+    fun getCategoryNameById(categoryItemId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _categoryItemName.postValue(getCategoryItemByIdUseCase.invoke(categoryItemId).name)
+        _categoryItemId.postValue(categoryItemId)
     }
 
 }

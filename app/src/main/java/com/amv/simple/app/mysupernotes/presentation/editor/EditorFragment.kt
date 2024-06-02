@@ -108,7 +108,6 @@ class EditorFragment @Inject constructor() : Fragment() {
         actionMenuCallback()
 
         listeners()
-
     }
 
     private fun listeners() {
@@ -201,11 +200,12 @@ class EditorFragment @Inject constructor() : Fragment() {
         }
 
         binding.tvCurrentCategory.setOnClickListener {
-            SelectCategoryDialog.show(parentFragmentManager)
+            // TODO:  !!!!
+            SelectCategoryDialog.show(parentFragmentManager, viewModel.categoryItemId.value!!)
         }
 
         SelectCategoryDialog.setListener(parentFragmentManager, this) { categoryId ->
-            viewModel.setCategoryIdTemp(categoryId)
+            viewModel.getCategoryNameById(categoryId)
         }
     }
 
@@ -512,7 +512,9 @@ class EditorFragment @Inject constructor() : Fragment() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
-
+        viewModel.categoryItemName.observe(viewLifecycleOwner) {
+            binding.tvCurrentCategory.text = it
+        }
     }
 
     private fun launchModeScreen() {
@@ -549,6 +551,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun launchAddMode() {
+        viewModel.getCategoryNameById(0)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.formatDataTimeFlow.collect {
                 binding.tvDateTimeNote.text = TimeManager.getTimeToDisplay(
@@ -556,7 +559,6 @@ class EditorFragment @Inject constructor() : Fragment() {
                     it.formatDataTime.pattern
                 )
             }
-            viewModel.getCategoryItem(0)
         }
     }
 
@@ -584,8 +586,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                             etTextContentNote.setReadOnly(item.isDelete) {
                                 viewModel.restoreDelete(item)
                             }
-
-                            tvCurrentCategory.text = item.categoryId.toString()
+                            viewModel.getCategoryNameById(item.categoryId)
                         }
                     }
                 }
