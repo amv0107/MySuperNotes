@@ -16,10 +16,8 @@ class CategoryItemRepositoryImpl @Inject constructor(
     override suspend fun deleteCategoryItem(categoryItem: CategoryItem) =
         dao.deleteCategoryItem(mapper.mapEntityToDbModel(categoryItem))
 
-    override fun getCategoryItemById(categoryItemId: Int): Flow<CategoryItem> =
-        dao.getCategoryItem(categoryItemId).map { categoryItemDbModel ->
-            mapper.mapDbModelToEntity(categoryItemDbModel)
-        }
+    override suspend fun getCategoryItemById(categoryItemId: Int): CategoryItem =
+       mapper.mapDbModelToEntity(dao.getCategoryItem(categoryItemId))
 
     override fun getCategoryItemList(): Flow<List<CategoryItem>> =
         dao.getCategoryItemList().map {categoryDbModelList ->

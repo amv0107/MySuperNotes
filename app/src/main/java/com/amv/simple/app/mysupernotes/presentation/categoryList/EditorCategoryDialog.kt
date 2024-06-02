@@ -55,7 +55,10 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
             if (arguments == null)
                 parentFragmentManager.setFragmentResult(
                     REQUEST_KEY,
-                    bundleOf(KEY_CATEGORY_ID_RESPONSE to 0,KEY_CATEGORY_NAME_RESPONSE to nameOfCategory)
+                    bundleOf(
+                        KEY_CATEGORY_ID_RESPONSE to 0,
+                        KEY_CATEGORY_NAME_RESPONSE to nameOfCategory
+                    )
                 )
             else
                 parentFragmentManager.setFragmentResult(
@@ -76,25 +79,17 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
     }
 
     companion object {
-        // TODO: @JvmStatic vs const val - узнать какая разница, и что когда нужно вызывать
-
         @JvmStatic
         private val TAG = EditorCategoryDialog::class.java.simpleName
 
         @JvmStatic
-        private val KEY_CATEGORY_NAME_RESPONSE = "KEY_CATEGORY_NAME_RESPONSE"
-
-        @JvmStatic
-        private val KEY_CATEGORY_ID_RESPONSE = "KEY_CATEGORY_ID_RESPONSE"
-
-        @JvmStatic
-        val ARG_NAME = "ARG_NAME"
-
-        @JvmStatic
-        val ARG_ID = "ARG_ID"
-
-        @JvmStatic // Не уверен что здесь это нужно
         private val REQUEST_KEY = "$TAG:defaultRequestKey"
+
+        private const val KEY_CATEGORY_NAME_RESPONSE = "KEY_CATEGORY_NAME_RESPONSE"
+        private const val KEY_CATEGORY_ID_RESPONSE = "KEY_CATEGORY_ID_RESPONSE"
+
+        private const val ARG_NAME = "ARG_NAME"
+        private const val ARG_ID = "ARG_ID"
 
         fun show(manager: FragmentManager, id: Int, name: String) {
             val dialogFragment = EditorCategoryDialog()

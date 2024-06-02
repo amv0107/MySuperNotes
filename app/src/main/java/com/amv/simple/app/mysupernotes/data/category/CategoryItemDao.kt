@@ -15,7 +15,7 @@ interface CategoryItemDao {
     fun getCategoryItemList(): Flow<List<CategoryDbModel>>
 
     @Query("SELECT * FROM category_items WHERE id = :categoryItemId")
-    fun getCategoryItem(categoryItemId: Int): Flow<CategoryDbModel>
+    suspend fun getCategoryItem(categoryItemId: Int): CategoryDbModel
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCategoryItem(categoryDbModel: CategoryDbModel)

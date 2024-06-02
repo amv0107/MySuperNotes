@@ -9,10 +9,13 @@ data class NoteItem(
     val isFavorite: Boolean = false,
     val isArchive: Boolean = false,
     val isDelete: Boolean = false,
-    val deletionDate: Long = 0
+    val deletionDate: Long = 0,
+    val categoryId: Int? = WITHOUT_CATEGORY,
 ) {
-    companion object{
+    companion object {
         const val UNDEFINED_ID = 0
+        const val WITHOUT_CATEGORY = 0
     }
 }
+
 

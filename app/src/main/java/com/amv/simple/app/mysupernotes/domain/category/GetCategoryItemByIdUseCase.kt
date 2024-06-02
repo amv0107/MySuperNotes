@@ -8,6 +8,7 @@ class GetCategoryItemByIdUseCase @Inject constructor(
     private val categoryItemRepository: CategoryItemRepositoryImpl
 ) {
 
-    operator fun invoke(categoryItemId: Int): Flow<CategoryItem> =
+    suspend operator fun invoke(categoryItemId: Int): CategoryItem =
         categoryItemRepository.getCategoryItemById(categoryItemId)
+
 }

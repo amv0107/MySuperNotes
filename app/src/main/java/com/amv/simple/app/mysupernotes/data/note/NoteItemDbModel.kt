@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "note_items"
+    tableName = "note_items",
 )
 data class NoteItemDbModel(
     @PrimaryKey(autoGenerate = true)
@@ -17,4 +17,5 @@ data class NoteItemDbModel(
     val isArchive: Int,
     val isDelete: Int,
     val deletionDate: Long,
+    val categoryId: Int,
 )

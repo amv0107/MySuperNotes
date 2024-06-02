@@ -6,7 +6,7 @@ interface CategoryItemRepository {
 
     suspend fun addCategoryItem(categoryItem: CategoryItem)
     suspend fun deleteCategoryItem(categoryItem: CategoryItem)
-    fun getCategoryItemById(categoryItemId: Int): Flow<CategoryItem>
+    suspend fun getCategoryItemById(categoryItemId: Int): CategoryItem
     fun getCategoryItemList(): Flow<List<CategoryItem>>
 
 }

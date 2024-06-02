@@ -13,9 +13,12 @@ class AddCategoryItemUseCase @Inject constructor(
             return
 
         val currentListOfCategory = categoryItemRepository.getCategoryItemList().first()
-
+// TODO: REFACTOR if-else-if-else 
         val position = if (categoryId == 0)
-            currentListOfCategory.maxOf { it.position } + 1
+            if (currentListOfCategory.isEmpty())
+                1
+            else
+                currentListOfCategory.maxOf { it.position } + 1
         else
             currentListOfCategory.first { it.id == categoryId }.position
 

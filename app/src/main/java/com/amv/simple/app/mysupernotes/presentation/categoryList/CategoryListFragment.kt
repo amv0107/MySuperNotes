@@ -24,7 +24,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
     private val binding get() = _binding!!
 
     private val viewModel: CategoryListViewModel by viewModels()
-    lateinit var categoryAdapter: CategoryListAdapter
+    private lateinit var categoryAdapter: CategoryListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +44,12 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
             when (result) {
                 is ErrorResult -> {}
                 is PendingResult -> {}
-                is SuccessResult -> categoryAdapter.submitList(result.takeSuccess())
+                is SuccessResult -> {
+                    val list: MutableList<CategoryItem> =
+                        mutableListOf(CategoryItem(0, 0, "Without category"))
+                    list.addAll(result.takeSuccess() as List)
+                    categoryAdapter.submitList(list)
+                }
             }
         }
 

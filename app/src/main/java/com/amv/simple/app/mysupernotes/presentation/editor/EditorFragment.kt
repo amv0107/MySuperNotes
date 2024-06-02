@@ -5,18 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-
+import android.text.Editable
 import android.text.Html
 import android.text.Layout
+import android.text.TextWatcher
 import android.text.style.AlignmentSpan
 import android.text.style.BulletSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.view.ActionMode
-
-import android.text.Editable
-import android.text.TextWatcher
-
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -32,9 +29,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
-
 import androidx.core.view.isVisible
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,11 +42,12 @@ import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
+import com.amv.simple.app.mysupernotes.presentation.editor.dialog.SelectCategoryDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "TAG"
+private const val TAG = "EditorFragment"
 
 // Способы передачи аргумента для открытия заметки для редактирования:
 // !!!!---КАКОЙ ПРАВИЛЬНО НЕЗНАЮ---!!!!
@@ -98,18 +94,21 @@ class EditorFragment @Inject constructor() : Fragment() {
         optionsMenu()
         titleFocusListener()
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
-                    findNavController().navigateUp()
-                else
-                    saveNote()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.etTitleNote.text?.isEmpty() == true && binding.etTextContentNote.text.isEmpty())
+                        findNavController().navigateUp()
+                    else
+                        saveNote()
+                }
+            })
 
         actionMenuCallback()
 
         listeners()
+
     }
 
     private fun listeners() {
@@ -118,8 +117,19 @@ class EditorFragment @Inject constructor() : Fragment() {
             val endPos = binding.etTextContentNote.selectionEnd
             val editText = binding.etTextContentNote
             when (whatWePaint) {
-                WhatWePaint.FOREGROUND -> FormationText.foregroundColorText(startPos, endPos, color, editText)
-                WhatWePaint.BACKGROUND -> FormationText.backgroundColorText(startPos, endPos, color, editText)
+                WhatWePaint.FOREGROUND -> FormationText.foregroundColorText(
+                    startPos,
+                    endPos,
+                    color,
+                    editText
+                )
+
+                WhatWePaint.BACKGROUND -> FormationText.backgroundColorText(
+                    startPos,
+                    endPos,
+                    color,
+                    editText
+                )
             }
         }
 
@@ -134,8 +144,20 @@ class EditorFragment @Inject constructor() : Fragment() {
                 FormationTextAction.ITALIC -> FormationText.italic(startPos, endPos, editText)
                 FormationTextAction.UNDERLINE -> FormationText.underline(startPos, endPos, editText)
                 FormationTextAction.ALIGN -> showFormationParagraphAlignMenu()
-                FormationTextAction.BULLET -> FormationParagraph.bulletSpan(startPos, endPos, editText, color)
-                FormationTextAction.COLOR_TEXT -> showColorPicker(WhatWePaint.FOREGROUND, startPos, endPos, editText)
+                FormationTextAction.BULLET -> FormationParagraph.bulletSpan(
+                    startPos,
+                    endPos,
+                    editText,
+                    color
+                )
+
+                FormationTextAction.COLOR_TEXT -> showColorPicker(
+                    WhatWePaint.FOREGROUND,
+                    startPos,
+                    endPos,
+                    editText
+                )
+
                 FormationTextAction.COLOR_TEXT_FILL -> showColorPicker(
                     WhatWePaint.BACKGROUND,
                     startPos,
@@ -158,14 +180,41 @@ class EditorFragment @Inject constructor() : Fragment() {
             val editText = binding.etTextContentNote
 
             when (action) {
-                FormationParagraphAlignAction.LEFT -> FormationParagraph.alignLeft(startPos, endPos, editText)
-                FormationParagraphAlignAction.CENTER -> FormationParagraph.alignCenter(startPos, endPos, editText)
-                FormationParagraphAlignAction.RIGHT -> FormationParagraph.alignRight(startPos, endPos, editText)
+                FormationParagraphAlignAction.LEFT -> FormationParagraph.alignLeft(
+                    startPos,
+                    endPos,
+                    editText
+                )
+
+                FormationParagraphAlignAction.CENTER -> FormationParagraph.alignCenter(
+                    startPos,
+                    endPos,
+                    editText
+                )
+
+                FormationParagraphAlignAction.RIGHT -> FormationParagraph.alignRight(
+                    startPos,
+                    endPos,
+                    editText
+                )
             }
+        }
+
+        binding.tvCurrentCategory.setOnClickListener {
+            SelectCategoryDialog.show(parentFragmentManager)
+        }
+
+        SelectCategoryDialog.setListener(parentFragmentManager, this) { categoryId ->
+            viewModel.setCategoryIdTemp(categoryId)
         }
     }
 
-    private fun showColorPicker(whatWePaint: WhatWePaint, startPos: Int, endPos: Int, view: EditText) {
+    private fun showColorPicker(
+        whatWePaint: WhatWePaint,
+        startPos: Int,
+        endPos: Int,
+        view: EditText
+    ) {
         if (this::whatWePaint.isInitialized && this.whatWePaint == whatWePaint && binding.selectColorPicker.isVisible) {
             binding.selectColorPicker.visibility = View.GONE
             binding.formationMenu.isSelectedForeground = false
@@ -293,7 +342,8 @@ class EditorFragment @Inject constructor() : Fragment() {
 
     private fun hideKeyboard() {
         try {
-            val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.etTextContentNote.windowToken, 0)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -406,37 +456,63 @@ class EditorFragment @Inject constructor() : Fragment() {
     private fun pinNote() {
         viewModel.changePin()
         if (!isPin)
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_pinned), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_pinned),
+                Toast.LENGTH_SHORT
+            ).show()
         else
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_unpinned), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_unpinned),
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
     private fun favoriteNote() {
         viewModel.changeFavorite()
         if (!isFavorite)
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_un_favorite), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_un_favorite),
+                Toast.LENGTH_SHORT
+            ).show()
         else
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_favorite), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_favorite),
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
     private fun archiveNote() {
         viewModel.changeArchive()
         if (!isArchive)
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_archive), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_archive),
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
-    private fun shareNote() = startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
+    private fun shareNote() =
+        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
 
     private fun deleteNote() {
         viewModel.moveNoteToTrash()
         if (!isDelete)
-            Toast.makeText(requireContext(), getString(R.string.edit_toast_move_to_trash), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.edit_toast_move_to_trash),
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
     private fun observeViewModel() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
+
     }
 
     private fun launchModeScreen() {
@@ -452,6 +528,7 @@ class EditorFragment @Inject constructor() : Fragment() {
 
         if (validTitle) {
             if (args.noteId == 0) {
+
                 viewModel.addNoteItem(
                     binding.etTitleNote.text.toString(),
                     Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_COMPACT),
@@ -479,6 +556,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                     it.formatDataTime.pattern
                 )
             }
+            viewModel.getCategoryItem(0)
         }
     }
 
@@ -492,12 +570,22 @@ class EditorFragment @Inject constructor() : Fragment() {
                         noteItem = item
                         binding.apply {
                             etTitleNote.setText(item.title)
-                            tvDateTimeNote.text = TimeManager.getTimeToDisplay(item.dateOfCreate, it.formatDataTime.pattern)
-                            etTextContentNote.setText(Html.fromHtml(item.textContent, Html.FROM_HTML_MODE_COMPACT))
+                            tvDateTimeNote.text = TimeManager.getTimeToDisplay(
+                                item.dateOfCreate,
+                                it.formatDataTime.pattern
+                            )
+                            etTextContentNote.setText(
+                                Html.fromHtml(
+                                    item.textContent,
+                                    Html.FROM_HTML_MODE_COMPACT
+                                )
+                            )
 
                             etTextContentNote.setReadOnly(item.isDelete) {
                                 viewModel.restoreDelete(item)
                             }
+
+                            tvCurrentCategory.text = item.categoryId.toString()
                         }
                     }
                 }
