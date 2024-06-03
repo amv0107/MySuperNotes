@@ -25,6 +25,21 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
+        fun getLocalizedDataFileName(context: Context): String {
+            val locale = context.resources.configuration.locales.get(0)
+            return when(locale.language) {
+                "ru" -> "category_ru.json"
+                "uk" -> "category_uk.json"
+                "en" -> "category_en.json"
+                else -> "category_en.json"
+            }
+        }
+
+        fun readJsonData(context: Context, fileName: String): List<CategoryDbModel> {
+            val json = context.assets.open(fileName).bufferedReader().use { it.readText() }
+            return Gson().fromJson(json, object: TypeToken<List<CategoryDbModel>>() {}.type)
+        }
+
         const val DB_NAME = "amv_simple_app_note.db"
 
     }
