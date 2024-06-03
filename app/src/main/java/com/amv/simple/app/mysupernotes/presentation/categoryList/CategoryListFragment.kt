@@ -17,6 +17,8 @@ import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.core.dialogs.infoDialog
+import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -79,6 +81,10 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
                 viewModel.deleteCategoryItem(categoryItem)
             }
         })
+
+        binding.ivInfo.setOnClickListener {
+            infoDialog(R.string.info_category_list_fragment)
+        }
 
         binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCategoryList.adapter = categoryAdapter

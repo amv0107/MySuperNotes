@@ -61,4 +61,7 @@
     <string name="settings_share_app">Share app</string>
     <string name="settings_version_app">Version: %1s</string>
     <string name="share_app_message">I\'ve found a simple notepad app with wonderful functionality: Simple Notes. Please have a try at once:</string>
+    <string name="info_category_list_fragment">Standard categories were added in the language of the device, if for any reason you have changed the language of the app or device, please rename your categories manually</string>
+    <string name="positive_button_info_dialog">I see</string>
+    <string name="title_info_dialog">Info</string>
 </resources>

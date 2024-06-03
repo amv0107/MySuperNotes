@@ -81,4 +81,7 @@
     <string name="share_app_link" translatable="false">Android: https://bit.ly/SimpleNotesApp</string>
     <string name="share_app_message">Я налеш отличный блокнот - простой и красиво оформленный: Simple Notes. Хотите попробовать?</string>
 
+    <string name="info_category_list_fragment">Стандартные категории добавлены были на языке устройства, если по какой-либо причине вы сменили язык приложения или устройства, переименуйте, пожалуйста, свои категории вручную</string>
+    <string name="positive_button_info_dialog">Я понял</string>
+    <string name="title_info_dialog">Информационное уведомление</string>
 </resources>

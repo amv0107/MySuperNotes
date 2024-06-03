@@ -61,4 +61,7 @@
     <string name="settings_share_app">Поділитися додатком</string>
     <string name="settings_version_app">Версія: %1s</string>
     <string name="share_app_message">Я знайшов простий додаток для нотаток з чудовим функціоналом: Simple Notes. Рекомендую одразу його зацінити:</string>
+    <string name="info_category_list_fragment">Стандартні категорії додані були на мові пристрою, якщо з якої-небудь причини ви змінили мову додатка або пристрою, перейменуйте, будь ласка, свої категорії вручну</string>
+    <string name="positive_button_info_dialog">Я зрозумів</string>
+    <string name="title_info_dialog">Інформаційне повідомлення</string>
 </resources>
