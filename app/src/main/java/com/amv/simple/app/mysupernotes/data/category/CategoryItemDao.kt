@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,6 +18,9 @@ interface CategoryItemDao {
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCategoryItem(categoryDbModel: CategoryDbModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(listCategory: List<CategoryDbModel>)
 
     @Delete
     suspend fun deleteCategoryItem(categoryDbModel: CategoryDbModel)

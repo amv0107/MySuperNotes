@@ -2,6 +2,7 @@ package com.amv.simple.app.mysupernotes.domain.note
 
 import com.amv.simple.app.mysupernotes.data.note.NoteItemRepositoryImpl
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetNotesByCategoryUseCase @Inject constructor(
@@ -9,6 +10,8 @@ class GetNotesByCategoryUseCase @Inject constructor(
 ) {
 
     operator fun invoke(categoryId: Int): Flow<List<NoteItem>> =
-        noteRepository.getNotesByCategory(categoryId)
+        noteRepository.getNotesByCategory(categoryId).map { list ->
+            list.filter { !it.isArchive }
+        }
 
 }

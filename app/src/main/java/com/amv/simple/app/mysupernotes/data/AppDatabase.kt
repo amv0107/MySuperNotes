@@ -1,11 +1,14 @@
 package com.amv.simple.app.mysupernotes.data
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.amv.simple.app.mysupernotes.data.category.CategoryDbModel
 import com.amv.simple.app.mysupernotes.data.category.CategoryItemDao
 import com.amv.simple.app.mysupernotes.data.note.NoteItemDao
 import com.amv.simple.app.mysupernotes.data.note.NoteItemDbModel
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 
 @Database(
     entities = [

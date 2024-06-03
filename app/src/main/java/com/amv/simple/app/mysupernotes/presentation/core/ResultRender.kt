@@ -30,7 +30,7 @@ fun <T> BaseFragment.renderSimpleResult(
                 is TrashFragment -> getString(R.string.error_empty_list_trash_screen)
                 is ListOfNotesByCategoryOrTag -> {
                     // TODO: StringResource
-                    "Empty"
+                    "Нет подходящих заметок"
                 }
 
                 else -> getString(R.string.error_empty_list_main_screen)
