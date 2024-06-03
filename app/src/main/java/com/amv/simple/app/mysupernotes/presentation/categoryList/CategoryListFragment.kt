@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amv.simple.app.mysupernotes.R
@@ -62,7 +63,12 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
                         categoryItem.id,
                         categoryItem.name
                     )
-                Navigation.findNavController(view).navigate(action)
+                Navigation.findNavController(view).navigate(action, navOptions = NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in)
+                    .setExitAnim(R.anim.fade_out)
+                    .setPopEnterAnim(R.anim.fade_in)
+                    .setPopExitAnim(R.anim.slide_out)
+                    .build())
             }
 
             override fun onEditCategory(categoryItem: CategoryItem) {
