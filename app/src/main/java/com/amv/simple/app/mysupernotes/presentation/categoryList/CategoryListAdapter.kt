@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.CustomPopupMenu
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.ItemCategoryInScreenListBinding
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import javax.inject.Inject
@@ -64,12 +66,16 @@ class CategoryListAdapter @Inject constructor(
     }
 
     private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(view.context, view)
+        val popupMenu = CustomPopupMenu(view.context, view)
         val categoryItem = view.tag as CategoryItem
 
         // TODO: StringResource 
-        popupMenu.menu.add(0,1,Menu.NONE, "Rename")
-        popupMenu.menu.add(0,2,Menu.NONE, "Delete")
+        popupMenu.menu.add(0,1,Menu.NONE, "Rename").apply {
+            setIcon(R.drawable.ic_edit)
+        }
+        popupMenu.menu.add(0,2,Menu.NONE, "Delete").apply {
+            setIcon(R.drawable.ic_delete)
+        }
 
         popupMenu.setOnMenuItemClickListener {
             when(it.itemId) {

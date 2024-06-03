@@ -44,7 +44,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
 
         viewModel.categoryList.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is ErrorResult -> {}
+                is ErrorResult -> { }
                 is PendingResult -> {}
                 is SuccessResult -> {
                     val list: MutableList<CategoryItem> =
