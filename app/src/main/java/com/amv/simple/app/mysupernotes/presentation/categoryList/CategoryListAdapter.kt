@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amv.simple.app.mysupernotes.databinding.ItemCategoryInScreenListBinding
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
-import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import javax.inject.Inject
 
 class CategoryListAdapter @Inject constructor(
@@ -25,7 +24,7 @@ class CategoryListAdapter @Inject constructor(
         )
 
         binding.root.setOnClickListener {
-            listener.onChooseCategory(it.tag as CategoryItem)
+            listener.onChooseCategory(it, it.tag as CategoryItem)
         }
 
         binding.ivPopupMenu.setOnClickListener {
@@ -50,7 +49,7 @@ class CategoryListAdapter @Inject constructor(
     override fun getItemCount(): Int = currentList.size
 
     interface CategoryListListener {
-        fun onChooseCategory(categoryItem: CategoryItem)
+        fun onChooseCategory(view: View, categoryItem: CategoryItem)
         fun onEditCategory(categoryItem: CategoryItem)
         fun onDeleteCategory(categoryItem: CategoryItem)
     }
@@ -68,6 +67,7 @@ class CategoryListAdapter @Inject constructor(
         val popupMenu = PopupMenu(view.context, view)
         val categoryItem = view.tag as CategoryItem
 
+        // TODO: StringResource 
         popupMenu.menu.add(0,1,Menu.NONE, "Rename")
         popupMenu.menu.add(0,2,Menu.NONE, "Delete")
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
 import com.amv.simple.app.mysupernotes.domain.note.DeleteForeverNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.note.GetNoteListUseCase
+import com.amv.simple.app.mysupernotes.domain.note.GetNotesByCategoryUseCase
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.note.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainListViewModel @Inject constructor(
     private val getNoteListUseCase: GetNoteListUseCase,
+    private val getNotesByCategoryUseCase: GetNotesByCategoryUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
     private val deleteForeverNoteItemUseCase: DeleteForeverNoteItemUseCase,
     private val preferencesManager: PreferencesManager,
@@ -42,6 +44,15 @@ class MainListViewModel @Inject constructor(
                 else
                     _noteList.postValue(SuccessResult(list))
             }
+    }
+
+    fun getNotesByCategory(categoryId: Int) = viewModelScope.launch {
+        getNotesByCategoryUseCase(categoryId).collect{list ->
+            if (list.isEmpty())
+                _noteList.postValue(ErrorResult(NullPointerException()))
+            else
+                _noteList.postValue(SuccessResult(list))
+        }
     }
 
     fun onTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) = viewModelScope.launch {

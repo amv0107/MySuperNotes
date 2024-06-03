@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentCategoryListBinding
@@ -46,6 +47,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
                 is PendingResult -> {}
                 is SuccessResult -> {
                     val list: MutableList<CategoryItem> =
+                        // TODO: StringResource
                         mutableListOf(CategoryItem(0, 0, "Without category"))
                     list.addAll(result.takeSuccess() as List)
                     categoryAdapter.submitList(list)
@@ -54,8 +56,13 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         }
 
         categoryAdapter = CategoryListAdapter(object : CategoryListAdapter.CategoryListListener {
-            override fun onChooseCategory(categoryItem: CategoryItem) {
-                Toast.makeText(requireContext(), "onClickListener", Toast.LENGTH_SHORT).show()
+            override fun onChooseCategory(view: View, categoryItem: CategoryItem) {
+                val action: NavDirections = CategoryListFragmentDirections
+                    .actionCategoryListFragmentToListOfNotesByCategoryOrTag(
+                        categoryItem.id,
+                        categoryItem.name
+                    )
+                Navigation.findNavController(view).navigate(action)
             }
 
             override fun onEditCategory(categoryItem: CategoryItem) {

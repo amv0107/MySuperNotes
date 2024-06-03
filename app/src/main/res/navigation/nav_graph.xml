@@ -9,7 +9,7 @@
         android:id="@+id/mainListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_main_list" >
+        tools:layout="@layout/fragment_main_list">
         <action
             android:id="@+id/action_mainListFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
@@ -18,17 +18,17 @@
         android:id="@+id/editorFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.editor.EditorFragment"
         android:label=""
-        tools:layout="@layout/fragment_editor" >
+        tools:layout="@layout/fragment_editor">
         <argument
             android:name="noteId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/archiveListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragment"
         android:label="@string/title_screen_archive"
-        tools:layout="@layout/fragment_main_list" >
+        tools:layout="@layout/fragment_main_list">
         <action
             android:id="@+id/action_archiveListFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
@@ -37,7 +37,7 @@
         android:id="@+id/favoriteListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment"
         android:label="@string/title_screen_favorite"
-        tools:layout="@layout/fragment_main_list" >
+        tools:layout="@layout/fragment_main_list">
         <action
             android:id="@+id/action_favoriteListFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
@@ -46,7 +46,7 @@
         android:id="@+id/trashListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.trashList.TrashFragment"
         android:label="@string/title_screen_trash"
-        tools:layout="@layout/fragment_main_list" >
+        tools:layout="@layout/fragment_main_list">
         <action
             android:id="@+id/action_trashListFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
@@ -60,5 +60,24 @@
         android:id="@+id/categoryListFragment"
         android:name="com.amv.simple.app.mysupernotes.presentation.categoryList.CategoryListFragment"
         android:label="Category"
-        tools:layout="@layout/fragment_category_list" />
+        tools:layout="@layout/fragment_category_list">
+        <action
+            android:id="@+id/action_categoryListFragment_to_listOfNotesByCategoryOrTag"
+            app:destination="@id/listOfNotesByCategoryOrTag" />
+    </fragment>
+    <fragment
+        android:id="@+id/listOfNotesByCategoryOrTag"
+        android:name="com.amv.simple.app.mysupernotes.presentation.listOfNotesByCategoryOrTag.ListOfNotesByCategoryOrTag"
+        android:label=""
+        tools:layout="@layout/fragment_main_list">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_listOfNotesByCategoryOrTag_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
 </navigation>

@@ -25,7 +25,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
@@ -83,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             when (navController.currentDestination?.id) {
                 R.id.categoryListFragment -> navController.navigateUp()
                 R.id.settingsFragment -> navController.navigateUp()
+                R.id.listOfNotesByCategoryOrTag -> navController.navigateUp()
                 R.id.editorFragment -> {
                     if (onBackPressedDispatcher.hasEnabledCallbacks())
                         onBackPressedDispatcher.onBackPressed()
@@ -152,6 +152,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun updateToolbarTitle(title: String) {
+        binding.toolbarTitle.text = title
+    }
+
     private fun setupDrawer() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -162,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbarTitle.text = navController.currentDestination?.label
+            updateToolbarTitle(navController.currentDestination?.label.toString())
 
             if (destination.id == R.id.editorFragment) {
                 toolbar.setBackgroundColor(getColor(R.color.yellow))

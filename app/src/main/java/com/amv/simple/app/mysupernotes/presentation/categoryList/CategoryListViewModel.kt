@@ -6,7 +6,7 @@ import com.amv.simple.app.mysupernotes.domain.category.AddCategoryItemUseCase
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import com.amv.simple.app.mysupernotes.domain.category.DeleteCategoryItemUseCase
 import com.amv.simple.app.mysupernotes.domain.category.GetCategoryListUseCase
-import com.amv.simple.app.mysupernotes.domain.note.GetNotesByCategory
+import com.amv.simple.app.mysupernotes.domain.note.GetNotesByCategoryUseCase
 import com.amv.simple.app.mysupernotes.domain.note.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
@@ -21,7 +21,7 @@ class CategoryListViewModel @Inject constructor(
     private val addCategoryItemUseCase: AddCategoryItemUseCase,
     private val getCategoryListUseCase: GetCategoryListUseCase,
     private val deleteCategoryItemUseCase: DeleteCategoryItemUseCase,
-    private val getNotesByCategory: GetNotesByCategory,
+    private val getNotesByCategoryUseCase: GetNotesByCategoryUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
 ) : ViewModel() {
 
@@ -46,8 +46,8 @@ class CategoryListViewModel @Inject constructor(
             //  плюс ко всему я пока не понимаю как этот список к нам поступает,
             //  успевает ли корутина обновить эти заметки, не возникает ли каких либо возможных
             //  проблем с flow
-            getNotesByCategory(categoryItem.id).collect { listNotesByCategory ->
-                listNotesByCategory.forEach {note ->
+            getNotesByCategoryUseCase(categoryItem.id).collect { listNotesByCategory ->
+                listNotesByCategory.forEach { note ->
                     val updateNote = note.copy(categoryId = 0)
                     updateNoteItemUseCase.invoke(updateNote)
                 }

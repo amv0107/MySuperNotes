@@ -4,7 +4,7 @@ import com.amv.simple.app.mysupernotes.data.note.NoteItemRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNotesByCategory @Inject constructor(
+class GetNotesByCategoryUseCase @Inject constructor(
     private val noteRepository: NoteItemRepositoryImpl
 ) {
 

@@ -14,11 +14,12 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.BuildConfig
+import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.FragmentMainListBinding
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
@@ -27,6 +28,8 @@ import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragm
 import com.amv.simple.app.mysupernotes.presentation.archiveList.ArchiveListFragmentDirections
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragment
 import com.amv.simple.app.mysupernotes.presentation.favoriteList.FavoriteFragmentDirections
+import com.amv.simple.app.mysupernotes.presentation.listOfNotesByCategoryOrTag.ListOfNotesByCategoryOrTag
+import com.amv.simple.app.mysupernotes.presentation.listOfNotesByCategoryOrTag.ListOfNotesByCategoryOrTagDirections
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListAdapter
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragment
 import com.amv.simple.app.mysupernotes.presentation.mainList.MainListFragmentDirections
@@ -85,6 +88,9 @@ abstract class BaseListFragment : BaseFragment(R.layout.fragment_main_list) {
 
                             is TrashFragment -> TrashFragmentDirections
                                 .actionTrashListFragmentToEditorFragment().setNoteId(noteItem.id)
+
+                            is ListOfNotesByCategoryOrTag -> ListOfNotesByCategoryOrTagDirections
+                                .actionListOfNotesByCategoryOrTagToEditorFragment().setNoteId(noteItem.id)
 
                             else -> MainListFragmentDirections
                                 .actionMainListFragmentToEditorFragment().setNoteId(noteItem.id)

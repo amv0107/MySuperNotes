@@ -41,6 +41,7 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
         _binding = DialogEditorCategoryBinding.bind(view)
 
         if (arguments != null) {
+            // TODO: StringResource 
             binding.labelTitleDialog.text = "Edit category"
             binding.etNameCategory.setText(nameCategory)
         }
