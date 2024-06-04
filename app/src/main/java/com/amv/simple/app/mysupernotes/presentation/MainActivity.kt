@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                         info,
                         updateType,
                         this,
-                        123
+                        123 // TODO: What the magic number???
                     )
                 }
             }
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
+        if (requestCode == 123) { // TODO: What the magic number???
             if (resultCode != RESULT_OK) {
                 Log.d("TAG", "Something went wrong updating...")
             }
@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                     info,
                     updateType,
                     this,
-                    123
+                    123 // TODO: What the magic number???
                 )
             }
         }

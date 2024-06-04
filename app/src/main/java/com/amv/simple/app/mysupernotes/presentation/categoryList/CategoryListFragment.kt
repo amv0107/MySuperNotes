@@ -15,13 +15,11 @@ import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.data.category.CategoryItemMapper
 import com.amv.simple.app.mysupernotes.data.relations.CategoryAndNote
 import com.amv.simple.app.mysupernotes.databinding.FragmentCategoryListBinding
-import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.core.dialogs.infoDialog
-import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,28 +31,15 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
     private val viewModel: CategoryListViewModel by viewModels()
     private lateinit var categoryAdapter: CategoryListAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCategoryListBinding.bind(view)
 
-        viewModel.getCategoryList()
-
         viewModel.getCategoryAndNote()
-        viewModel.categoryAndNote.observe(viewLifecycleOwner) {
-            Log.d("TAG", "onViewCreated: $it")
-        }
 
         viewModel.categoryAndNote.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is ErrorResult -> { }
+                is ErrorResult -> {}
                 is PendingResult -> {}
                 is SuccessResult -> {
                     categoryAdapter.submitList(result.takeSuccess())
@@ -69,16 +54,22 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
                         categoryItem.category.id,
                         categoryItem.category.name
                     )
-                Navigation.findNavController(view).navigate(action, navOptions = NavOptions.Builder()
-                    .setEnterAnim(R.anim.slide_in)
-                    .setExitAnim(R.anim.fade_out)
-                    .setPopEnterAnim(R.anim.fade_in)
-                    .setPopExitAnim(R.anim.slide_out)
-                    .build())
+                Navigation.findNavController(view).navigate(
+                    action, navOptions = NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in)
+                        .setExitAnim(R.anim.fade_out)
+                        .setPopEnterAnim(R.anim.fade_in)
+                        .setPopExitAnim(R.anim.slide_out)
+                        .build()
+                )
             }
 
             override fun onEditCategory(categoryItem: CategoryAndNote) {
-                EditorCategoryDialog.show(parentFragmentManager, categoryItem.category.id, categoryItem.category.name)
+                EditorCategoryDialog.show(
+                    parentFragmentManager,
+                    categoryItem.category.id,
+                    categoryItem.category.name
+                )
             }
 
             override fun onDeleteCategory(categoryItem: CategoryAndNote) {
@@ -115,4 +106,5 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         super.onDestroy()
         _binding = null
     }
+
 }

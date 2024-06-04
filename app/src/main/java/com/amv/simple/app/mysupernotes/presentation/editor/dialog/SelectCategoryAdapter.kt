@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.ItemSelectCategoryBinding
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 

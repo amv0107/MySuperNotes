@@ -28,11 +28,7 @@ fun <T> BaseFragment.renderSimpleResult(
                 is ArchiveListFragment -> getString(R.string.error_empty_list_archive_screen)
                 is FavoriteFragment -> getString(R.string.error_empty_list_favorite_screen)
                 is TrashFragment -> getString(R.string.error_empty_list_trash_screen)
-                is ListOfNotesByCategoryOrTag -> {
-                    // TODO: StringResource
-                    "Нет подходящих заметок"
-                }
-
+                is ListOfNotesByCategoryOrTag -> getString(R.string.error_empty_list_notes_by_category_or_tag)
                 else -> getString(R.string.error_empty_list_main_screen)
             }
         },

@@ -62,6 +62,7 @@
 
     <string name="theme_confirm_dialog_select">Выбрать</string>
     <string name="theme_confirm_dialog_cancel">Отмена</string>
+    <string name="theme_confirm_dialog_add">Добавить</string>
     <string name="theme_confirm_dialog_language_title">Язык</string>
     <string name="theme_confirm_dialog_theme_title">Тема</string>
     <string name="theme_confirm_dialog_style_list_notes">Стиль списка заметок</string>
@@ -71,6 +72,7 @@
     <string name="error_empty_list_archive_screen">Архив пуст</string>
     <string name="error_empty_list_favorite_screen">Избранное не добавлено</string>
     <string name="error_empty_list_trash_screen">Заметки в корзине автоматически удаляются через 31 день</string>
+    <string name="error_empty_list_notes_by_category_or_tag">Нет подходящих заметок</string>
 
     <string name="label_settings_my_style">Свой стиль</string>
 
@@ -84,4 +86,14 @@
     <string name="info_category_list_fragment">Стандартные категории добавлены были на языке устройства, если по какой-либо причине вы сменили язык приложения или устройства, переименуйте, пожалуйста, свои категории вручную</string>
     <string name="positive_button_info_dialog">Я понял</string>
     <string name="title_info_dialog">Информационное уведомление</string>
+
+    <string name="popup_menu_category_list_rename">Переименовать</string>
+    <string name="popup_menu_category_list_delete">Удалить</string>
+
+    <string name="dialog_editor_category_title_create">Создать категорию</string>
+    <string name="dialog_editor_category_title_edit">Редактировать категорию</string>
+
+    <string name="fragment_category_list_info">Управляйте своими категориями здесь</string>
+    <string name="spinner_select_category_add_new_category">Добавить новую категорию</string>
+    <string name="dialog_editor_category_hint">Введите название категории</string>
 </resources>

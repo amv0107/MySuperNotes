@@ -64,4 +64,13 @@
     <string name="info_category_list_fragment">Стандартні категорії додані були на мові пристрою, якщо з якої-небудь причини ви змінили мову додатка або пристрою, перейменуйте, будь ласка, свої категорії вручну</string>
     <string name="positive_button_info_dialog">Я зрозумів</string>
     <string name="title_info_dialog">Інформаційне повідомлення</string>
+    <string name="popup_menu_category_list_rename">Перейменувати</string>
+    <string name="popup_menu_category_list_delete">Видалити</string>
+    <string name="dialog_editor_category_title_create">Створити категорію</string>
+    <string name="dialog_editor_category_title_edit">Редагувати категорію</string>
+    <string name="error_empty_list_notes_by_category_or_tag">"Нема відповідних нотаток "</string>
+    <string name="dialog_editor_category_hint">Введіть назву категорії</string>
+    <string name="theme_confirm_dialog_add">Додати</string>
+    <string name="fragment_category_list_info">Керуйте своїми категоріями тут</string>
+    <string name="spinner_select_category_add_new_category">Додати нову категорію</string>
 </resources>

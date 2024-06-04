@@ -16,18 +16,20 @@ import javax.inject.Inject
 class SelectCategoryViewModel @Inject constructor(
     private val getCategoryListUseCase: GetCategoryListUseCase,
     private val addCategoryItemUseCase: AddCategoryItemUseCase
-):ViewModel() {
+) : ViewModel() {
 
     private val _listCategory = MutableLiveResult<List<CategoryItem>>()
     val listCategory: LiveResult<List<CategoryItem>> = _listCategory
 
     fun getCategoryList() = viewModelScope.launch {
-        getCategoryListUseCase().collect{
+        getCategoryListUseCase().collect {
             _listCategory.postValue(SuccessResult(it))
         }
     }
+
     fun addCategoryItem(categoryName: String) = viewModelScope.launch {
         addCategoryItemUseCase(0, parseText(categoryName))
     }
+
     private fun parseText(inputText: String?): String = inputText?.trim() ?: ""
 }

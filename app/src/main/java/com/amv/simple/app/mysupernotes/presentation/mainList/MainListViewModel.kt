@@ -47,7 +47,7 @@ class MainListViewModel @Inject constructor(
     }
 
     fun getNotesByCategory(categoryId: Int) = viewModelScope.launch {
-        getNotesByCategoryUseCase(categoryId).collect{list ->
+        getNotesByCategoryUseCase(categoryId).collect { list ->
             if (list.isEmpty())
                 _noteList.postValue(ErrorResult(NullPointerException()))
             else
@@ -55,9 +55,10 @@ class MainListViewModel @Inject constructor(
         }
     }
 
-    fun onTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) = viewModelScope.launch {
-        preferencesManager.updateTypeLayoutManager(dataStoreStyleListNotes)
-    }
+    fun onTypeLayoutManager(dataStoreStyleListNotes: DataStoreStyleListNotes) =
+        viewModelScope.launch {
+            preferencesManager.updateTypeLayoutManager(dataStoreStyleListNotes)
+        }
 
     fun changePin(noteItem: NoteItem) = viewModelScope.launch {
         updateNoteItemUseCase(

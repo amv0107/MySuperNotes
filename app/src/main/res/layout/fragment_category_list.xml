@@ -14,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/tv_info_bg"
-        android:text="Управляйте своими категориями здесь"
+        android:text="@string/fragment_category_list_info"
         android:textColor="@color/orange"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/ivInfo"

@@ -15,6 +15,7 @@ import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
+import com.amv.simple.app.mysupernotes.presentation.core.parseText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class EditorViewModel @Inject constructor(
     private val getNoteItemUseCase: GetNoteItemUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
     private val getCategoryItemByIdUseCase: GetCategoryItemByIdUseCase,
-    private val preferencesManager: PreferencesManager,
+    preferencesManager: PreferencesManager,
 ) : ViewModel() {
 
     private val _noteItem = MutableLiveResult<NoteItem>(PendingResult())
@@ -50,8 +51,7 @@ class EditorViewModel @Inject constructor(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
             dateOfCreate = TimeManager.getCurrentTimeToDB(),
-            // TODO: !!! 
-            categoryId = _categoryItemId.value!!
+            categoryId = _categoryItemId.value!! // TODO: !!!
         )
         addNoteItemUseCase(item)
         finishWork()
@@ -79,8 +79,7 @@ class EditorViewModel @Inject constructor(
         val item = _noteItem.value.takeSuccess()?.copy(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
-            // TODO: !! 
-            categoryId = _categoryItemId.value!!
+            categoryId = _categoryItemId.value!! // TODO: !!!
         )!!
         updateNoteItemUseCase(item)
         finishWork()
@@ -118,8 +117,6 @@ class EditorViewModel @Inject constructor(
         updateNoteItemUseCase(item!!)
         finishWork()
     }
-
-    private fun parseText(inputText: String?): String = inputText?.trim() ?: ""
 
     private fun finishWork() {
         _shouldCloseScreen.value = Unit

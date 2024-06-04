@@ -41,10 +41,10 @@ class EditorCategoryDialog : DialogFragment(R.layout.dialog_editor_category) {
         _binding = DialogEditorCategoryBinding.bind(view)
 
         if (arguments != null) {
-            // TODO: StringResource 
-            binding.labelTitleDialog.text = "Edit category"
+            binding.labelTitleDialog.text = getString(R.string.dialog_editor_category_title_edit)
             binding.etNameCategory.setText(nameCategory)
-        }
+        } else
+            binding.labelTitleDialog.text = getString(R.string.dialog_editor_category_title_create)
 
         binding.btnCancel.setOnClickListener {
             dismiss()

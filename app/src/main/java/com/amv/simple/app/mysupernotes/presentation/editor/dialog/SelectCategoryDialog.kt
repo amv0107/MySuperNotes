@@ -62,9 +62,7 @@ class SelectCategoryDialog @Inject constructor() :
             when (result) {
                 is ErrorResult -> {}
                 is PendingResult -> {}
-                is SuccessResult -> {
-                    recyclerViewAdapter.submitList(result.takeSuccess())
-                }
+                is SuccessResult -> recyclerViewAdapter.submitList(result.takeSuccess())
             }
         }
 
@@ -86,7 +84,8 @@ class SelectCategoryDialog @Inject constructor() :
         }
 
         EditorCategoryDialog.setupListener(
-            parentFragmentManager, viewLifecycleOwner
+            parentFragmentManager,
+            viewLifecycleOwner
         ) { _, nameOfCategory ->
             viewModel.addCategoryItem(nameOfCategory)
             dialog?.show()

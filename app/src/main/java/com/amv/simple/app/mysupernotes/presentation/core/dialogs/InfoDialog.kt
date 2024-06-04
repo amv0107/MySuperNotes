@@ -7,7 +7,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Fragment.infoDialog(@StringRes message: Int) {
 
-   val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.ConfirmDialogFragment)
+    val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.ConfirmDialogFragment)
         .setIcon(R.drawable.ic_info)
         .setTitle(R.string.title_info_dialog)
         .setMessage(message)

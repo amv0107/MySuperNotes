@@ -11,7 +11,7 @@ class GetNoteListUseCase @Inject constructor(
 ) {
 
     fun getNoteList(
-       typeList: TypeList
+        typeList: TypeList
     ): Flow<List<NoteItem>> {
         return noteItemRepository.getNoteItemList().map { list ->
             list
@@ -22,7 +22,7 @@ class GetNoteListUseCase @Inject constructor(
                         }
 
                         TypeList.FAVORITE_LIST -> {
-                            item.isFavorite && !item.isDelete&& !item.isArchive
+                            item.isFavorite && !item.isDelete && !item.isArchive
                         }
 
                         TypeList.DELETE_LIST -> {

@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
@@ -40,6 +39,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
 import com.amv.simple.app.mysupernotes.presentation.editor.dialog.SelectCategoryDialog
@@ -200,8 +200,7 @@ class EditorFragment @Inject constructor() : Fragment() {
         }
 
         binding.tvCurrentCategory.setOnClickListener {
-            // TODO:  !!!!
-            SelectCategoryDialog.show(parentFragmentManager, viewModel.categoryItemId.value!!)
+            SelectCategoryDialog.show(parentFragmentManager, viewModel.categoryItemId.value!!)  // TODO:  !!!!
         }
 
         SelectCategoryDialog.setListener(parentFragmentManager, this) { categoryId ->
@@ -456,56 +455,37 @@ class EditorFragment @Inject constructor() : Fragment() {
     private fun pinNote() {
         viewModel.changePin()
         if (!isPin)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_pinned),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_pinned)
         else
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_unpinned),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_unpinned)
     }
 
     private fun favoriteNote() {
         viewModel.changeFavorite()
         if (!isFavorite)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_un_favorite),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_un_favorite)
         else
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_favorite),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_favorite)
     }
 
     private fun archiveNote() {
         viewModel.changeArchive()
         if (!isArchive)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_archive),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_archive)
     }
 
     private fun shareNote() =
-        startActivity(Intent.createChooser(ShareHelper.shareTextNoteItem(noteItem), "Share by"))
+        startActivity(
+            Intent.createChooser(
+                ShareHelper.shareTextNoteItem(noteItem),
+                "Share by"
+            )
+        ) // TODO: String resource
 
     private fun deleteNote() {
         viewModel.moveNoteToTrash()
         if (!isDelete)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.edit_toast_move_to_trash),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_move_to_trash)
     }
 
     private fun observeViewModel() {
@@ -530,7 +510,6 @@ class EditorFragment @Inject constructor() : Fragment() {
 
         if (validTitle) {
             if (args.noteId == 0) {
-
                 viewModel.addNoteItem(
                     binding.etTitleNote.text.toString(),
                     Html.toHtml(binding.etTextContentNote.text, Html.FROM_HTML_MODE_COMPACT),
@@ -542,11 +521,7 @@ class EditorFragment @Inject constructor() : Fragment() {
                 )
             }
         } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.edit_toast_action_short_title),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(R.string.edit_toast_action_short_title)
         }
     }
 

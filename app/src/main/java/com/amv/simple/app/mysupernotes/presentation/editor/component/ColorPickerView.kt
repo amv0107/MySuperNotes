@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import androidx.core.view.indices
-import androidx.core.view.size
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.databinding.MenuColorPickerBinding
 import com.google.android.material.card.MaterialCardView
@@ -60,10 +57,14 @@ class ColorPickerView(
 
     private fun initializeAttributes(attrsSet: AttributeSet?, defStyleAttr: Int) {
         if (attrsSet == null) return
-        val typedArray = context.obtainStyledAttributes(attrsSet, R.styleable.ColorPickerView, defStyleAttr, 0)
+        val typedArray =
+            context.obtainStyledAttributes(attrsSet, R.styleable.ColorPickerView, defStyleAttr, 0)
 
         with(binding) {
-            val backgroundMenu = typedArray.getColor(R.styleable.ColorPickerView_backgroundColorPickerMenu, Color.WHITE)
+            val backgroundMenu = typedArray.getColor(
+                R.styleable.ColorPickerView_backgroundColorPickerMenu,
+                Color.WHITE
+            )
             layout.setBackgroundColor(backgroundMenu)
         }
 
@@ -82,7 +83,10 @@ class ColorPickerView(
             rb.id = i
             //set some margin to radio buttons
             val params =
-                RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                RadioGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             params.setMargins(6, 6, 6, 6)
             rb.layoutParams = params
 
