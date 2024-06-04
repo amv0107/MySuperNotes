@@ -8,11 +8,7 @@ class GetCategoryItemByIdUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(categoryItemId: Int): CategoryItem {
-        // TODO: String Resource 
-        return if (categoryItemId == 0)
-            CategoryItem(0, 0, "WithoutAAAA")
-        else
-            categoryItemRepository.getCategoryItemById(categoryItemId)
+        return categoryItemRepository.getCategoryItemById(categoryItemId)
     }
 
 }

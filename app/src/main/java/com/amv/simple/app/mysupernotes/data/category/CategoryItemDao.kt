@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import com.amv.simple.app.mysupernotes.data.relations.CategoryAndNote
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,4 +26,8 @@ interface CategoryItemDao {
 
     @Delete
     suspend fun deleteCategoryItem(categoryDbModel: CategoryDbModel)
+
+    @Transaction
+    @Query("SELECT * FROM category_items")
+    fun getCategoryAndNote(): Flow<List<CategoryAndNote>>
 }

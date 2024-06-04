@@ -8,8 +8,6 @@ class DeleteCategoryItemUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(categoryItem: CategoryItem) {
-     // Сначало нужно все заметки помеченые данной категорией, пометить как без категории
-     // хотя это возможно сделать средствами библиотеки room или средствами SQL
             categoryItemRepository.deleteCategoryItem(categoryItem)
     }
 }

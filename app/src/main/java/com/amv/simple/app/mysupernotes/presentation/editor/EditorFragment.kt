@@ -551,7 +551,7 @@ class EditorFragment @Inject constructor() : Fragment() {
     }
 
     private fun launchAddMode() {
-        viewModel.getCategoryNameById(0)
+        viewModel.getCategoryNameById(1)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.formatDataTimeFlow.collect {
                 binding.tvDateTimeNote.text = TimeManager.getTimeToDisplay(

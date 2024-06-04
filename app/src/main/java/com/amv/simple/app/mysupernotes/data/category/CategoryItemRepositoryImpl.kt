@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.data.category
 
+import com.amv.simple.app.mysupernotes.data.relations.CategoryAndNote
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItemRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,4 +24,7 @@ class CategoryItemRepositoryImpl @Inject constructor(
         dao.getCategoryItemList().map {categoryDbModelList ->
             mapper.mapListDbModelToListEntity(categoryDbModelList)
         }
+
+    override fun getCategoryAndNote(): Flow<List<CategoryAndNote>> =
+        dao.getCategoryAndNote()
 }

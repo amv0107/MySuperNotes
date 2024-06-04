@@ -2,16 +2,21 @@
   {
     "id": 1,
     "position": 1,
-    "name": "Personal"
+    "name": "Without category"
   },
   {
     "id": 2,
     "position": 2,
-    "name": "Learn"
+    "name": "Personal"
   },
   {
     "id": 3,
     "position": 3,
+    "name": "Learn"
+  },
+  {
+    "id": 4,
+    "position": 4,
     "name": "School"
   }
 ]

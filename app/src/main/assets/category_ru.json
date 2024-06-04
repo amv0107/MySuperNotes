@@ -2,16 +2,21 @@
   {
     "id": 1,
     "position": 1,
-    "name": "Личное"
+    "name": "Без категории"
   },
   {
     "id": 2,
     "position": 2,
-    "name": "Изучать"
+    "name": "Личное"
   },
   {
     "id": 3,
     "position": 3,
+    "name": "Изучать"
+  },
+  {
+    "id": 4,
+    "position": 4,
     "name": "Школа"
   }
 ]

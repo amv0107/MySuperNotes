@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.data.relations.CategoryAndNote
 import com.amv.simple.app.mysupernotes.databinding.ItemCategoryInScreenListBinding
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import javax.inject.Inject
 
 class CategoryListAdapter @Inject constructor(
     private val listener: CategoryListListener
-): ListAdapter<CategoryItem, CategoryListAdapter.ViewHolder>(DiffCallback) {
+): ListAdapter<CategoryAndNote, CategoryListAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCategoryInScreenListBinding.inflate(
@@ -26,7 +27,7 @@ class CategoryListAdapter @Inject constructor(
         )
 
         binding.root.setOnClickListener {
-            listener.onChooseCategory(it, it.tag as CategoryItem)
+            listener.onChooseCategory(it, it.tag as CategoryAndNote)
         }
 
         binding.ivPopupMenu.setOnClickListener {
@@ -38,36 +39,36 @@ class CategoryListAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val categoryItem = getItem(position)
-        if (categoryItem.id == 0){
+        if (categoryItem.category.id == 0){
             holder.binding.ivPopupMenu.visibility = View.GONE
         }
         with(holder.binding) {
             root.tag = categoryItem
             ivPopupMenu.tag = categoryItem
-            titleCategory.text = categoryItem.name
+            titleCategory.text = "${categoryItem.category.name} (${categoryItem.notes.size})"
         }
     }
 
     override fun getItemCount(): Int = currentList.size
 
     interface CategoryListListener {
-        fun onChooseCategory(view: View, categoryItem: CategoryItem)
-        fun onEditCategory(categoryItem: CategoryItem)
-        fun onDeleteCategory(categoryItem: CategoryItem)
+        fun onChooseCategory(view: View, categoryItem: CategoryAndNote)
+        fun onEditCategory(categoryItem: CategoryAndNote)
+        fun onDeleteCategory(categoryItem: CategoryAndNote)
     }
     inner class ViewHolder(val binding: ItemCategoryInScreenListBinding): RecyclerView.ViewHolder(binding.root)
 
-    object DiffCallback : DiffUtil.ItemCallback<CategoryItem>() {
-        override fun areItemsTheSame(oldItem: CategoryItem, newItem: CategoryItem): Boolean =
-            oldItem.id == newItem.id
+    object DiffCallback : DiffUtil.ItemCallback<CategoryAndNote>() {
+        override fun areItemsTheSame(oldItem: CategoryAndNote, newItem: CategoryAndNote): Boolean =
+            oldItem.category.id == newItem.category.id
 
-        override fun areContentsTheSame(oldItem: CategoryItem, newItem: CategoryItem): Boolean =
+        override fun areContentsTheSame(oldItem: CategoryAndNote, newItem: CategoryAndNote): Boolean =
             oldItem == newItem
     }
 
     private fun showPopupMenu(view: View) {
         val popupMenu = CustomPopupMenu(view.context, view)
-        val categoryItem = view.tag as CategoryItem
+        val categoryItem = view.tag as CategoryAndNote
 
         // TODO: StringResource 
         popupMenu.menu.add(0,1,Menu.NONE, "Rename").apply {

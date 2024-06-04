@@ -63,11 +63,7 @@ class SelectCategoryDialog @Inject constructor() :
                 is ErrorResult -> {}
                 is PendingResult -> {}
                 is SuccessResult -> {
-                    // TODO: String resource
-                    val list: MutableList<CategoryItem> =
-                        mutableListOf(CategoryItem(0, 0, "Without category"))
-                    list.addAll(result.takeSuccess() as List)
-                    recyclerViewAdapter.submitList(list)
+                    recyclerViewAdapter.submitList(result.takeSuccess())
                 }
             }
         }

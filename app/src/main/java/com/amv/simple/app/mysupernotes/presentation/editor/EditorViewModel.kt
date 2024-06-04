@@ -37,7 +37,7 @@ class EditorViewModel @Inject constructor(
     private val _categoryItemName = MutableLiveData<String>()
     val categoryItemName: LiveData<String> = _categoryItemName
 
-    private val _categoryItemId = MutableLiveData<Int>(0)
+    private val _categoryItemId = MutableLiveData<Int>(1)
     val categoryItemId: LiveData<Int> = _categoryItemId
 
     val formatDataTimeFlow = preferencesManager.formatDataTimeFlow

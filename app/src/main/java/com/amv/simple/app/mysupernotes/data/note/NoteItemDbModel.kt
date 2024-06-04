@@ -1,7 +1,9 @@
 package com.amv.simple.app.mysupernotes.data.note
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.amv.simple.app.mysupernotes.data.category.CategoryDbModel
 
 @Entity(
     tableName = "note_items",

@@ -1,6 +1,7 @@
 package com.amv.simple.app.mysupernotes.presentation.categoryList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.data.category.CategoryItemMapper
+import com.amv.simple.app.mysupernotes.data.relations.CategoryAndNote
 import com.amv.simple.app.mysupernotes.databinding.FragmentCategoryListBinding
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import com.amv.simple.app.mysupernotes.domain.util.ErrorResult
@@ -44,26 +47,27 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
 
         viewModel.getCategoryList()
 
-        viewModel.categoryList.observe(viewLifecycleOwner) { result ->
+        viewModel.getCategoryAndNote()
+        viewModel.categoryAndNote.observe(viewLifecycleOwner) {
+            Log.d("TAG", "onViewCreated: $it")
+        }
+
+        viewModel.categoryAndNote.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ErrorResult -> { }
                 is PendingResult -> {}
                 is SuccessResult -> {
-                    val list: MutableList<CategoryItem> =
-                        // TODO: StringResource
-                        mutableListOf(CategoryItem(0, 0, "Without category"))
-                    list.addAll(result.takeSuccess() as List)
-                    categoryAdapter.submitList(list)
+                    categoryAdapter.submitList(result.takeSuccess())
                 }
             }
         }
 
         categoryAdapter = CategoryListAdapter(object : CategoryListAdapter.CategoryListListener {
-            override fun onChooseCategory(view: View, categoryItem: CategoryItem) {
+            override fun onChooseCategory(view: View, categoryItem: CategoryAndNote) {
                 val action: NavDirections = CategoryListFragmentDirections
                     .actionCategoryListFragmentToListOfNotesByCategoryOrTag(
-                        categoryItem.id,
-                        categoryItem.name
+                        categoryItem.category.id,
+                        categoryItem.category.name
                     )
                 Navigation.findNavController(view).navigate(action, navOptions = NavOptions.Builder()
                     .setEnterAnim(R.anim.slide_in)
@@ -73,12 +77,14 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
                     .build())
             }
 
-            override fun onEditCategory(categoryItem: CategoryItem) {
-                EditorCategoryDialog.show(parentFragmentManager, categoryItem.id, categoryItem.name)
+            override fun onEditCategory(categoryItem: CategoryAndNote) {
+                EditorCategoryDialog.show(parentFragmentManager, categoryItem.category.id, categoryItem.category.name)
             }
 
-            override fun onDeleteCategory(categoryItem: CategoryItem) {
-                viewModel.deleteCategoryItem(categoryItem)
+            override fun onDeleteCategory(categoryItem: CategoryAndNote) {
+                // TODO: Мне кажется здесь допущена архитектурная ошибка
+                val item = CategoryItemMapper().mapDbModelToEntity(categoryItem.category)
+                viewModel.deleteCategoryItem(item)
             }
         })
 
