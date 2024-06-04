@@ -25,7 +25,6 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
@@ -59,13 +58,16 @@ class MainActivity : AppCompatActivity() {
     private val updateType = AppUpdateType.FLEXIBLE
 
     private val destinations = setOf(
-        R.id.mainListFragment
+        R.id.mainListFragment,
+        R.id.archiveListFragment,
+        R.id.favoriteListFragment,
+        R.id.trashListFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        if (updateType == AppUpdateType.FLEXIBLE)  {
+        if (updateType == AppUpdateType.FLEXIBLE) {
             appUpdateManager.registerListener(installStateUpdatedListener)
         }
         checkForAppUpdates()
@@ -78,18 +80,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainToolbar.setNavigationOnClickListener {
             when (navController.currentDestination?.id) {
-                R.id.mainListFragment -> {
-                    drawerLayout.open()
-                }
-
+                R.id.categoryListFragment -> navController.navigateUp()
+                R.id.settingsFragment -> navController.navigateUp()
+                R.id.listOfNotesByCategoryOrTag -> navController.navigateUp()
                 R.id.editorFragment -> {
                     if (onBackPressedDispatcher.hasEnabledCallbacks())
                         onBackPressedDispatcher.onBackPressed()
                     else
                         navController.navigateUp()
                 }
-
-                else -> navController.navigateUp()
+                else -> drawerLayout.open()
             }
         }
     }
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                         info,
                         updateType,
                         this,
-                        123
+                        123 // TODO: What the magic number???
                     )
                 }
             }
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
+        if (requestCode == 123) { // TODO: What the magic number???
             if (resultCode != RESULT_OK) {
                 Log.d("TAG", "Something went wrong updating...")
             }
@@ -152,6 +152,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun updateToolbarTitle(title: String) {
+        binding.toolbarTitle.text = title
+    }
+
     private fun setupDrawer() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -162,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbarTitle.text = navController.currentDestination?.label
+            updateToolbarTitle(navController.currentDestination?.label.toString())
 
             if (destination.id == R.id.editorFragment) {
                 toolbar.setBackgroundColor(getColor(R.color.yellow))
@@ -194,9 +198,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val installStateUpdatedListener = InstallStateUpdatedListener {state ->
-        if(state.installStatus() == InstallStatus.DOWNLOADED) {
-            Toast.makeText(applicationContext, "Download successful. Restarting app in 5 seconds.", Toast.LENGTH_SHORT).show()
+    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            Toast.makeText(applicationContext, "Download successful. Restarting app in 5 seconds.", Toast.LENGTH_SHORT)
+                .show()
             lifecycleScope.launch {
                 delay(5.seconds)
                 appUpdateManager.completeUpdate()
@@ -221,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                     info,
                     updateType,
                     this,
-                    123
+                    123 // TODO: What the magic number???
                 )
             }
         }

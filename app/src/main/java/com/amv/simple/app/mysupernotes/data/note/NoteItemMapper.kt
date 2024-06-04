@@ -9,11 +9,12 @@ class NoteItemMapper {
         title = noteItem.title,
         textContent = noteItem.textContent,
         dateOfCreate = noteItem.dateOfCreate,
-        isPined = if (noteItem.isPinned) 1 else 0,
-        isFavorite = if (noteItem.isFavorite) 1 else 0,
-        isArchive = if(noteItem.isArchive) 1 else 0,
-        isDelete = if(noteItem.isDelete) 1 else 0,
+        isPined = mapBooleanToInt(noteItem.isPinned),
+        isFavorite = mapBooleanToInt(noteItem.isFavorite),
+        isArchive = mapBooleanToInt(noteItem.isArchive),
+        isDelete = mapBooleanToInt(noteItem.isDelete),
         deletionDate = noteItem.deletionDate,
+        categoryId = noteItem.categoryId,
     )
 
 
@@ -27,9 +28,13 @@ class NoteItemMapper {
         isArchive = noteItemDbModel.isArchive != 0,
         isDelete = noteItemDbModel.isDelete != 0,
         deletionDate = noteItemDbModel.deletionDate,
+        categoryId = noteItemDbModel.categoryId,
     )
 
     fun mapListDbModelToListEntity(list: List<NoteItemDbModel>) = list.map {
         mapDbModelToEntity(it)
     }
+
 }
+
+fun NoteItemMapper.mapBooleanToInt(value: Boolean): Int = if (value) 1 else 0

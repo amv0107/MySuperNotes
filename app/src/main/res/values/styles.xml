@@ -36,10 +36,12 @@
 
     <style name="PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 

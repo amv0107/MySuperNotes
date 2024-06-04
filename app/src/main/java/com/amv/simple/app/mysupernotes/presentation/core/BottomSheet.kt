@@ -63,7 +63,10 @@ class BottomSheet : BottomSheetDialogFragment() {
                                             }
 
                                     text = when {
-                                        header.isNullOrBlank() && showPlaceHolderText == true -> context.getString(R.string.indicator_untitled)
+                                        header.isNullOrBlank() && showPlaceHolderText == true -> context.getString(
+                                            R.string.indicator_untitled
+                                        )
+
                                         else -> header
                                     }
                                 }
@@ -73,14 +76,25 @@ class BottomSheet : BottomSheetDialogFragment() {
 
                     actions?.forEach { action ->
                         addView(
-                            AppCompatTextView(ContextThemeWrapper(context, R.style.BottomSheetAction)).apply {
-                                text = action.title ?: action.titleResId?.let { getString(it) } ?: ""
+                            AppCompatTextView(
+                                ContextThemeWrapper(
+                                    context,
+                                    R.style.BottomSheetAction
+                                )
+                            ).apply {
+                                text =
+                                    action.title ?: action.titleResId?.let { getString(it) } ?: ""
                                 setOnClickListener {
                                     action.onClick(this@BottomSheet)
                                     if (action.dismissAfterClick) dismiss()
                                 }
                                 action.iconResId?.let { iconResId ->
-                                    setCompoundDrawablesRelativeWithIntrinsicBounds(iconResId, 0, 0, 0)
+                                    setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                        iconResId,
+                                        0,
+                                        0,
+                                        0
+                                    )
                                 }
                             }
                         )

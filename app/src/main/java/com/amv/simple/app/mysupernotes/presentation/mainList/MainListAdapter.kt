@@ -43,8 +43,10 @@ class MainListAdapter @Inject constructor(
         with(holder.binding) {
             root.tag = noteItem
             tvTitleNote.text = noteItem.title
-            tvDateTimeNote.text = TimeManager.getTimeToDisplay(noteItem.dateOfCreate, patternDateTime)
-            tvTextContentNote.text = Html.fromHtml(noteItem.textContent,Html.FROM_HTML_MODE_COMPACT).trim()
+            tvDateTimeNote.text =
+                TimeManager.getTimeToDisplay(noteItem.dateOfCreate, patternDateTime)
+            tvTextContentNote.text =
+                Html.fromHtml(noteItem.textContent, Html.FROM_HTML_MODE_COMPACT).trim()
             imgPin.isVisible = noteItem.isPinned
             imgFavorite.isVisible = noteItem.isFavorite
 //            tvTitleNote.backgroundTintList = ColorStateList.valueOf(
@@ -60,7 +62,8 @@ class MainListAdapter @Inject constructor(
         fun onItemAction(noteItem: NoteItem)
     }
 
-    inner class MainViewHolder(val binding: ItemNoteListBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MainViewHolder(val binding: ItemNoteListBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     object ItemCallback : DiffUtil.ItemCallback<NoteItem>() {
         override fun areItemsTheSame(oldItem: NoteItem, newItem: NoteItem): Boolean =

@@ -1,6 +1,5 @@
 package com.amv.simple.app.mysupernotes.domain.note
 
-import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import kotlinx.coroutines.flow.Flow
 
 interface NoteItemRepository {
@@ -11,4 +10,5 @@ interface NoteItemRepository {
     suspend fun deleteForeverNoteItem(noteItem: NoteItem)
     fun getNoteItem(noteItemId: Int): Flow<NoteItem>
     fun getNoteItemList(): Flow<List<NoteItem>>
+    fun getNotesByCategory(categoryId: Int): Flow<List<NoteItem>>
 }

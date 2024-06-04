@@ -61,4 +61,16 @@
     <string name="settings_share_app">Share app</string>
     <string name="settings_version_app">Version: %1s</string>
     <string name="share_app_message">I\'ve found a simple notepad app with wonderful functionality: Simple Notes. Please have a try at once:</string>
+    <string name="info_category_list_fragment">Standard categories were added in the language of the device, if for any reason you have changed the language of the app or device, please rename your categories manually</string>
+    <string name="positive_button_info_dialog">I see</string>
+    <string name="title_info_dialog">Info</string>
+    <string name="popup_menu_category_list_rename">Rename</string>
+    <string name="popup_menu_category_list_delete">Delete</string>
+    <string name="dialog_editor_category_title_create">Create category</string>
+    <string name="dialog_editor_category_title_edit">Edit category</string>
+    <string name="error_empty_list_notes_by_category_or_tag">There are no suitable notes</string>
+    <string name="dialog_editor_category_hint">Input name category</string>
+    <string name="theme_confirm_dialog_add">Add</string>
+    <string name="fragment_category_list_info">Manage your categories here</string>
+    <string name="spinner_select_category_add_new_category">Add new category</string>
 </resources>

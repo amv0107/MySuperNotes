@@ -13,5 +13,5 @@ typealias MutableLiveResult<T> = MutableLiveData<Result<T>>
 typealias MediatorLiveResult<T> = MediatorLiveData<Result<T>>
 
 @HiltViewModel
-open class BaseViewModel @Inject constructor(): ViewModel() {
+open class BaseViewModel @Inject constructor() : ViewModel() {
 }

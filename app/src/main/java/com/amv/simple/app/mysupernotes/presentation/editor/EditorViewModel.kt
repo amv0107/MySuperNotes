@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
+import com.amv.simple.app.mysupernotes.domain.category.GetCategoryItemByIdUseCase
 import com.amv.simple.app.mysupernotes.domain.note.AddNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.note.GetNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
@@ -14,21 +15,31 @@ import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
+import com.amv.simple.app.mysupernotes.presentation.core.parseText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+typealias CategoryName = String
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
     private val addNoteItemUseCase: AddNoteItemUseCase,
     private val getNoteItemUseCase: GetNoteItemUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
-    private val preferencesManager: PreferencesManager,
+    private val getCategoryItemByIdUseCase: GetCategoryItemByIdUseCase,
+    preferencesManager: PreferencesManager,
 ) : ViewModel() {
 
     private val _noteItem = MutableLiveResult<NoteItem>(PendingResult())
-    val noteItem: LiveResult<NoteItem>
-        get() = _noteItem
+    val noteItem: LiveResult<NoteItem> = _noteItem
+
+    private val _categoryItemName = MutableLiveData<String>()
+    val categoryItemName: LiveData<String> = _categoryItemName
+
+    private val _categoryItemId = MutableLiveData<Int>(1)
+    val categoryItemId: LiveData<Int> = _categoryItemId
 
     val formatDataTimeFlow = preferencesManager.formatDataTimeFlow
 
@@ -39,7 +50,8 @@ class EditorViewModel @Inject constructor(
         val item = NoteItem(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
-            dateOfCreate = TimeManager.getCurrentTimeToDB()
+            dateOfCreate = TimeManager.getCurrentTimeToDB(),
+            categoryId = _categoryItemId.value!! // TODO: !!!
         )
         addNoteItemUseCase(item)
         finishWork()
@@ -66,7 +78,8 @@ class EditorViewModel @Inject constructor(
         // TODO: Не уверен что правильно использовал !! ведь у нас там может быть пусто
         val item = _noteItem.value.takeSuccess()?.copy(
             title = parseText(inputTitle),
-            textContent = parseText(inputTextContent)
+            textContent = parseText(inputTextContent),
+            categoryId = _categoryItemId.value!! // TODO: !!!
         )!!
         updateNoteItemUseCase(item)
         finishWork()
@@ -109,5 +122,9 @@ class EditorViewModel @Inject constructor(
         _shouldCloseScreen.value = Unit
     }
 
-    private fun parseText(inputText: String?): String = inputText?.trim() ?: ""
+    fun getCategoryNameById(categoryItemId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        _categoryItemName.postValue(getCategoryItemByIdUseCase.invoke(categoryItemId).name)
+        _categoryItemId.postValue(categoryItemId)
+    }
+
 }

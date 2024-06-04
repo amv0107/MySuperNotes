@@ -14,7 +14,7 @@ fun loadBannerAds(
     adsFrameLayout: FrameLayout,
     adSize: AdSize,
     adUnitIdl: Int
-){
+) {
     val adView = AdView(context)
     adView.setAdSize(adSize)
     adView.adUnitId = context.getString(adUnitIdl)
@@ -22,7 +22,7 @@ fun loadBannerAds(
 
     val adRequest = AdRequest.Builder().build()
     adView.loadAd(adRequest)
-    adView.adListener = object : AdListener(){
+    adView.adListener = object : AdListener() {
         override fun onAdFailedToLoad(adError: LoadAdError) {
             super.onAdFailedToLoad(adError)
             adsFrameLayout.gone()
