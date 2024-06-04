@@ -31,12 +31,12 @@ class SelectCategoryAdapter(
         val categoryItem = getItem(position)
         with(holder.binding) {
             if (checkedId == -1)
-                ivChecked.visibility = View.GONE
+                ivChecked.visibility = View.INVISIBLE
             else
                 ivChecked.visibility = if (checkedId == categoryItem.id)
                     View.VISIBLE
                 else
-                    View.GONE
+                    View.INVISIBLE
 
             tvCategoryName.text = categoryItem.name
 

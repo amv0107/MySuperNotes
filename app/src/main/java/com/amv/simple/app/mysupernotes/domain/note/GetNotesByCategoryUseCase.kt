@@ -11,7 +11,9 @@ class GetNotesByCategoryUseCase @Inject constructor(
 
     operator fun invoke(categoryId: Int): Flow<List<NoteItem>> =
         noteRepository.getNotesByCategory(categoryId).map { list ->
-            list.filter { !it.isArchive }
+            list
+                .filter { !it.isArchive }
+                .sortedByDescending { it.isPinned }
         }
 
 }
