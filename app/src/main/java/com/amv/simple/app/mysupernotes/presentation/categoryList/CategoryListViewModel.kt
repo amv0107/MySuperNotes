@@ -48,7 +48,7 @@ class CategoryListViewModel @Inject constructor(
             //  плюс ко всему я пока не понимаю как этот список к нам поступает,
             //  успевает ли корутина обновить эти заметки, не возникает ли каких либо возможных
             //  проблем с flow
-            getNotesByCategoryUseCase(categoryItem.id).collect { listNotesByCategory ->
+            getNotesByCategoryUseCase(categoryItem.id!!).collect { listNotesByCategory ->
                 listNotesByCategory.forEach { note ->
                     val updateNote = note.copy(categoryId = 1)
                     updateNoteItemUseCase.invoke(updateNote)

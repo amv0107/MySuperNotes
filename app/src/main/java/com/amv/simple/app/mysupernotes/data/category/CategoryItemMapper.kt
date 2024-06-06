@@ -5,7 +5,7 @@ import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 class CategoryItemMapper {
 
     fun mapEntityToDbModel(categoryItem: CategoryItem) = CategoryDbModel(
-        id = categoryItem.id,
+        id = categoryItem.id!!,
         position = categoryItem.position,
         name = categoryItem.name,
     )

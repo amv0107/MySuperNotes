@@ -29,13 +29,11 @@ class SelectCategoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val categoryItem = getItem(position)
         with(holder.binding) {
-            if (checkedId == -1)
-                ivChecked.visibility = View.INVISIBLE
-            else
-                ivChecked.visibility = if (checkedId == categoryItem.id)
-                    View.VISIBLE
-                else
-                    View.INVISIBLE
+            when (checkedId) {
+                -1 -> ivChecked.visibility = View.INVISIBLE
+                categoryItem.id -> ivChecked.visibility = View.VISIBLE
+                else -> ivChecked.visibility = View.INVISIBLE
+            }
 
             tvCategoryName.text = categoryItem.name
 
@@ -43,7 +41,7 @@ class SelectCategoryAdapter(
                 ivChecked.visibility = View.VISIBLE
                 if (checkedId != categoryItem.id) {
                     notifyItemChanged(checkedId)
-                    checkedId = categoryItem.id
+                    checkedId = categoryItem.id!!
                 }
                 listener.onClick(categoryItem)
             }

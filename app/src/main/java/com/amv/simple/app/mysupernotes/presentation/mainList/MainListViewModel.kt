@@ -1,8 +1,13 @@
 package com.amv.simple.app.mysupernotes.presentation.mainList
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
+import com.amv.simple.app.mysupernotes.data.category.CategoryDbModel
+import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
+import com.amv.simple.app.mysupernotes.domain.category.GetCategoryListUseCase
 import com.amv.simple.app.mysupernotes.domain.note.DeleteForeverNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.note.GetNoteListUseCase
 import com.amv.simple.app.mysupernotes.domain.note.GetNotesByCategoryUseCase
@@ -24,6 +29,7 @@ import javax.inject.Inject
 class MainListViewModel @Inject constructor(
     private val getNoteListUseCase: GetNoteListUseCase,
     private val getNotesByCategoryUseCase: GetNotesByCategoryUseCase,
+    private val getCategoryListUseCase: GetCategoryListUseCase,
     private val updateNoteItemUseCase: UpdateNoteItemUseCase,
     private val deleteForeverNoteItemUseCase: DeleteForeverNoteItemUseCase,
     private val preferencesManager: PreferencesManager,
@@ -32,12 +38,29 @@ class MainListViewModel @Inject constructor(
     private val _noteList = MutableLiveResult<List<NoteItem>>(PendingResult())
     val noteList: LiveResult<List<NoteItem>> = _noteList
 
+    private val _categoryList = MutableLiveData<List<CategoryItem>>()
+    val categoryList: LiveData<List<CategoryItem>> = _categoryList
+
+    private val _filterByCategoryId = MutableLiveData<Int>(null)
+    val filterByCategoryId: LiveData<Int> = _filterByCategoryId
+
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
     val layoutManagerFlow = preferencesManager.layoutManagerFlow
 
+    fun setFilterByCategoryId(id: Int?) {
+        _filterByCategoryId.value = id
+    }
+    fun getCategoryList() = viewModelScope.launch {
+        getCategoryListUseCase().collect{
+            val list: MutableList<CategoryItem> = it as MutableList
+            list.removeAt(0)
+            list.add(0, CategoryItem(null, 1, "All"))
+            _categoryList.postValue(list)
+        }
+    }
 
-    fun getNoteList(typeList: TypeList) = viewModelScope.launch {
-        getNoteListUseCase.getNoteList(typeList)
+    fun getNoteList(typeList: TypeList, categoryIdForFilter: Int? = null) = viewModelScope.launch {
+        getNoteListUseCase.getNoteList(typeList, categoryIdForFilter)
             .collect { list ->
                 if (list.isEmpty())
                     _noteList.postValue(ErrorResult(NullPointerException()))

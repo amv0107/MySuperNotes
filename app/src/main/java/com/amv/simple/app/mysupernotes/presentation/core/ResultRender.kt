@@ -29,7 +29,12 @@ fun <T> BaseFragment.renderSimpleResult(
                 is FavoriteFragment -> getString(R.string.error_empty_list_favorite_screen)
                 is TrashFragment -> getString(R.string.error_empty_list_trash_screen)
                 is ListOfNotesByCategoryOrTag -> getString(R.string.error_empty_list_notes_by_category_or_tag)
-                else -> getString(R.string.error_empty_list_main_screen)
+                else -> {
+                    root.children
+                        .filter { it.id == R.id.rvFilterByCategory }
+                        .forEach { it.visibility = View.VISIBLE }
+                    getString(R.string.error_empty_list_main_screen)
+                }
             }
         },
         onSuccess = { successData ->
@@ -41,7 +46,7 @@ fun <T> BaseFragment.renderSimpleResult(
                     .forEach { it.visibility = View.VISIBLE }
             } else {
                 root.children
-                    .filter { it.id != R.id.errorContainer && it.id != R.id.progressBar && it.id != R.id.fabCrateNote }
+                    .filter { it.id != R.id.errorContainer && it.id != R.id.progressBar && it.id != R.id.fabCrateNote && it.id != R.id.rvFilterByCategory}
                     .forEach { it.visibility = View.VISIBLE }
             }
             onSuccess(successData)

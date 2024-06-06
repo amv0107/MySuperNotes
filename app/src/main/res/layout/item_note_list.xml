@@ -11,25 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="4dp"
-        app:strokeWidth="1dp"
         app:cardElevation="3dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="4dp"
-            android:background="?attr/backgroundCardFromTheme">
+            android:background="?attr/backgroundCardFromTheme"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/tvTitleNote"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/yellow"
-                android:paddingHorizontal="4dp"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingHorizontal="4dp"
                 android:text="Title..."
                 android:textColor="@color/grey"
                 android:textSize="20sp"
@@ -43,8 +43,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="4dp"
-                android:visibility="invisible"
                 android:src="@drawable/ic_pin"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/tvTitleNote"
                 app:layout_constraintEnd_toEndOf="@id/tvTitleNote"
                 app:layout_constraintTop_toTopOf="@id/tvTitleNote" />
@@ -79,9 +79,9 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favorite"
                 android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="@id/tvDateTimeNote"
                 app:layout_constraintBottom_toBottomOf="@id/tvDateTimeNote"
                 app:layout_constraintStart_toEndOf="@id/tvDateTimeNote"
+                app:layout_constraintTop_toTopOf="@id/tvDateTimeNote"
                 app:tint="@color/yellow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
