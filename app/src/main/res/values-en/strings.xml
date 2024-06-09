@@ -73,4 +73,5 @@
     <string name="theme_confirm_dialog_add">Add</string>
     <string name="fragment_category_list_info">Manage your categories here</string>
     <string name="spinner_select_category_add_new_category">Add new category</string>
+    <string name="filte_by_category_all_notes">All</string>
 </resources>

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
-import com.amv.simple.app.mysupernotes.data.category.CategoryDbModel
 import com.amv.simple.app.mysupernotes.domain.category.CategoryItem
 import com.amv.simple.app.mysupernotes.domain.category.GetCategoryListUseCase
 import com.amv.simple.app.mysupernotes.domain.note.DeleteForeverNoteItemUseCase
@@ -41,8 +40,8 @@ class MainListViewModel @Inject constructor(
     private val _categoryList = MutableLiveData<List<CategoryItem>>()
     val categoryList: LiveData<List<CategoryItem>> = _categoryList
 
-    private val _filterByCategoryId = MutableLiveData<Int>(null)
-    val filterByCategoryId: LiveData<Int> = _filterByCategoryId
+    private val _filterByCategoryId = MutableLiveData<Int?>(null)
+    val filterByCategoryId: LiveData<Int?> = _filterByCategoryId
 
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
     val layoutManagerFlow = preferencesManager.layoutManagerFlow
@@ -51,16 +50,17 @@ class MainListViewModel @Inject constructor(
         _filterByCategoryId.value = id
     }
     fun getCategoryList() = viewModelScope.launch {
-        getCategoryListUseCase().collect{
-            val list: MutableList<CategoryItem> = it as MutableList
-            list.removeAt(0)
-            list.add(0, CategoryItem(null, 1, "All"))
+        getCategoryListUseCase().collect{ categoryItemList ->
+            val list: MutableList<CategoryItem> = categoryItemList as MutableList
+            list.removeIf { category ->
+                category.id == 1
+            }
             _categoryList.postValue(list)
         }
     }
 
-    fun getNoteList(typeList: TypeList, categoryIdForFilter: Int? = null) = viewModelScope.launch {
-        getNoteListUseCase.getNoteList(typeList, categoryIdForFilter)
+    fun getNoteList(typeList: TypeList) = viewModelScope.launch {
+        getNoteListUseCase.getNoteList(typeList, _filterByCategoryId.value)
             .collect { list ->
                 if (list.isEmpty())
                     _noteList.postValue(ErrorResult(NullPointerException()))

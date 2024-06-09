@@ -73,4 +73,5 @@
     <string name="theme_confirm_dialog_add">Додати</string>
     <string name="fragment_category_list_info">Керуйте своїми категоріями тут</string>
     <string name="spinner_select_category_add_new_category">Додати нову категорію</string>
+    <string name="filte_by_category_all_notes">Усі</string>
 </resources>

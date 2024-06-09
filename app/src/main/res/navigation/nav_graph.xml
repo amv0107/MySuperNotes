@@ -23,6 +23,10 @@
             android:name="noteId"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="selectedCategoryId"
+            android:defaultValue="1"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/archiveListFragment"
