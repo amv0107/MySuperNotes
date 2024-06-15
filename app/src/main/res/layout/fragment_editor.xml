@@ -97,10 +97,20 @@
             android:scrollbars="vertical"
             android:textSelectHandle="@color/grey"
             android:theme="@style/SelectText"
-            app:layout_constraintBottom_toTopOf="@id/formationMenu"
+            app:layout_constraintBottom_toTopOf="@id/menuNote"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/container_data" />
+
+        <include
+            android:id="@+id/menuNote"
+            layout="@layout/property_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etTextContentNote"/>
 
         <com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextView
             android:id="@+id/formationMenu"
@@ -116,7 +126,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <com.amv.simple.app.mysupernotes.presentation.editor.component.ColorPickerView
             android:id="@+id/selectColorPicker"
@@ -146,7 +156,7 @@
             app:layout_constraintBottom_toTopOf="@id/formationMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
