@@ -26,14 +26,10 @@ class MainListFragment : BaseListFragment() {
 
             binding.fabCrateNote.setOnClickListener {
                 val action = MainListFragmentDirections.actionMainListFragmentToEditorFragment()
-                    .setSelectedCategoryId(selectedItem+1)
+                    .setSelectedCategoryId(selectedItem + 1)
                 findNavController().navigate(action)
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
     }
 
     private fun initFilterByCategory(selectedItem: Int) {
@@ -43,12 +39,12 @@ class MainListFragment : BaseListFragment() {
             FilterByCategoryAdapter(
                 selectedItem,
                 object : FilterByCategoryAdapter.FilterByCategoryListener {
-                    override fun onClickItem(categoryItemId: Int?) {
+                    override fun onClickItem(categoryItemId: Int) {
                         viewModel.setFilterByCategoryId(categoryItemId)
                     }
 
                     override fun onClickAll() {
-                        viewModel.setFilterByCategoryId(null)
+                        viewModel.setFilterByCategoryId(0)
                     }
 
                     override fun onClickAdd() {

@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.mainList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,17 +41,18 @@ class MainListViewModel @Inject constructor(
     private val _categoryList = MutableLiveData<List<CategoryItem>>()
     val categoryList: LiveData<List<CategoryItem>> = _categoryList
 
-    private val _filterByCategoryId = MutableLiveData<Int?>(null)
-    val filterByCategoryId: LiveData<Int?> = _filterByCategoryId
+    private val _filterByCategoryId = MutableLiveData<Int>(0)
+    val filterByCategoryId: LiveData<Int> = _filterByCategoryId
 
     val formatDateTimeFlow = preferencesManager.formatDataTimeFlow
     val layoutManagerFlow = preferencesManager.layoutManagerFlow
 
-    fun setFilterByCategoryId(id: Int?) {
+    fun setFilterByCategoryId(id: Int) {
         _filterByCategoryId.value = id
     }
+
     fun getCategoryList() = viewModelScope.launch {
-        getCategoryListUseCase().collect{ categoryItemList ->
+        getCategoryListUseCase().collect { categoryItemList ->
             val list: MutableList<CategoryItem> = categoryItemList as MutableList
             list.removeIf { category ->
                 category.id == 1
@@ -60,8 +62,9 @@ class MainListViewModel @Inject constructor(
     }
 
     fun getNoteList(typeList: TypeList) = viewModelScope.launch {
-        getNoteListUseCase.getNoteList(typeList, _filterByCategoryId.value)
+        getNoteListUseCase.getNoteList(typeList, filterByCategoryId.value ?: 0)
             .collect { list ->
+                Log.d("TAG", "filterByCategoryId: ${filterByCategoryId.value}")
                 if (list.isEmpty())
                     _noteList.postValue(ErrorResult(NullPointerException()))
                 else

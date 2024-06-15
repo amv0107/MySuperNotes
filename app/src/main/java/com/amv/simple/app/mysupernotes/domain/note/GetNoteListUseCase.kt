@@ -12,12 +12,19 @@ class GetNoteListUseCase @Inject constructor(
 
     fun getNoteList(
         typeList: TypeList,
-        categoryIdForFilter: Int?
+        categoryIdForFilter: Int
     ): Flow<List<NoteItem>> {
         return noteItemRepository.getNoteItemList().map { list ->
             list
                 .filter { item ->
                     when (typeList) {
+                        TypeList.MAIN_LIST -> {
+                            if (categoryIdForFilter != 0)
+                                !item.isDelete && !item.isArchive && item.categoryId == categoryIdForFilter
+                            else
+                                !item.isDelete && !item.isArchive
+                        }
+
                         TypeList.ARCHIVE_LIST -> {
                             item.isArchive && !item.isDelete
                         }
@@ -28,13 +35,6 @@ class GetNoteListUseCase @Inject constructor(
 
                         TypeList.DELETE_LIST -> {
                             item.isDelete
-                        }
-
-                        TypeList.MAIN_LIST -> {
-                            if (categoryIdForFilter != null)
-                                !item.isDelete && !item.isArchive && item.categoryId == categoryIdForFilter
-                            else
-                                !item.isDelete && !item.isArchive
                         }
                     }
                 }

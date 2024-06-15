@@ -89,7 +89,7 @@ class FilterByCategoryAdapter @Inject constructor(
     }
 
     interface FilterByCategoryListener {
-        fun onClickItem(categoryItemId: Int?)
+        fun onClickItem(categoryItemId: Int)
         fun onClickAll()
         fun onClickAdd()
     }
@@ -98,7 +98,7 @@ class FilterByCategoryAdapter @Inject constructor(
         BaseViewHolder(binding.root) {
 
         override fun onClick() {
-            listener.onClickItem(getItem(adapterPosition - 1).id)
+            listener.onClickItem(getItem(adapterPosition - 1).id ?: 0)
         }
 
         fun bindItems(categoryItem: CategoryItem) {
@@ -154,6 +154,7 @@ class FilterByCategoryAdapter @Inject constructor(
                 onClick()
             }
         }
+
 
         fun defaultBg() {
             itemView.background = itemView.context.getDrawable(R.drawable.bg_filter_unselected)
