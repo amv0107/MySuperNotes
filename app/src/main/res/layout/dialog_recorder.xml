@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_editor_bg"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.amv.simple.app.mysupernotes.presentation.audioRecorder.components.ProgressBarWaveform
+        android:id="@+id/progressbarWaveform"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/stroke_radius_view"
+        android:backgroundTint="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <ImageButton
+        android:id="@+id/btnRecord"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_btn_circle"
+        android:backgroundTint="@color/blue"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_voice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressbarWaveform"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/labelBtnRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Запись"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toEndOf="@id/btnRecord"
+        app:layout_constraintStart_toStartOf="@id/btnRecord"
+        app:layout_constraintTop_toBottomOf="@id/btnRecord" />
+
+    <ImageButton
+        android:id="@+id/btnCancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_btn_circle"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/btnRecord"
+        app:layout_constraintEnd_toStartOf="@id/btnRecord"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnRecord"
+        app:tint="@color/blue" />
+
+    <TextView
+        android:id="@+id/labelBtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отмена"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/labelBtnRecord"
+        app:layout_constraintEnd_toEndOf="@id/btnCancel"
+        app:layout_constraintStart_toStartOf="@id/btnCancel"
+        app:layout_constraintTop_toTopOf="@id/labelBtnRecord" />
+
+    <ImageButton
+        android:id="@+id/btnDone"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_btn_circle"
+        android:src="@drawable/ic_done"
+        app:layout_constraintBottom_toBottomOf="@id/btnRecord"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnRecord"
+        app:layout_constraintTop_toTopOf="@id/btnRecord"
+        app:tint="@color/orange" />
+
+    <TextView
+        android:id="@+id/labelBtnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Закончить"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/labelBtnRecord"
+        app:layout_constraintEnd_toEndOf="@id/btnDone"
+        app:layout_constraintStart_toStartOf="@id/btnDone"
+        app:layout_constraintTop_toTopOf="@id/labelBtnRecord" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

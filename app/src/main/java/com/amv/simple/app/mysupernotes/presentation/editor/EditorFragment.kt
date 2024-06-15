@@ -39,6 +39,7 @@ import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.audioRecorder.Recorder
 import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
@@ -205,6 +206,10 @@ class EditorFragment @Inject constructor() : Fragment() {
 
         SelectCategoryDialog.setListener(parentFragmentManager, this) { categoryId ->
             viewModel.getCategoryNameById(categoryId)
+        }
+
+        binding.menuNote.btnVoice.setOnClickListener {
+            Recorder.show(parentFragmentManager)
         }
     }
 
