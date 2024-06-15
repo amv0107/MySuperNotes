@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_editor_bg"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Воспроизвести запись"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.amv.simple.app.mysupernotes.presentation.audioRecorder.components.ProgressBarWaveform
+        android:id="@+id/seekbarWaveform"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/stroke_radius_view"
+        android:backgroundTint="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <TextView
+        android:id="@+id/tvStartDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbarWaveform"
+        android:text="00:00"/>
+
+    <TextView
+        android:id="@+id/tvEndDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbarWaveform"
+        android:text="00:00"/>
+
+    <TextView
+        android:id="@+id/tvCurrentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/seekbarWaveform"
+        app:layout_constraintEnd_toEndOf="@id/seekbarWaveform"
+        app:layout_constraintTop_toBottomOf="@id/seekbarWaveform"/>
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_btn_circle"
+        android:backgroundTint="@color/blue"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCurrentTime"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/labelBtnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Играть"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toEndOf="@id/btnPlay"
+        app:layout_constraintStart_toStartOf="@id/btnPlay"
+        app:layout_constraintTop_toBottomOf="@id/btnPlay" />
+
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_btn_circle"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+        app:layout_constraintEnd_toStartOf="@id/btnPlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnPlay"
+        />
+
+    <TextView
+        android:id="@+id/labelBtnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Удалить"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/labelBtnPlay"
+        app:layout_constraintEnd_toEndOf="@id/btnDelete"
+        app:layout_constraintStart_toStartOf="@id/btnDelete"
+        app:layout_constraintTop_toTopOf="@id/labelBtnPlay" />
+
+    <ImageButton
+        android:id="@+id/btnShare"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_btn_circle"
+        android:src="@drawable/ic_share"
+        app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnPlay"
+        app:layout_constraintTop_toTopOf="@id/btnPlay"
+        app:tint="@color/blue" />
+
+    <TextView
+        android:id="@+id/labelBtnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отправить"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/labelBtnPlay"
+        app:layout_constraintEnd_toEndOf="@id/btnShare"
+        app:layout_constraintStart_toStartOf="@id/btnShare"
+        app:layout_constraintTop_toTopOf="@id/labelBtnPlay" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
