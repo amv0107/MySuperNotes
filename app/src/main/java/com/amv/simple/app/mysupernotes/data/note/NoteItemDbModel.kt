@@ -14,6 +14,7 @@ data class NoteItemDbModel(
     val title: String,
     val textContent: String,
     val dateOfCreate: Long,
+    val attachment: List<Attachment>,
     val isPined: Int,
     val isFavorite: Int,
     val isArchive: Int,

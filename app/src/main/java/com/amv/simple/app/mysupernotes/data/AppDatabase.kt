@@ -3,6 +3,7 @@ package com.amv.simple.app.mysupernotes.data
 import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.amv.simple.app.mysupernotes.data.category.CategoryDbModel
 import com.amv.simple.app.mysupernotes.data.category.CategoryItemDao
 import com.amv.simple.app.mysupernotes.data.note.NoteItemDao
@@ -18,6 +19,7 @@ import com.google.gson.Gson
     version = 1,
     exportSchema = false
 )
+@TypeConverters(DatabaseConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun noteDao(): NoteItemDao

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amv.simple.app.mysupernotes.data.PreferencesManager
+import com.amv.simple.app.mysupernotes.data.note.Attachment
 import com.amv.simple.app.mysupernotes.domain.category.GetCategoryItemByIdUseCase
 import com.amv.simple.app.mysupernotes.domain.note.AddNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.note.GetNoteItemUseCase
@@ -51,10 +52,23 @@ class EditorViewModel @Inject constructor(
             title = parseText(inputTitle),
             textContent = parseText(inputTextContent),
             dateOfCreate = TimeManager.getCurrentTimeToDB(),
-            categoryId = _categoryItemId.value!! // TODO: !!!
+            categoryId = _categoryItemId.value!!, // TODO: !!!
         )
         addNoteItemUseCase(item)
         finishWork()
+    }
+
+    fun insertAttachment(type: Attachment.Type, path: String, description: String, fileName: String) {
+        val attachment = Attachment(type, path, description, fileName)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            updateNoteItemUseCase(
+                _noteItem.value.takeSuccess()!!.copy(
+                    attachment = _noteItem.value.takeSuccess()!!.attachment + attachment
+                )
+            )
+        }
+
     }
 
     fun restoreDelete(noteItem: NoteItem) = viewModelScope.launch {

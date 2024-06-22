@@ -8,10 +8,14 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 
+/**
+ * from: https://www.youtube.com/playlist?list=PLpZQVidZ65jPz-XIHdWi1iCra8TU9h_kU
+ */
 class ProgressBarWaveform(
     context: Context?, attrs: AttributeSet?
 ): View(context, attrs) {
     private var paint = Paint()
+    private var paintBg = Paint()
     private var amplitude = ArrayList<Float>()
     private var spikes = ArrayList<RectF>()
 
@@ -25,15 +29,24 @@ class ProgressBarWaveform(
     private var maxSpikes = 0
 
     init {
-        paint.color = Color.rgb(244, 81, 30)
+        paintBg.color = Color.rgb(128,128,128)
+        paint.color = Color.rgb(254, 104, 19)
 
         sw = resources.displayMetrics.widthPixels.toFloat()
 
         maxSpikes = (sw / (w + d)).toInt()
     }
 
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        canvas.drawRoundRect(RectF(0f,0f,this.width.toFloat(),this.height.toFloat()), 20f, 20f, paintBg)
+        spikes.forEach {
+            canvas.drawRoundRect(it, radius, radius, paint)
+        }
+    }
+
     fun addAmplitude(amp: Float) {
-        val norm = (amp.toInt() / 7).coerceAtMost(400).toFloat()
+        val norm = (amp.toInt() / 40).coerceAtMost(180).toFloat()
         amplitude.add(norm)
 
         spikes.clear()
@@ -50,7 +63,7 @@ class ProgressBarWaveform(
         invalidate()
     }
 
-    fun clear(): ArrayList<Float> {
+    fun clear():ArrayList<Float> {
 
         val amps = amplitude.clone() as ArrayList<Float>
         amplitude.clear()
@@ -60,10 +73,5 @@ class ProgressBarWaveform(
         return amps
     }
 
-    override fun draw(canvas: Canvas) {
-        super.draw(canvas)
-        spikes.forEach {
-            canvas.drawRoundRect(it, radius, radius, paint)
-        }
-    }
+
 }

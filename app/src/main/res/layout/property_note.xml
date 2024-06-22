@@ -50,7 +50,7 @@
             android:background="@drawable/bg_btn_property_note"
             android:contentDescription="Add Voice to Note"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_voice"
+            android:src="@drawable/ic_record"
             app:tint="@color/orange" />
 
         <ImageButton

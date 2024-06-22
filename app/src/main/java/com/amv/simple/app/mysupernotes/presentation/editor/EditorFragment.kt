@@ -35,12 +35,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.amv.simple.app.mysupernotes.R
+import com.amv.simple.app.mysupernotes.data.note.Attachment
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
-import com.amv.simple.app.mysupernotes.presentation.audioRecorder.Recorder
-import com.amv.simple.app.mysupernotes.presentation.audioRecorder.components.AudioPlayer
+import com.amv.simple.app.mysupernotes.presentation.audioRecorder.recorder.BottomSheetDialogRecorder
 import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
@@ -63,7 +63,7 @@ private enum class WhatWePaint {
 }
 
 @AndroidEntryPoint
-class EditorFragment @Inject constructor() : Fragment() {
+class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecorder.OnSaveRecordToDB {
 
     private var _binding: FragmentEditorBinding? = null
     private val binding get() = _binding!!
@@ -110,6 +110,10 @@ class EditorFragment @Inject constructor() : Fragment() {
         actionMenuCallback()
 
         listeners()
+    }
+
+    override fun onSaveAudioRecordToDB(path: String, fileName: String) {
+        viewModel.insertAttachment(Attachment.Type.AUDIO, path, "", fileName)
     }
 
     private fun listeners() {
@@ -210,7 +214,8 @@ class EditorFragment @Inject constructor() : Fragment() {
         }
 
         binding.menuNote.btnVoice.setOnClickListener {
-            AudioPlayer.show(parentFragmentManager, "", "")
+            BottomSheetDialogRecorder.show(parentFragmentManager, this)
+//            AudioPlayer.show(parentFragmentManager, "", "")
         }
     }
 

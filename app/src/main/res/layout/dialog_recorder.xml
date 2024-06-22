@@ -23,21 +23,20 @@
         android:layout_width="match_parent"
         android:layout_height="200px"
         android:layout_marginTop="16dp"
-        android:background="@drawable/stroke_radius_view"
         android:backgroundTint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <ImageButton
-        android:id="@+id/btnRecord"
+        android:id="@+id/btn_record_pause"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_btn_circle"
         android:backgroundTint="@color/blue"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_voice"
+        android:src="@drawable/ic_record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressbarWaveform"
@@ -49,9 +48,9 @@
         android:layout_height="wrap_content"
         android:text="Запись"
         android:textColor="@color/grey"
-        app:layout_constraintEnd_toEndOf="@id/btnRecord"
-        app:layout_constraintStart_toStartOf="@id/btnRecord"
-        app:layout_constraintTop_toBottomOf="@id/btnRecord" />
+        app:layout_constraintEnd_toEndOf="@id/btn_record_pause"
+        app:layout_constraintStart_toStartOf="@id/btn_record_pause"
+        app:layout_constraintTop_toBottomOf="@id/btn_record_pause" />
 
     <ImageButton
         android:id="@+id/btnCancel"
@@ -59,10 +58,10 @@
         android:layout_height="48dp"
         android:background="@drawable/bg_btn_circle"
         android:src="@drawable/ic_close"
-        app:layout_constraintBottom_toBottomOf="@id/btnRecord"
-        app:layout_constraintEnd_toStartOf="@id/btnRecord"
+        app:layout_constraintBottom_toBottomOf="@id/btn_record_pause"
+        app:layout_constraintEnd_toStartOf="@id/btn_record_pause"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnRecord"
+        app:layout_constraintTop_toTopOf="@id/btn_record_pause"
         app:tint="@color/blue" />
 
     <TextView
@@ -82,10 +81,10 @@
         android:layout_height="48dp"
         android:background="@drawable/bg_btn_circle"
         android:src="@drawable/ic_done"
-        app:layout_constraintBottom_toBottomOf="@id/btnRecord"
+        app:layout_constraintBottom_toBottomOf="@id/btn_record_pause"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnRecord"
-        app:layout_constraintTop_toTopOf="@id/btnRecord"
+        app:layout_constraintStart_toEndOf="@id/btn_record_pause"
+        app:layout_constraintTop_toTopOf="@id/btn_record_pause"
         app:tint="@color/orange" />
 
     <TextView
