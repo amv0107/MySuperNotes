@@ -12,3 +12,7 @@ fun <T> Result<T>?.takeSuccess(): T? {
     else
         null
 }
+
+fun <T> Result<T>?.isEmpty(): Boolean {
+    return this !is SuccessResult
+}

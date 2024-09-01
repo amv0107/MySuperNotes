@@ -81,6 +81,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAudioRecorders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="2"
+            android:background="@drawable/stroke_radius_view"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:listitem="@layout/item_audio_recorder"
+            app:layout_constraintTop_toBottomOf="@id/container_data"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <EditText
             android:id="@+id/etTextContentNote"
             android:layout_width="match_parent"
@@ -100,7 +114,7 @@
             app:layout_constraintBottom_toTopOf="@id/menuNote"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/container_data" />
+            app:layout_constraintTop_toBottomOf="@id/rvAudioRecorders" />
 
         <include
             android:id="@+id/menuNote"

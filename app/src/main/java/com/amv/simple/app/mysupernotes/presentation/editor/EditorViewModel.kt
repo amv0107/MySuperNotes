@@ -1,5 +1,6 @@
 package com.amv.simple.app.mysupernotes.presentation.editor
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.note.UpdateNoteItemUseCase
 import com.amv.simple.app.mysupernotes.domain.util.PendingResult
 import com.amv.simple.app.mysupernotes.domain.util.SuccessResult
+import com.amv.simple.app.mysupernotes.domain.util.isEmpty
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
 import com.amv.simple.app.mysupernotes.presentation.core.LiveResult
 import com.amv.simple.app.mysupernotes.presentation.core.MutableLiveResult
@@ -58,15 +60,23 @@ class EditorViewModel @Inject constructor(
         finishWork()
     }
 
-    fun insertAttachment(type: Attachment.Type, path: String, description: String, fileName: String) {
+    fun insertAttachment(
+        type: Attachment.Type,
+        path: String,
+        description: String,
+        fileName: String
+    ) {
         val attachment = Attachment(type, path, description, fileName)
-
         viewModelScope.launch(Dispatchers.IO) {
-            updateNoteItemUseCase(
-                _noteItem.value.takeSuccess()!!.copy(
-                    attachment = _noteItem.value.takeSuccess()!!.attachment + attachment
+            if (_noteItem.value.isEmpty()){
+                Log.d("TAG", "insertAttachment: SaveNoteItem and attachment audioRecord")
+            } else {
+                updateNoteItemUseCase(
+                    _noteItem.value.takeSuccess()!!.copy(
+                        attachment = _noteItem.value.takeSuccess()!!.attachment + attachment
+                    )
                 )
-            )
+            }
         }
 
     }

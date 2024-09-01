@@ -34,16 +34,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.amv.simple.app.mysupernotes.R
 import com.amv.simple.app.mysupernotes.data.note.Attachment
 import com.amv.simple.app.mysupernotes.databinding.FragmentEditorBinding
 import com.amv.simple.app.mysupernotes.domain.note.NoteItem
 import com.amv.simple.app.mysupernotes.domain.util.ShareHelper
 import com.amv.simple.app.mysupernotes.domain.util.takeSuccess
+import com.amv.simple.app.mysupernotes.presentation.audioRecorder.player.AudioPlayerBottomSheetDialog
 import com.amv.simple.app.mysupernotes.presentation.audioRecorder.recorder.BottomSheetDialogRecorder
 import com.amv.simple.app.mysupernotes.presentation.core.showToast
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationParagraphAlignAction
 import com.amv.simple.app.mysupernotes.presentation.editor.component.FormationTextAction
+import com.amv.simple.app.mysupernotes.presentation.editor.dialog.AudioRecordersAdapter
 import com.amv.simple.app.mysupernotes.presentation.editor.dialog.SelectCategoryDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -63,7 +66,8 @@ private enum class WhatWePaint {
 }
 
 @AndroidEntryPoint
-class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecorder.OnSaveRecordToDB {
+class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecorder.OnSaveRecordToDB,
+    AudioRecordersAdapter.OnPlayAudioRecorder {
 
     private var _binding: FragmentEditorBinding? = null
     private val binding get() = _binding!!
@@ -112,8 +116,17 @@ class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecord
         listeners()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     override fun onSaveAudioRecordToDB(path: String, fileName: String) {
-        viewModel.insertAttachment(Attachment.Type.AUDIO, path, "", fileName)
+        viewModel.insertAttachment(Attachment.Type.AUDIO, path, "Audio Recorder", fileName)
+    }
+
+    override fun onClickItemAudioRecorder(item: Attachment) {
+        AudioPlayerBottomSheetDialog.show(parentFragmentManager, item.path, item.fileName)
     }
 
     private fun listeners() {
@@ -206,7 +219,10 @@ class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecord
         }
 
         binding.tvCurrentCategory.setOnClickListener {
-            SelectCategoryDialog.show(parentFragmentManager, viewModel.categoryItemId.value!!)  // TODO:  !!!!
+            SelectCategoryDialog.show(
+                parentFragmentManager,
+                viewModel.categoryItemId.value!!
+            )  // TODO:  !!!!
         }
 
         SelectCategoryDialog.setListener(parentFragmentManager, this) { categoryId ->
@@ -215,7 +231,6 @@ class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecord
 
         binding.menuNote.btnVoice.setOnClickListener {
             BottomSheetDialogRecorder.show(parentFragmentManager, this)
-//            AudioPlayer.show(parentFragmentManager, "", "")
         }
     }
 
@@ -265,11 +280,6 @@ class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecord
             binding.selectColorPicker.visibility = View.GONE
             View.VISIBLE
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun actionMenuCallback() {
@@ -572,7 +582,19 @@ class EditorFragment @Inject constructor() : Fragment(), BottomSheetDialogRecord
                             etTextContentNote.setReadOnly(item.isDelete) {
                                 viewModel.restoreDelete(item)
                             }
+
                             viewModel.getCategoryNameById(item.categoryId)
+                            if (item.attachment.isNotEmpty()) {
+                                binding.rvAudioRecorders.apply {
+                                    visibility = View.VISIBLE
+                                    layoutManager = LinearLayoutManager(requireContext())
+                                    val audioRecordersAdapter =
+                                        AudioRecordersAdapter(this@EditorFragment)
+                                    audioRecordersAdapter.submitList(item.attachment)
+                                    adapter = audioRecordersAdapter
+                                }
+                            }
+
                         }
                     }
                 }
